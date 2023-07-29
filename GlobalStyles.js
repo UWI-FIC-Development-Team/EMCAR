@@ -1,0 +1,81 @@
+/* fonts */
+export const FontFamily = {
+  materialThemeTitleMedium: "Roboto_medium",
+  m3LabelMediumProminent: "Roboto_semibold",
+  materialThemeHeadlineSmall: "Roboto_regular",
+  workSansBold: "Work Sans_bold",
+  title3: "Inter_bold",
+  workSansMedium: "Work Sans_medium",
+  poppinsBold: "Poppins_bold",
+};
+/* font sizes */
+export const FontSize = {
+  materialThemeLabelMedium_size: 12,
+  materialThemeLabelSmall_size: 11,
+  materialThemeLabelLarge_size: 14,
+  materialThemeTitleMedium_size: 16,
+  materialThemeTitleLarge_size: 22,
+  materialThemeHeadlineSmall_size: 24,
+  containerHeading_size: 18,
+};
+/* Colors */
+export const Color = {
+  materialThemeSysLightBackground: "#fafdfc",
+  m3SysLightOutline: "#79747e",
+  materialThemeSysLightOutline: "#6f7979",
+  m3SysLightOnSurface: "#1d1b20",
+  materialThemeSysLightOnSurface: "#191c1c",
+  normal: "#19191b",
+  materialThemeSysLightOnSecondaryContainer: "#051f1f",
+  materialThemeSysLightOnPrimaryContainer: "#002020",
+  gray_100: "#090a0a",
+  materialThemeSysLightSurface: "#f7faf9",
+  materialThemeSysLightSurfaceContainerLow: "#f2f4f3",
+  materialThemeSysLightInverseOnSurface: "#eff1f0",
+  materialThemeSysLightSurfaceContainer: "#eceeed",
+  m3SysLightOnSurfaceVariant: "#49454f",
+  materialThemeSysLightOnSurfaceVariant: "#3f4948",
+  materialThemeSysLightInverseSurface: "#2d3131",
+  materialThemeSysLightSecondaryContainer: "#cce8e7",
+  materialThemeSysLightPrimary: "#006a6a",
+  materialThemeSysLightError: "#ba1a1a",
+  materialThemeSysLightOnPrimary: "#fff",
+  subtleDark: "#61646b",
+  m3SysLightPrimary: "#6750a4",
+  materialThemeSysLightSurfaceContainerHigh: "#e6e9e8",
+  m3SysLightSurfaceContainerHighest: "#e6e0e9",
+  materialThemeSysLightPrimaryContainer: "#6ff7f6",
+  m3SysLightPrimaryContainer: "#eaddff",
+  m3SysLightOnPrimaryContainer: "#004F50",
+};
+/* Paddings */
+export const Padding = {
+  p_6xl: 20,
+  p_26xl: 45,
+  p_5xs: 8,
+  p_xs: 12,
+  p_base: 16,
+  p_xl: 20,
+  p_9xs: 4,
+  p_mini: 15,
+  p_5xl: 24,
+  p_7xl: 26,
+  p_3xs: 10,
+  p_7xs: 6,
+  p_sm: 14,
+  p_lgi: 19,
+  p_10xs: 3,
+  p_2xs: 11,
+  p_3xl: 22,
+};
+/* border radiuses */
+export const Border = {
+  br_base: 16,
+  br_xs: 12,
+  br_36xl: 55,
+  br_9xl: 28,
+  br_81xl: 100,
+  br_9xs: 4,
+  br_8xs: 5,
+  br_11xs: 2,
+};
