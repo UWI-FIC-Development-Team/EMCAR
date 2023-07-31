@@ -2,9 +2,13 @@ import * as React from "react";
 import { Text, StyleSheet, View } from "react-native";
 import { Color, FontSize, FontFamily, Border, Padding } from "../../GlobalStyles";
 import { Feather } from '@expo/vector-icons';
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-const TutorCard = () => {
+
+
+const TutorCard = ({onPress, tutorName}) => {
   return (
+    <TouchableOpacity onPress={onPress}>
     <View style={[styles.user, styles.userFlexBox]}>
       <View style={[styles.buildingBlocksmonogram, styles.initialLayout]}>
         <Text style={[styles.initial, styles.initialFlexBox]}>K</Text>
@@ -19,10 +23,11 @@ const TutorCard = () => {
       </View>
       <View style={[styles.buttons, styles.buttonsSpaceBlock]}>
         <View style={[styles.message, styles.initialFlexBox]}>
-          <Feather name="send" size={24} color="black" />
+          <Feather name="send" size={24} color="#006A6A" />
         </View>
       </View>
     </View>
+    </TouchableOpacity>
   );
 };
 
@@ -61,7 +66,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     display: "flex",
     left: "50%",
-    top: "50%",
+    top: "70%",
     position: "absolute",
     height: 40,
     width: 40,
@@ -103,12 +108,11 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   message: {
-    borderRadius: Border.br_xl,
-    backgroundColor: Color.mintcream_200,
-    width: 35,
-    height: 35,
-    flexDirection: "row",
+    backgroundColor: '#ECFDF5',
+    width: 40,
+    height: 40,
     justifyContent: "center",
+    borderRadius:50
   },
   buttons: {
     justifyContent: "center",
