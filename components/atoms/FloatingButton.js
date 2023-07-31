@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   },
   extendedFab: {
     borderRadius: Border.br_base,
-    backgroundColor: Color.materialThemeSysLightSecondaryContainer,
+    backgroundColor: '#006A6A',
     shadowColor: "rgba(0, 0, 0, 0.25)",
     shadowOffset: {
       width: 0,
