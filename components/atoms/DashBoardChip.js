@@ -1,32 +1,36 @@
 import * as React from "react";
 import { Text, StyleSheet, View } from "react-native";
-import { Color, FontSize, FontFamily, Border, Padding } from "../../GlobalStyles";
-import { Feather } from '@expo/vector-icons';
+import {
+  Color,
+  FontSize,
+  FontFamily,
+  Border,
+  Padding,
+} from "../../GlobalStyles";
+import { Feather } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-
-
-const TutorCard = ({onPress, tutorName}) => {
+const TutorCard = ({ onPress, tutorName }) => {
   return (
     <TouchableOpacity onPress={onPress}>
-    <View style={[styles.user, styles.userFlexBox]}>
-      <View style={[styles.buildingBlocksmonogram, styles.initialLayout]}>
-        <Text style={[styles.initial, styles.initialFlexBox]}>K</Text>
-      </View>
-      <View style={[styles.container, styles.buttonsSpaceBlock]}>
-        <View style={styles.content}>
-          <View style={styles.userFlexBox}>
-            <Text style={styles.text}>Cameron Williamson</Text>
+      <View style={[styles.user, styles.userFlexBox]}>
+        <View style={[styles.buildingBlocksmonogram, styles.initialLayout]}>
+          <Text style={[styles.initial, styles.initialFlexBox]}>K</Text>
+        </View>
+        <View style={[styles.container, styles.buttonsSpaceBlock]}>
+          <View style={styles.content}>
+            <View style={styles.userFlexBox}>
+              <Text style={styles.text}>Cameron Williamson</Text>
+            </View>
+            <Text style={styles.subtitle}>Emcar tutor</Text>
           </View>
-          <Text style={styles.subtitle}>Emcar tutor</Text>
+        </View>
+        <View style={[styles.buttons, styles.buttonsSpaceBlock]}>
+          <View style={[styles.message, styles.initialFlexBox]}>
+            <Feather name="send" size={24} color="#006A6A" />
+          </View>
         </View>
       </View>
-      <View style={[styles.buttons, styles.buttonsSpaceBlock]}>
-        <View style={[styles.message, styles.initialFlexBox]}>
-          <Feather name="send" size={24} color="#006A6A" />
-        </View>
-      </View>
-    </View>
     </TouchableOpacity>
   );
 };
@@ -108,11 +112,11 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   message: {
-    backgroundColor: '#ECFDF5',
+    backgroundColor: "#ECFDF5",
     width: 40,
     height: 40,
     justifyContent: "center",
-    borderRadius:50
+    borderRadius: 50,
   },
   buttons: {
     justifyContent: "center",
@@ -124,11 +128,15 @@ const styles = StyleSheet.create({
     borderRadius: Border.br_xs,
     paddingHorizontal: Padding.p_base,
     paddingVertical: Padding.p_5xs,
-    marginBottom:16,
-    shadowColor: '#000000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
+    marginBottom: 16,
+    shadowColor: "rgba(0, 0, 0, 0.25)",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowRadius: 1,
+    elevation: 1,
+    shadowOpacity: 1,
   },
 });
 
