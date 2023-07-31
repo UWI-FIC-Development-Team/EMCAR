@@ -18,7 +18,7 @@ const FloatingButton = () => {
         onPress={() => navigation.navigate("SessionRequest")}
       >
         <View style={styles.floatingbutton}>
-          <Feather name="edit-2" size={24} color="black" />
+          <Feather name="edit-2" size={24} color="#fff" />
           <Text style={styles.labelText}>Request a Session</Text>
         </View>
       </TouchableOpacity>
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     fontWeight: "500",
     fontFamily: FontFamily.m3LabelMedium,
-    color: Color.materialThemeSysLightOnPrimaryContainer,
+    color: '#fff',
     textAlign: "center",
     marginLeft: 12,
   },
