@@ -154,11 +154,15 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     marginTop: 12,
     alignSelf: "stretch",
-    shadowColor: '#000000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-  },
+    shadowColor: "rgba(0, 0, 0, 0.25)",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowRadius: 1,
+    elevation: 1,
+    shadowOpacity: 1, 
+  }
 });
 
 export default SessionCard;
