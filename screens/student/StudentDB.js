@@ -33,6 +33,7 @@ const StudentDB = () => {
       <View style={styles.listDialogParent}>
         <TopBar2 userName={actveUser}/>
         <DashBoardCard
+        showSeeAll={true}
           showTitle={true}
           title={"Recent tutors"}
           onPress={() => {
@@ -48,16 +49,10 @@ const StudentDB = () => {
             navigation.navigate("Select a tutor");
           }}
         >
-          <NewResquestCard>
-            <Feather style={styles.icon} name="edit" size={48} color="black" />
-            <View style={styles.headlineContainer}>
-              <Text style={styles.headline}>Create a new session</Text>
-            </View>
-            <Feather style={styles.icon} name="chevron-right" size={24} color="black" />
-          </NewResquestCard>
+         
         </TouchableOpacity>
-        <DashBoardCard showTitle={true} title={"Recent sessions"}>
-          <DashBoardChip />
+        <DashBoardCard showTitle={true} title={"Upcoming Sessions"} showSeeAll={true}>
+          <DashBoardChip/>
         </DashBoardCard>
       </View>
     </ScrollView>

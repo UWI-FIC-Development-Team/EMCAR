@@ -10,17 +10,14 @@ import {
 } from "../../GlobalStyles";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-const DashBoardCard = ({ title, children, onPress, showTitle }) => {
+const DashBoardCard = ({ title, children, onPress, showTitle, showSeeAll }) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.container}>
-        {showTitle ? (
-          <View style={[styles.content, styles.listSpaceBlock]}>
-            <Text style={styles.headline}>{title}</Text>
-          </View>
-        ) : (
-          ""
-        )}
+        <View style={[styles.content, styles.listSpaceBlock]}>
+          {showTitle ? <Text style={styles.headline}>{title}</Text> : ""}
+          {showSeeAll ? <Text style={styles.headline2}>See all</Text> : ""}
+        </View>
         <View style={[styles.list, styles.listSpaceBlock]}>{children}</View>
       </View>
     </TouchableOpacity>
@@ -42,9 +39,21 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     alignSelf: "stretch",
   },
+  headline2: {
+    textAlign: "left",
+    color: '#006A6A',
+    lineHeight: 24,
+    fontSize: FontSize.m3TitleMedium_size,
+    fontFamily: FontFamily.m3TitleMedium,
+    fontWeight: "500",
+    alignSelf: "stretch",
+    textDecorationLine:'underline'
+  },
   content: {
     paddingVertical: Padding.p_mini,
-    overflow: "hidden",
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 
   list: {
@@ -55,7 +64,7 @@ const styles = StyleSheet.create({
     shadowColor: "rgba(0, 0, 0, 0.25)",
     shadowRadius: 4,
     elevation: 4,
-    
+
     overflow: "hidden",
     shadowOpacity: 1,
     shadowOffset: {
@@ -64,9 +73,9 @@ const styles = StyleSheet.create({
     },
     borderRadius: Border.br_xs,
     alignSelf: "stretch",
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     marginTop: 12,
-    paddingVertical:8
+    paddingVertical: 8,
   },
 });
 
