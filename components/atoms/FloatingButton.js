@@ -8,14 +8,17 @@ import {
   Border,
 } from "../../GlobalStyles";
 import { Feather } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/core";
+
 
 const FloatingButton = () => {
+  const navigation = useNavigation()
   return (
     <View style={styles.extendedFabWrapper}>
       <TouchableOpacity
         style={[styles.extendedFab, styles.extendedFabFlexBox]}
         activeOpacity={0.2}
-        onPress={() => navigation.navigate("SessionRequest")}
+        onPress={() => navigation.navigate("Select a tutor")}
       >
         <View style={styles.floatingbutton}>
           <Feather name="edit-2" size={24} color="#fff" />
