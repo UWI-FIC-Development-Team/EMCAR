@@ -21,6 +21,7 @@ import { Feather } from "@expo/vector-icons";
 import TopBar2 from "../../components/atoms/TopBar2";
 import { AuthContext } from "../../context/AuthContextProvider";
 import SessionCard from "../../components/atoms/SessionCard";
+import { Divider } from "react-native-paper";
 
 const StudentDB = () => {
   const navigation = useNavigation();

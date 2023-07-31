@@ -1,11 +1,11 @@
 import * as React from "react";
 import { Text, StyleSheet, View } from "react-native";
 import { Color, FontSize, FontFamily, Border, Padding } from "../../GlobalStyles";
+import { Divider } from "react-native-paper";
 
 const SessionCard = ({time, data, room, courseCode, Topic, tutor}) => {
   return (
-    <View style={styles.sessionCard}>
-      <View style={styles.autoLayout}>
+    <View style={[styles.sessionCard, styles.autoLayout]}>
         <View style={styles.timeDate}>
           <Text style={[styles.pm, styles.pmClr]}>12:00 PM</Text>
           <Text style={[styles.april08, styles.april08SpaceBlock]}>
@@ -13,7 +13,7 @@ const SessionCard = ({time, data, room, courseCode, Topic, tutor}) => {
           </Text>
           <Text style={styles.room207}>Room 207</Text>
         </View>
-        <View style={styles.divider} />
+        <Divider style={{ width: 3, height: '100%'}} />
         <View style={styles.headlineContainerWrapper}>
           <View style={styles.headlineContainer}>
             <View style={styles.iconAndHeading}>
@@ -43,7 +43,7 @@ const SessionCard = ({time, data, room, courseCode, Topic, tutor}) => {
             </View>
           </View>
         </View>
-      </View>
+
     </View>
   );
 };
@@ -74,7 +74,6 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
   },
   april08: {
-    width: 76,
     display: "flex",
     color: Color.dimgray_100,
     fontFamily: FontFamily.sourceCodeProRegular,
@@ -91,15 +90,12 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
   },
   timeDate: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: "flex-start",
+    marginRight:8
   },
-  divider: {
-    backgroundColor: Color.gainsboro,
-    width: 4,
-    height: 64,
-    marginLeft: 8,
-  },
+
+ 
   comp1205: {
     fontFamily: FontFamily.interMedium,
     textAlign: "left",
