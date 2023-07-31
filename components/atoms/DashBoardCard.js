@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     },
     borderRadius: Border.br_xs,
     alignSelf: "stretch",
-    backgroundColor: Color.materialThemeSysLightSecondaryContainer,
+    backgroundColor: '#fff',
     marginTop: 12,
     paddingVertical:8
   },
