@@ -1,19 +1,32 @@
 import * as React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { FontSize, FontFamily, Color, Padding } from "../../GlobalStyles";
-import { Feather } from '@expo/vector-icons';
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+  FontSize,
+  FontFamily,
+  Color,
+  Padding,
+  Border,
+} from "../../GlobalStyles";
+import { Feather } from "@expo/vector-icons";
 
 const FloatingButton = () => {
   return (
-    <View style={styles.floatingbutton}>
-      <Feather  name="edit-2" size={24} color="black" />
-      <Text style={styles.labelText}>Request a Session</Text>
+    <View style={styles.extendedFabWrapper}>
+      <TouchableOpacity
+        style={[styles.extendedFab, styles.extendedFabFlexBox]}
+        activeOpacity={0.2}
+        onPress={() => navigation.navigate("SessionRequest")}
+      >
+        <View style={styles.floatingbutton}>
+          <Feather name="edit-2" size={24} color="black" />
+          <Text style={styles.labelText}>Request a Session</Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-
   labelText: {
     fontSize: FontSize.materialThemeLabelLarge_size,
     lineHeight: 20,
@@ -32,6 +45,26 @@ const styles = StyleSheet.create({
     paddingBottom: Padding.p_base,
     alignItems: "center",
     justifyContent: "center",
+  },
+  extendedFab: {
+    borderRadius: Border.br_base,
+    backgroundColor: Color.materialThemeSysLightSecondaryContainer,
+    shadowColor: "rgba(0, 0, 0, 0.25)",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowRadius: 1,
+    elevation: 1,
+    shadowOpacity: 1,
+  },
+  extendedFabWrapper: {
+    justifyContent: "flex-end",
+    marginBottom: 32,
+    marginTop: 8,
+    alignSelf: "stretch",
+    flexDirection: "row",
+
   },
 });
 

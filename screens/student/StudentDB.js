@@ -16,12 +16,10 @@ import {
 } from "../../GlobalStyles";
 import DashBoardCard from "../../components/atoms/DashBoardCard";
 import DashBoardChip from "../../components/atoms/DashBoardChip";
-import NewResquestCard from "../../components/atoms/NewRequestCard";
-import { Feather } from "@expo/vector-icons";
 import TopBar2 from "../../components/atoms/TopBar2";
 import { AuthContext } from "../../context/AuthContextProvider";
 import SessionCard from "../../components/atoms/SessionCard";
-import { Divider } from "react-native-paper";
+import FloatingButton from "../../components/atoms/FloatingButton"
 
 const StudentDB = () => {
   const navigation = useNavigation();
@@ -30,7 +28,7 @@ const StudentDB = () => {
   console.log('The current user name is: ',actveUser);
 
   return (
-    <ScrollView style={styles.studentDb}>
+    <ScrollView style={styles.studentDb} >
       <StatusBar barStyle={"dark-content"} />
      
         <TopBar2 userName={actveUser}/>
@@ -57,6 +55,7 @@ const StudentDB = () => {
           <SessionCard/>
           <SessionCard/>
         </DashBoardCard>
+        <FloatingButton/>
     </ScrollView>
   );
 };
