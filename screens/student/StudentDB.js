@@ -20,6 +20,7 @@ import NewResquestCard from "../../components/atoms/NewRequestCard";
 import { Feather } from "@expo/vector-icons";
 import TopBar2 from "../../components/atoms/TopBar2";
 import { AuthContext } from "../../context/AuthContextProvider";
+import SessionCard from "../../components/atoms/SessionCard";
 
 const StudentDB = () => {
   const navigation = useNavigation();
@@ -30,7 +31,7 @@ const StudentDB = () => {
   return (
     <ScrollView style={styles.studentDb}>
       <StatusBar barStyle={"dark-content"} />
-      <View style={styles.listDialogParent}>
+     
         <TopBar2 userName={actveUser}/>
         <DashBoardCard
         showSeeAll={true}
@@ -52,9 +53,9 @@ const StudentDB = () => {
          
         </TouchableOpacity>
         <DashBoardCard showTitle={true} title={"Upcoming Sessions"} showSeeAll={true}>
-          <DashBoardChip/>
+          <SessionCard/>
+          <SessionCard/>
         </DashBoardCard>
-      </View>
     </ScrollView>
   );
 };

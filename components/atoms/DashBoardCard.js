@@ -12,21 +12,23 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 const DashBoardCard = ({ title, children, onPress, showTitle, showSeeAll }) => {
   return (
-    <TouchableOpacity onPress={onPress}>
       <View style={styles.container}>
         <View style={[styles.content, styles.listSpaceBlock]}>
           {showTitle ? <Text style={styles.headline}>{title}</Text> : ""}
-          {showSeeAll ? <Text style={styles.headline2}>See all</Text> : ""}
+          {showSeeAll ? 
+          <TouchableOpacity onPress={onPress}>
+          <Text style={styles.headline2}>See all</Text> 
+          </TouchableOpacity>
+          : ""}
         </View>
         <View style={[styles.list, styles.listSpaceBlock]}>{children}</View>
       </View>
-    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   listSpaceBlock: {
-    paddingHorizontal: Padding.p_sm,
+    paddingHorizontal: 8,
     alignSelf: "stretch",
   },
 
@@ -58,7 +60,7 @@ const styles = StyleSheet.create({
 
   list: {
     flex: 1,
-    paddingVertical: 0,
+  
   },
   container: {
     shadowColor: "rgba(0, 0, 0, 0.25)",
