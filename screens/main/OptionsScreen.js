@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-
+import DashBoardChip from "../../components/atoms/DashBoardChip";
 const OptionsScreen = ({ onPresent, onClose, selectedTutor }) => {
   const navigation = useNavigation();
 
@@ -19,8 +19,8 @@ const OptionsScreen = ({ onPresent, onClose, selectedTutor }) => {
   return (
     <View style={styles.modalContainer}>
         <Text style={styles.title}>Almost There!</Text>
-        <PrimaryButton title="View tutor profile"/>
-        <PrimaryButton title="Create a request now" onPress={handleCreateRequest} />
+        <DashBoardChip iconIsVisible={false}/>
+        <PrimaryButton title="Sumbit your request" onPress={handleCreateRequest} />
     </View>
   );
 };
@@ -28,7 +28,7 @@ const OptionsScreen = ({ onPresent, onClose, selectedTutor }) => {
 const styles = StyleSheet.create({
   modalContainer: {
     
-    height:'45%',
+    height:'40%',
     justifyContent: 'flex-end',
     alignItems: "center",
     backgroundColor: "#fff",

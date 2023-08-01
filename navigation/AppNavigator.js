@@ -55,7 +55,7 @@ const AppNavigator = () => {
             }}
           >
             <RootStack.Screen
-              name="Options Screen"
+              name="submit session"
               component={OptionsScreen}
               options={{
                 headerMode: "none",
