@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Feather } from "@expo/vector-icons";
 import SessionRequest from "../screens/student/SessionRequest";
 import StudentDB from "../screens/student/StudentDB";
-import TutorSelect from "../screens/student/TutorSelect";
+import TutorSelect from "../screens/student/AllTutorsScreen";
 import StudentProfileScreen from "../screens/student/StudentProfileScreen";
 import { FontFamily, FontSize, Color, Padding } from "../GlobalStyles";
 import Header from "../components/atoms/Header";

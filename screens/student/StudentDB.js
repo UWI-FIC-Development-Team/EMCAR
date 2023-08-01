@@ -37,16 +37,16 @@ const StudentDB = () => {
           showTitle={true}
           title={"Recent tutors"}
           onPress={() => {
-            navigation.navigate("Select a tutor");
+            navigation.navigate("All tutors");
           }}
         >
-          <DashBoardChip />
-          <DashBoardChip />
+          <DashBoardChip tutorName={'Joel blenman'} iconIsVisible={true}/>
+          <DashBoardChip tutorName={'Grayson blenman'}iconIsVisible={true}/>
         </DashBoardCard>
         <TouchableOpacity
           activeOpacity={0.2}
           onPress={() => {
-            navigation.navigate("Select a tutor");
+            navigation.navigate("All tutors");
           }}
         >
          

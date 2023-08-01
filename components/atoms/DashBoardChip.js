@@ -10,26 +10,37 @@ import {
 import { Feather } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-const TutorCard = ({ onPress, tutorName }) => {
+const TutorCard = ({ onPress, tutorName, iconIsVisible }) => {
+
+  console.log(typeof tutorName);
+
+  function getFirstLetter(name) {
+    return name.charAt(0);
+  }
+
+  const intial = getFirstLetter(tutorName)
+
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={[styles.user, styles.userFlexBox]}>
         <View style={[styles.buildingBlocksmonogram, styles.initialLayout]}>
-          <Text style={[styles.initial, styles.initialFlexBox]}>K</Text>
+          <Text style={[styles.initial, styles.initialFlexBox]}>{intial}</Text>
         </View>
         <View style={[styles.container, styles.buttonsSpaceBlock]}>
           <View style={styles.content}>
             <View style={styles.userFlexBox}>
-              <Text style={styles.text}>Cameron Williamson</Text>
+              <Text style={styles.text}>{tutorName}</Text>
             </View>
             <Text style={styles.subtitle}>Emcar tutor</Text>
           </View>
         </View>
-        <View style={[styles.buttons, styles.buttonsSpaceBlock]}>
+        {iconIsVisible ? (
           <View style={[styles.message, styles.initialFlexBox]}>
             <Feather name="send" size={24} color="#006A6A" />
           </View>
-        </View>
+        ) : (
+          ""
+        )}
       </View>
     </TouchableOpacity>
   );
