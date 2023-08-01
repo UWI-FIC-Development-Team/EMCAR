@@ -18,6 +18,7 @@ import BottomNavigation from "./BottomNavigation";
 import { getHeaderTitle } from "@react-navigation/elements";
 import Header from "../components/atoms/Header";
 import OptionsScreen from "../screens/main/OptionsScreen";
+import AllTutors from "../screens/student/AllTutorsScreen";
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -125,8 +126,8 @@ const MainStack = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Select a tutor"
-        component={TutorSelect}
+        name="All tutors"
+        component={AllTutors}
         options={{ headerShown: true }}
       />
       <Stack.Screen

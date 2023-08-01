@@ -22,7 +22,7 @@ import DashBoardChip from "../../components/atoms/DashBoardChip";
 import OptionSheet from "../../components/OptionSheet";
 // import { useCardAnimation } from "@react-navigation/stack";
 
-const TutorSelect = () => {
+const AllTutors = () => {
   const navigation = useNavigation();
   const bottomSheetModalRef = useRef(null);
 
@@ -63,4 +63,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TutorSelect;
+export default AllTutors;
