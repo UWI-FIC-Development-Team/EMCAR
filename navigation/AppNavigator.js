@@ -17,7 +17,7 @@ import Header from "../components/atoms/Header";
 import OptionsScreen from "../screens/main/OptionsScreen";
 import AllTutors from "../screens/student/AllTutorsScreen";
 import TutorSelection from "../screens/student/TutorSelection";
-import SuccessScreen from "../screens/student/SuccussScreen";
+import SuccessScreen from "../screens/student/SuccessScreen";
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -68,7 +68,7 @@ const AppNavigator = () => {
 
           <RootStack.Group
             screenOptions={{
-              presentation: "modal",
+              presentation: 'modal',
             }}
           >
             <RootStack.Screen
