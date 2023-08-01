@@ -72,7 +72,7 @@ const AppNavigator = () => {
             }}
           >
             <RootStack.Screen
-              name="Completed request"
+              name="Complete request"
               component={SuccessScreen}
               options={{
                 headerMode: "none",

@@ -3,60 +3,61 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import DashBoardChip from "../../components/atoms/DashBoardChip";
+import { FontFamily, FontSize, Color } from "../../GlobalStyles";
 
-
-const OptionsScreen = ({ onPresent, onClose, route}) => {
+const SuccessScreen = ({ onPresent, onClose, route }) => {
   const navigation = useNavigation();
   const { selectedTutor } = route.params;
-   
 
   // Define the function to handle navigation to the CreateRequest screen
   const handleCreateRequest = () => {
-    navigation.pop()
+    navigation.pop();
     navigation.navigate("Request a session");
-  
   };
 
   return (
     <View style={styles.modalContainer}>
-        <Text style={styles.title}>Almost There!</Text>
-        <View style={{width:'100%'}}>
-        <DashBoardChip tutorName={selectedTutor} iconIsVisible={false}/>
-        </View>
-        <PrimaryButton title="Create another request" onPress={handleCreateRequest} />
+      <Text style={[styles.title, styles.titleTypo]}>
+        Great! Your request to {selectedTutor} has been submitted successfully.
+      </Text>
+      <PrimaryButton title="Create another request" onPress={handleCreateRequest}/>
+      <TouchableOpacity onPress={()=>{navigation.navigate('Dashboard')}}>
+      <Text style={[styles.title2, styles.titleTypo]}>
+        Go back home
+      </Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   modalContainer: {
-    
-    height:'45%',
-    justifyContent: 'flex-end',
+    height: "45%",
+    justifyContent: "flex-end",
     alignItems: "center",
     backgroundColor: "#fff",
-    paddingHorizontal:16,
-    paddingVertical:16,
-    position:'absolute',
-    bottom:0,
-    width:'100%',
-    borderRadius:12
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    borderRadius: 12,
   },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 20,
+  titleTypo: {
+    fontFamily: FontFamily.materialThemeTitleMedium,
+    fontWeight: "500",
+    lineHeight: 20,
+    fontSize: FontSize.materialThemeLabelLarge_size,
     textAlign: "center",
   },
-  closeButton: {
-    marginTop: 20,
-    alignSelf: "center",
+
+  title: {
+    color: Color.materialThemeSysLightOnSurfaceVariant,
   },
-  closeButtonText: {
-    color: "blue",
-    fontSize: 16,
-    fontWeight: "bold",
+  title2: {
+    color: Color.materialThemeSysLightOnSurfaceVariant,
+    textDecorationLine:'underline'
   },
 });
 
-export default OptionsScreen;
+export default SuccessScreen;
