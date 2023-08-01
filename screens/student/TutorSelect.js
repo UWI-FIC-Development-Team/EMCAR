@@ -51,13 +51,14 @@ const TutorSelect = () => {
       <StatusBar barStyle={"dark-content"} />
 
       <View style={styles.listDialogParent}>
-        <DashBoardCard title={"Select a tutor"} showTitle={true}>
-          <DashBoardChip
-            onPress={handleOptionsScreen}
-          />
+        <DashBoardCard title={"Available"} showTitle={true}>
+          <DashBoardChip onPress={handleOptionsScreen}/>
           <DashBoardChip onPress={handleOptionsScreen} />
           <DashBoardChip />
-          <DashBoardChip />
+        </DashBoardCard>
+        <DashBoardCard title={"Unavailable"} showTitle={true}>
+          <DashBoardChip onPress={handleOptionsScreen}/>
+          <DashBoardChip onPress={handleOptionsScreen} />
           <DashBoardChip />
         </DashBoardCard>
       </View>
