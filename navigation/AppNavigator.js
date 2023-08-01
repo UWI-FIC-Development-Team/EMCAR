@@ -6,19 +6,17 @@ import OnboardingScreen1a from "../screens/main/OnboardingScreen1a";
 import OnboardingScreen2 from "../screens/main/OnboardingScreen2";
 import PasswordReset from "../screens/main/PasswordReset";
 import TutorPage from "../screens/student/TutorPage";
-import TutorSelect from "../screens/student/AllTutorsScreen";
 import SessionRequest from "../screens/student/SessionRequest";
-import StudentDB from "../screens/student/StudentDB";
 import SignUpScreen from "../screens/main/SignUpScreen";
 import LoginScreen from "../screens/main/LoginScreen";
 import TutorLogin from "../screens/tutor/TutorLogin";
 import { createStackNavigator } from "@react-navigation/stack";
-import { StyleSheet } from "react-native";
 import BottomNavigation from "./BottomNavigation";
 import { getHeaderTitle } from "@react-navigation/elements";
 import Header from "../components/atoms/Header";
 import OptionsScreen from "../screens/main/OptionsScreen";
 import AllTutors from "../screens/student/AllTutorsScreen";
+import TutorSelection from "../screens/student/TutorSelection";
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -128,6 +126,11 @@ const MainStack = () => {
       <Stack.Screen
         name="All tutors"
         component={AllTutors}
+        options={{ headerShown: true }}
+      />
+      <Stack.Screen
+        name="Select a tutor"
+        component={TutorSelection}
         options={{ headerShown: true }}
       />
       <Stack.Screen
