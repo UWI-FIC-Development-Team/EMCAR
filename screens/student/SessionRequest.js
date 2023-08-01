@@ -31,16 +31,24 @@ const SessionRequest = () => {
       mode={"date"}
       label={"Preferred date"}
     />,
-    <DateAndTimePicker
-      placeholder={"Choose a time"}
-      mode={"time"}
-      label={"Preferred time"}
-    />,
-    // <FormInput
-    //   label={"Additional Information"}
-    //   placeholder={"Add addition information"}
-    //   multiline={true}
-    // />,
+    <View style={{
+      flexDirection:'row',
+      justifyContent:'space-between'
+    }}>
+      <DropDownPicker
+        style={styles.inputSmall}
+        placeholder={"Choose a time"}
+        mode={"time"}
+        label={"Start time"}
+      />
+
+      <DropDownPicker
+        style={styles.inputSmall}
+        placeholder={"Choose a time"}
+        mode={"time"}
+        label={"End time"}
+      />
+    </View>,
   ]);
 
   return (
@@ -70,6 +78,11 @@ const SessionRequest = () => {
 };
 
 const styles = StyleSheet.create({
+
+  inputSmall: {
+    width: "40%",
+  },
+
   frameFlatListContent: {
     flexDirection: "column",
   },
