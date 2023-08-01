@@ -6,7 +6,7 @@ import OnboardingScreen1a from "../screens/main/OnboardingScreen1a";
 import OnboardingScreen2 from "../screens/main/OnboardingScreen2";
 import PasswordReset from "../screens/main/PasswordReset";
 import TutorPage from "../screens/student/TutorPage";
-import TutorSelect from "../screens/student/TutorSelect";
+import TutorSelect from "../screens/student/AllTutorsScreen";
 import SessionRequest from "../screens/student/SessionRequest";
 import StudentDB from "../screens/student/StudentDB";
 import SignUpScreen from "../screens/main/SignUpScreen";
