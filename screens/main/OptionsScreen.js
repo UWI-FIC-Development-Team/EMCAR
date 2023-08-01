@@ -19,7 +19,9 @@ const OptionsScreen = ({ onPresent, onClose, selectedTutor }) => {
   return (
     <View style={styles.modalContainer}>
         <Text style={styles.title}>Almost There!</Text>
+        <View style={{width:'100%'}}>
         <DashBoardChip iconIsVisible={false}/>
+        </View>
         <PrimaryButton title="Sumbit your request" onPress={handleCreateRequest} />
     </View>
   );
@@ -28,7 +30,7 @@ const OptionsScreen = ({ onPresent, onClose, selectedTutor }) => {
 const styles = StyleSheet.create({
   modalContainer: {
     
-    height:'40%',
+    height:'45%',
     justifyContent: 'flex-end',
     alignItems: "center",
     backgroundColor: "#fff",

@@ -11,6 +11,13 @@ import { Feather } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const TutorCard = ({ onPress, tutorName, iconIsVisible }) => {
+
+  function getFirstLetter(name) {
+    return name.charAt(0);
+  }
+
+  const intial = getFirstLetter(tutorName)
+
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={[styles.user, styles.userFlexBox]}>
