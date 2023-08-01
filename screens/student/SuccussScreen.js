@@ -15,7 +15,13 @@ const SuccessScreen = ({ onPresent, onClose, route }) => {
     navigation.navigate("Request a session");
   };
 
-//   const tutorNameStyled =
+  const tutorNameStyled = () =>{
+    return(
+       <Text style={[styles.title3]}>
+        {selectedTutor}
+      </Text> 
+    )
+  }
 
   return (
     <View style={styles.modalContainer}>
@@ -26,7 +32,7 @@ const SuccessScreen = ({ onPresent, onClose, route }) => {
         contentFit="contain"
       />
       <Text style={[styles.title, styles.titleTypo]}>
-        Great! Your request to {selectedTutor} has been submitted successfully.
+        Great! Your request to {tutorNameStyled()} has been submitted successfully.
       </Text>
       <PrimaryButton
         title="Create another request"
@@ -58,19 +64,22 @@ const styles = StyleSheet.create({
   },
   titleTypo: {
     fontFamily: FontFamily.materialThemeTitleMedium,
-    fontWeight: "500",
     lineHeight: 20,
-    fontSize: FontSize.materialThemeLabelLarge_size,
+    fontSize: FontSize.materialThemeTitleMedium_size,
     textAlign: "center",
     marginTop:16
   },
 
   title: {
-    color: Color.materialThemeSysLightOnSurfaceVariant,
+    color: Color.materialThemeSysLightPrimary,
   },
   title2: {
-    color: Color.materialThemeSysLightOnSurfaceVariant,
+    color:Color.materialThemeSysLightPrimary,
     textDecorationLine: "underline",
+  },
+  title3: {
+    color: Color.materialThemeSysLightPrimary,
+    fontFamily: FontFamily.title3
   },
   image: {
     height:'50%',
