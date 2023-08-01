@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   loginScreen: {
     backgroundColor: Color.materialThemeSysLightBackground,
     flex: 1,
-    paddingTop: 40,
+    paddingTop: 20,
     paddingHorizontal: Padding.p_6xl,
   },
 
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   textFieldParent: {
-    marginTop: 64,
+    marginTop: 40,
     justifyContent: "flex-end",
     alignSelf: "stretch",
   },

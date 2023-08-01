@@ -5,6 +5,7 @@ import { Color, Border, Padding} from "../../GlobalStyles";
 
 const FormInput = ({ 
   placeholder, 
+  style,
   secureTextEntry, 
   label , 
   value, 
@@ -19,7 +20,7 @@ const FormInput = ({
         keyboardType={keyboardType}
         onChangeText={onChangeText}
         value={value}
-        style={styles.textField}
+        style={[styles.textField,style]}
         placeholderTextColor="#191c1c"
         placeholder={placeholder}
         secureTextEntry={secureTextEntry}
@@ -34,16 +35,18 @@ const FormInput = ({
 const styles = StyleSheet.create({
   container:{
     flexDirection:'column',
-    marginBottom:16
+    marginBottom:8,
+    
   },
   textField: {
-    borderTopLeftRadius: Border.br_9xs,
-    borderTopRightRadius: Border.br_9xs,
-    alignSelf: "stretch",
+    alignItems:'flex-start',
     borderWidth: 1,
-    borderColor: "#d1d5d5",
-    paddingHorizontal: 10,
-    height:50
+    borderColor: "#000",
+    marginBottom: 12,
+    height: 56,
+    borderRadius:10,
+    paddingHorizontal:8,
+    borderWidth:1,
   },
 
   label: {

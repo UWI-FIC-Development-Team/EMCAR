@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 8,
-    borderStyle:'solid',
+    borderWidth:1,
     borderColor:'#ccc'
   },
   iconContainer: {

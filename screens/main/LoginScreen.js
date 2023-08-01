@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 40,
     paddingHorizontal: Padding.p_6xl,
+
   },
 
   signUpButton: {
@@ -150,6 +151,7 @@ const styles = StyleSheet.create({
     marginTop: 64,
     justifyContent: "flex-end",
     alignSelf: "stretch",
+    
   },
   title: {
     color: Color.materialThemeSysLightOnSurfaceVariant,
