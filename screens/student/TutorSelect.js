@@ -51,7 +51,7 @@ const TutorSelect = () => {
       <StatusBar barStyle={"dark-content"} />
 
       <View style={styles.listDialogParent}>
-        <DashBoardCard title={"Select a tutor"}>
+        <DashBoardCard title={"Select a tutor"} showTitle={true}>
           <DashBoardChip
             onPress={handleOptionsScreen}
           />
@@ -61,12 +61,7 @@ const TutorSelect = () => {
           <DashBoardChip />
         </DashBoardCard>
       </View>
-      {/* <OptionSheet
-        modalRef={bottomSheetModalRef}
-        onClose={handleCloseModal}
-        isVisible={bottomSheetVisible}
-        onCreateRequest={handleCreateRequest}
-      /> */}
+    
     </ScrollView>
   );
 };
