@@ -3,11 +3,12 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import DashBoardChip from "../../components/atoms/DashBoardChip";
-const OptionsScreen = ({ onPresent, onClose, selectedTutor }) => {
-  const navigation = useNavigation();
 
-  // Define the function to handle navigation to the TutorProfile screen
-  
+
+const OptionsScreen = ({ onPresent, onClose, route}) => {
+  const navigation = useNavigation();
+  const { selectedTutor } = route.params;
+   
 
   // Define the function to handle navigation to the CreateRequest screen
   const handleCreateRequest = () => {
@@ -20,7 +21,7 @@ const OptionsScreen = ({ onPresent, onClose, selectedTutor }) => {
     <View style={styles.modalContainer}>
         <Text style={styles.title}>Almost There!</Text>
         <View style={{width:'100%'}}>
-        <DashBoardChip iconIsVisible={false}/>
+        <DashBoardChip tutorName={selectedTutor} iconIsVisible={false}/>
         </View>
         <PrimaryButton title="Sumbit your request" onPress={handleCreateRequest} />
     </View>

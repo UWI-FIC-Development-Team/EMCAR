@@ -32,9 +32,9 @@ const TutorSelection = () => {
               key={tutor.name}
               tutorName={tutor.name}
               iconIsVisible={false}
-              onPress={() => {
-                navigation.navigate("submit session");
-              }}
+             onPress={() => {
+                navigation.navigate("submit session", { selectedTutor: tutor.name });
+              }} 
             />
           ))}
         </DashBoardCard>

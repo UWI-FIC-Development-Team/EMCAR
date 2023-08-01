@@ -12,6 +12,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 const TutorCard = ({ onPress, tutorName, iconIsVisible }) => {
 
+  console.log(typeof tutorName);
+
   function getFirstLetter(name) {
     return name.charAt(0);
   }
