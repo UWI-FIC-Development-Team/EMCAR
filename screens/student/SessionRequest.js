@@ -5,6 +5,7 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   FlatList,
+  Dimensions
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, FontSize, Color, Padding } from "../../GlobalStyles";
@@ -39,9 +40,8 @@ const SessionRequest = () => {
     <View
       style={{
         flexDirection: "row",
-        justifyContent:'space-between',
-        alignItems:'center'
-
+        justifyContent: "space-between",
+        alignItems: "center",
       }}
     >
       <DropDownPicker
@@ -58,11 +58,19 @@ const SessionRequest = () => {
         label={"End time"}
       />
     </View>,
-    <FormInput
-      style={styles.textInput}
-      label={"Additional Info"}
-      placeholder={"Enter a brief summary of what you want to learn or improve in this session"}
-    />,
+    <KeyboardAvoidingView
+      style={styles.keyboardAvoidingView}
+      behavior={Platform.OS === "ios" ? "padding" : "height"} // Specify the behavior prop according to the platform
+    >
+      <FormInput
+        multiline={true}
+        style={styles.textInput}
+        label={"Additional Info"}
+        placeholder={
+          "Enter a brief summary of what you want to learn or improve in this session"
+        }
+      />
+    </KeyboardAvoidingView>,
   ]);
 
   return (
@@ -73,18 +81,15 @@ const SessionRequest = () => {
 
       {/* Wrap the content that needs to be adjusted inside a KeyboardAvoidingView */}
 
-      <KeyboardAvoidingView
-        style={styles.keyboardAvoidingView}
-        behavior={Platform.OS === "ios" ? "padding" : "height"} // Specify the behavior prop according to the platform
-      >
-        <View style={styles.textFieldParent}>
-          <FlatList
-            data={frameFlatListData}
-            renderItem={({ item }) => item}
-            contentContainerStyle={styles.frameFlatListContent}
-          />
-        </View>
-      </KeyboardAvoidingView>
+      <ScrollView 
+      showsVerticalScrollIndicator={false}
+      style={styles.textFieldParent}>
+        <FlatList
+          data={frameFlatListData}
+          renderItem={({ item }) => item}
+          contentContainerStyle={styles.frameFlatListContent}
+        />
+      </ScrollView>
 
       <PrimaryButton title={"Submit your request"} />
     </View>
@@ -92,7 +97,6 @@ const SessionRequest = () => {
 };
 
 const styles = StyleSheet.create({
-
   //form styles
   container: {
     flexDirection: "column",
@@ -101,10 +105,10 @@ const styles = StyleSheet.create({
   },
 
   inputSmall: {
-    width:'45%',
+    width: "45%",
   },
-  textInput:{
-    height:140
+  textInput: {
+    height: 140,
   },
 
   //container styles
@@ -113,7 +117,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   loginScreen: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     flex: 1,
     paddingTop: 40,
     paddingHorizontal: Padding.p_6xl,
@@ -130,15 +134,17 @@ const styles = StyleSheet.create({
     marginTop: 25,
     justifyContent: "flex-end",
     alignSelf: "stretch",
+    width: Dimensions.get("window").width,
+    paddingHorizonta1: 20,
   },
   title: {
     color: Color.materialThemeSysLightOnSurfaceVariant,
   },
 
- 
   // Add a style for the KeyboardAvoidingView
   keyboardAvoidingView: {
     flex: 1,
+
   },
 });
 
