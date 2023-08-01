@@ -13,8 +13,7 @@ const OptionsScreen = ({ onPresent, onClose, route}) => {
   // Define the function to handle navigation to the CreateRequest screen
   const handleCreateRequest = () => {
     navigation.pop()
-    navigation.navigate("Request a session");
-  
+    navigation.navigate("Complete request", {selectedTutor:selectedTutor});
   };
 
   return (

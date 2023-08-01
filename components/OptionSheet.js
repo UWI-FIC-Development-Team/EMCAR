@@ -20,7 +20,7 @@ const OptionSheet = ({ onClose, isVisible, onCreateRequest }) => {
         <View style={styles.bottomSheet}>
           <Text style={styles.title}>Almost There!</Text>
           <PrimaryButton title="View tutor profile" />
-          <PrimaryButton title="Create a request now" onPress={onCreateRequest} />
+          <PrimaryButton title="Create a request now" onPress={()=>{navigation.navigate('Succuss Screen')}} />
           <TouchableOpacity style={styles.closeButton} onPress={onClose}>
             <Text style={styles.closeButtonText}>Close</Text>
           </TouchableOpacity>
