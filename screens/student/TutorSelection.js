@@ -39,14 +39,14 @@ const TutorSelection = () => {
 
       <View style={styles.listDialogParent}>
         <DashBoardCard title={"Available"} showTitle={true}>
-          <DashBoardChip onPress={()=>{}} />
-          <DashBoardChip onPress={()=>{}}/>
-          <DashBoardChip />
+          <DashBoardChip iconIsVisible={false} onPress={()=>{navigation.navigate('submit session')}} />
+          <DashBoardChip iconIsVisible={false} onPress={()=>{}}/>
+          <DashBoardChip iconIsVisible={false} />
         </DashBoardCard>
         <DashBoardCard title={"Unavailable"} showTitle={true}>
-          <DashBoardChip onPress={()=>{}} />
-          <DashBoardChip onPress={()=>{}} />
-          <DashBoardChip />
+          <DashBoardChip iconIsVisible={false} onPress={()=>{}} />
+          <DashBoardChip iconIsVisible={false} onPress={()=>{}} />
+          <DashBoardChip iconIsVisible={false}/>
         </DashBoardCard>
       </View>
     </ScrollView>

@@ -40,8 +40,8 @@ const StudentDB = () => {
             navigation.navigate("All tutors");
           }}
         >
-          <DashBoardChip />
-          <DashBoardChip />
+          <DashBoardChip iconIsVisible={true}/>
+          <DashBoardChip iconIsVisible={true}/>
         </DashBoardCard>
         <TouchableOpacity
           activeOpacity={0.2}

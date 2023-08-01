@@ -10,7 +10,7 @@ import {
 import { Feather } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-const TutorCard = ({ onPress, tutorName }) => {
+const TutorCard = ({ onPress, tutorName, iconIsVisible }) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={[styles.user, styles.userFlexBox]}>
@@ -25,11 +25,13 @@ const TutorCard = ({ onPress, tutorName }) => {
             <Text style={styles.subtitle}>Emcar tutor</Text>
           </View>
         </View>
-        <View style={[styles.buttons, styles.buttonsSpaceBlock]}>
+        {iconIsVisible ? (
           <View style={[styles.message, styles.initialFlexBox]}>
             <Feather name="send" size={24} color="#006A6A" />
           </View>
-        </View>
+        ) : (
+          ""
+        )}
       </View>
     </TouchableOpacity>
   );
