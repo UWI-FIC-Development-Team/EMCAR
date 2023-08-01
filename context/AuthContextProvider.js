@@ -35,7 +35,7 @@ function AuthProvider({ children }) {
         // Signed in
         const user = userCredential.user;
 
-        const userName = getUserName(user.uid);
+        // const userName = getUserName(user.uid);
         checkIfUserIsTutor(user.uid);
         console.log("The current user signed in is: ", userName);
         setActiveUser(userName);
@@ -80,20 +80,19 @@ const signUp = async (email, password, userName) => {
 
 
   // Get the tutor status
-  const checkIfUserIsTutor = async (currentUserId) => {
+  const getUSerRole = async (currentUserId) => {
     try {
       // Fetch the user data from Firestore based on the provided user ID
-      const userRef = doc(db, `users/${currentUserId}`);
+      const userRef = doc(db, `tutors/${currentUserId}`);
       const userDoc = await getDoc(userRef);
 
       // Check if the user document exists and has the isTutor field set to true
-      if (userDoc.exists && userDoc.data().isTutor === true) {
-        console.log("User is a tutor", userDoc.data().isTutor);
+      if (userDoc.exists && userDoc.data().role === 'tutor') {
+        console.log("I am a: ", userDoc.data().role);
         setIsTutor(true);
-
         return true;
       } else {
-        console.log("User is not a tutor", userDoc.data().isTutor);
+        console.log("I am a :", userDoc.data().role);
         setIsTutor(false);
         return false;
       }
@@ -106,29 +105,29 @@ const signUp = async (email, password, userName) => {
     }
   };
 
-  const getUserName = async (currentUserId) => {
-    try {
-      // Fetch the user data from Firestore based on the provided user ID
-      const userRef = doc(db, `users/${currentUserId}`);
-      const userDoc = await getDoc(userRef);
+  // const getUserName = async (currentUserId) => {
+  //   try {
+  //     // Fetch the user data from Firestore based on the provided user ID
+  //     const userRef = doc(db, `users/${currentUserId}`);
+  //     const userDoc = await getDoc(userRef);
 
-      // Check if the user document exists and has the display_name field
-      if (userDoc.exists && userDoc.data().display_name) {
-        const name = userDoc.data().display_name;
-        return name
-      } else {
-        // Return a default value or throw an error
-        return "Unknown user";
-        // Or: throw new Error("User document does not exist or has no display_name");
-      }
-    } catch (error) {
-      console.error(
-        "Error while checking if the user is a tutor:",
-        error.message
-      );
-      return false;
-    }
-  };
+  //     // Check if the user document exists and has the display_name field
+  //     if (userDoc.exists && userDoc.data().display_name) {
+  //       const name = userDoc.data().display_name;
+  //       return name
+  //     } else {
+  //       // Return a default value or throw an error
+  //       return "Unknown user";
+  //       // Or: throw new Error("User document does not exist or has no display_name");
+  //     }
+  //   } catch (error) {
+  //     console.error(
+  //       "Error while checking if the user is a tutor:",
+  //       error.message
+  //     );
+  //     return false;
+  //   }
+  // };
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -148,7 +147,7 @@ const signUp = async (email, password, userName) => {
 
   return (
     <AuthContext.Provider
-      value={{ signUp, login, signOut, checkIfUserIsTutor, isTutor }}
+      value={{ signUp, login, signOut, getUSerRole, isTutor }}
     >
       {children}
     </AuthContext.Provider>
