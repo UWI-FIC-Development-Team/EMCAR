@@ -17,6 +17,7 @@ import Header from "../components/atoms/Header";
 import OptionsScreen from "../screens/main/OptionsScreen";
 import AllTutors from "../screens/student/AllTutorsScreen";
 import TutorSelection from "../screens/student/TutorSelection";
+import SuccessScreen from "../screens/student/SuccussScreen";
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -51,12 +52,28 @@ const AppNavigator = () => {
           <RootStack.Group
             screenOptions={{
               presentation: "modal",
-    
             }}
           >
             <RootStack.Screen
               name="submit session"
               component={OptionsScreen}
+              options={{
+                headerMode: "none",
+                cardStyle: {
+                  backgroundColor: "rgba(0,0,0,0)",
+                },
+              }}
+            />
+          </RootStack.Group>
+
+          <RootStack.Group
+            screenOptions={{
+              presentation: "modal",
+            }}
+          >
+            <RootStack.Screen
+              name="Completed request"
+              component={SuccessScreen}
               options={{
                 headerMode: "none",
                 cardStyle: {
