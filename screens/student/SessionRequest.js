@@ -16,6 +16,7 @@ import DropDownPicker from "../../components/DropDownPicker";
 import DateAndTimePicker from "../../components/atoms/DateAndTimePicker";
 import { ScrollView } from "react-native-gesture-handler";
 import FormInput from "../../components/atoms/FormInput";
+import InfoText from "../../components/atoms/InfoText";
 
 const SessionRequest = () => {
   const { login, checkIfUserIsTutor, signOut } = useContext(AuthContext);
@@ -71,9 +72,7 @@ const SessionRequest = () => {
 
   return (
     <View style={styles.loginScreen}>
-      <Text style={[styles.title, styles.titleTypo]}>
-        Fill out the form to let the tutor know how they can assist you.
-      </Text>
+     <InfoText/>
 
       {/* Wrap the content that needs to be adjusted inside a KeyboardAvoidingView */}
     <KeyboardAvoidingView
