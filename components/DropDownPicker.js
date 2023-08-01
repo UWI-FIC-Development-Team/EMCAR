@@ -14,7 +14,7 @@ const DropDownPicker = ({ style, data, label, placeholder}) => {
   const [listItemValue, setListItemValue] = useState(null);
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={style}>
       <Text style={styles.label}>{label}</Text>
       <Dropdown
         style={styles.dropdown}
@@ -44,12 +44,7 @@ const DropDownPicker = ({ style, data, label, placeholder}) => {
 export default DropDownPicker;
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: "column",
-    flex: 1,
-    marginBottom:8,
-
-  },
+  
   label: {
     fontSize: 16,
     fontWeight: "bold",
@@ -59,7 +54,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     height: 56,
     borderRadius:10,
-    paddingHorizontal:12,
+    paddingHorizontal:8,
     borderWidth:1
   },
   icon: {

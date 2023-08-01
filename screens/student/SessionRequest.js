@@ -22,33 +22,47 @@ const SessionRequest = () => {
 
   const [frameFlatListData] = useState([
     <DropDownPicker
+      style={styles.container}
       label={"Course ID"}
       placeholder={"Select your course ID"}
     />,
-    <DropDownPicker label={"Topic"} placeholder={"Choose your topic"} />,
+    <DropDownPicker
+      style={styles.container}
+      label={"Topic"}
+      placeholder={"Choose your topic"}
+    />,
     <DateAndTimePicker
       placeholder={"Choose a date"}
       mode={"date"}
-      label={"Preferred date"}
+      label={"Date"}
     />,
-    <View style={{
-      flexDirection:'row',
-      justifyContent:'space-between'
-    }}>
+    <View
+      style={{
+        flexDirection: "row",
+        justifyContent:'space-between',
+        alignItems:'center'
+
+      }}
+    >
       <DropDownPicker
         style={styles.inputSmall}
-        placeholder={"Choose a time"}
+        placeholder={"Pick a time"}
         mode={"time"}
         label={"Start time"}
       />
 
       <DropDownPicker
         style={styles.inputSmall}
-        placeholder={"Choose a time"}
+        placeholder={"Pick a time"}
         mode={"time"}
         label={"End time"}
       />
     </View>,
+    <FormInput
+      style={styles.textInput}
+      label={"Additional Info"}
+      placeholder={"Enter a brief summary of what you want to learn or improve in this session"}
+    />,
   ]);
 
   return (
@@ -79,15 +93,27 @@ const SessionRequest = () => {
 
 const styles = StyleSheet.create({
 
-  inputSmall: {
-    width: "40%",
+  //form styles
+  container: {
+    flexDirection: "column",
+    flex: 1,
+    marginBottom: 8,
   },
+
+  inputSmall: {
+    width:'45%',
+  },
+  textInput:{
+    height:140
+  },
+
+  //container styles
 
   frameFlatListContent: {
     flexDirection: "column",
   },
   loginScreen: {
-    backgroundColor: Color.materialThemeSysLightBackground,
+    backgroundColor: '#fff',
     flex: 1,
     paddingTop: 40,
     paddingHorizontal: Padding.p_6xl,
@@ -109,19 +135,7 @@ const styles = StyleSheet.create({
     color: Color.materialThemeSysLightOnSurfaceVariant,
   },
 
-  signUpButtonText: {
-    fontSize: 14,
-    fontWeight: "500",
-    fontFamily: "Roboto_medium",
-    textDecorationLine: "underline",
-    color: Color.materialThemeSysLightPrimary,
-  },
-  signUpText: {
-    fontSize: 14,
-    fontWeight: "500",
-    fontFamily: "Roboto_medium",
-  },
-
+ 
   // Add a style for the KeyboardAvoidingView
   keyboardAvoidingView: {
     flex: 1,
