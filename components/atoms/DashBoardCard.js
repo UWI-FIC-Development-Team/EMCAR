@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     color: Color.materialThemeSysLightOnPrimaryContainer,
     lineHeight: 24,
-    fontSize: FontSize.m3TitleMedium_size,
+    fontSize: 16,
     fontFamily: FontFamily.m3TitleMedium,
     fontWeight: "500",
     alignSelf: "stretch",
