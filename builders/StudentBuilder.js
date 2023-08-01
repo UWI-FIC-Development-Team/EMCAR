@@ -32,4 +32,4 @@ class StudentBuilder {
   }
 }
 
-
+export default StudentBuilder

@@ -91,3 +91,4 @@ class RequestBuilder {
   }
 }
 
+export default RequestBuilder

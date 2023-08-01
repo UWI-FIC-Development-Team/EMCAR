@@ -13,6 +13,9 @@ import {
   getDocs,
 } from "firebase/firestore";
 
+import RequestBuilder from "../builders/RequestBuilder"
+import StudentBuilder from "../builders/StudentBuilder";
+
 const AuthContext = createContext();
 
 // export function useAuth() {
@@ -45,47 +48,35 @@ function AuthProvider({ children }) {
       });
   }
 
+  // sign user out of their account
   function signOut() {
     return auth.signOut();
   }
-  // create a new user
-  const signUp = async (email, password, userName) => {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
-      const userId = user.uid;
+ // create a new student
+const signUp = async (email, password, userName) => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    const userId = user.uid;
 
-      // Add user name and email to Firestore database with user ID as the document ID
-      const userRef = doc(db, "users", userId);
-      await setDoc(userRef, {
-        uid: userId,
-        email: email,
-        display_name: userName,
-        isTutor: false,
-      });
+    // Create a new Student object using the StudentBuilder
+    const student = new StudentBuilder()
+      .withUid(userId)
+      .withEmail(email)
+      .withDisplayName(userName)
+      .build();
 
-      // Create a sub-collection for students
-      const studentRef = collection(userRef, "students");
-      const studentData = {
-        name: userName,
-        email: email,
-      };
-      await addDoc(studentRef, studentData);
+    // Add the student data to Firestore with user ID as the document ID
+    const studentRef = doc(db, "students", userId);
+    await setDoc(studentRef, student);
 
-      console.log("User data added to Firestore with ID:", userId);
-      console.log("User registered successfully:", userId);
-      return userCredential;
-    } catch (error) {
-      console.error("Registration error:", error.message);
-      // Handle the error as needed
-    }
-  };
+    return userCredential;
+  } catch (error) {
+    console.error("Registration error:", error.message);
+    // Handle the error as needed
+  }
+}; 
 
-  // Rest of the code remains the same
 
   // Get the tutor status
   const checkIfUserIsTutor = async (currentUserId) => {

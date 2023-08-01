@@ -54,3 +54,5 @@ class TutorBuilder {
     return this.tutor;
   }
 }
+
+export default TutorBuilder;
