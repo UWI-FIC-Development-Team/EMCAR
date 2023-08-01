@@ -18,7 +18,7 @@ const FloatingButton = () => {
       <TouchableOpacity
         style={[styles.extendedFab, styles.extendedFabFlexBox]}
         activeOpacity={0.2}
-        onPress={() => navigation.navigate("Select a tutor")}
+        onPress={() => navigation.navigate("Request a session")}
       >
         <View style={styles.floatingbutton}>
           <Feather name="edit-2" size={24} color="#fff" />

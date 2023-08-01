@@ -30,9 +30,6 @@ const TutorSelect = () => {
 
   // const { current } = useCardAnimation();
 
-  const handleOptionsScreen = () => {
-    navigation.navigate("Options Screen");
-  };
 
   return (
     <ScrollView
@@ -42,13 +39,13 @@ const TutorSelect = () => {
 
       <View style={styles.listDialogParent}>
         <DashBoardCard title={"Available"} showTitle={true}>
-          <DashBoardChip onPress={handleOptionsScreen} />
-          <DashBoardChip onPress={handleOptionsScreen} />
+          <DashBoardChip onPress={()=>{}} />
+          <DashBoardChip onPress={()=>{}}/>
           <DashBoardChip />
         </DashBoardCard>
         <DashBoardCard title={"Unavailable"} showTitle={true}>
-          <DashBoardChip onPress={handleOptionsScreen} />
-          <DashBoardChip onPress={handleOptionsScreen} />
+          <DashBoardChip onPress={()=>{}} />
+          <DashBoardChip onPress={()=>{}} />
           <DashBoardChip />
         </DashBoardCard>
       </View>

@@ -19,6 +19,7 @@ import FormInput from "../../components/atoms/FormInput";
 
 const SessionRequest = () => {
   const { login, checkIfUserIsTutor, signOut } = useContext(AuthContext);
+  const navigation = useNavigation()
 
   const [frameFlatListData] = useState([
     <DropDownPicker
@@ -88,7 +89,7 @@ const SessionRequest = () => {
         />
       </View>
       </KeyboardAvoidingView>
-      <PrimaryButton title={"Submit your request"} />
+      <PrimaryButton title={"Save & select a tutor"} onPress={()=>{navigation.navigate('option Screen')}}/>
     </View>
   );
 };
