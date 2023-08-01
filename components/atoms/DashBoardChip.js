@@ -22,12 +22,12 @@ const TutorCard = ({ onPress, tutorName, iconIsVisible }) => {
     <TouchableOpacity onPress={onPress}>
       <View style={[styles.user, styles.userFlexBox]}>
         <View style={[styles.buildingBlocksmonogram, styles.initialLayout]}>
-          <Text style={[styles.initial, styles.initialFlexBox]}>K</Text>
+          <Text style={[styles.initial, styles.initialFlexBox]}>{intial}</Text>
         </View>
         <View style={[styles.container, styles.buttonsSpaceBlock]}>
           <View style={styles.content}>
             <View style={styles.userFlexBox}>
-              <Text style={styles.text}>Cameron Williamson</Text>
+              <Text style={styles.text}>{tutorName}</Text>
             </View>
             <Text style={styles.subtitle}>Emcar tutor</Text>
           </View>
