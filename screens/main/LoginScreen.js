@@ -6,7 +6,6 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   ActivityIndicator,
-  Dimensions
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, FontSize, Color, Padding } from "../../GlobalStyles";
@@ -67,14 +66,11 @@ const LoginScreen = () => {
       </Text>
 
       {/* Wrap the content that needs to be adjusted inside a KeyboardAvoidingView */}
-      <View
+      <KeyboardAvoidingView
         style={styles.keyboardAvoidingView}
         behavior={Platform.OS === "ios" ? "padding" : "height"} // Specify the behavior prop according to the platform
       >
-        <KeyboardAvoidingView
-        style={styles.textFieldParent}
-        behavior={Platform.OS === "ios" ? "padding" : "height"} // Specify the behavior prop according to the platform
-      >
+        <View style={styles.textFieldParent}>
           <FormInput
             value={email}
             keyboardType={"email-address"}
@@ -95,7 +91,7 @@ const LoginScreen = () => {
           >
             <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
           </Pressable>
-        </KeyboardAvoidingView>
+        </View>
         {loading ? (
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
@@ -108,7 +104,7 @@ const LoginScreen = () => {
           <Text style={styles.signUpText}>First time here? </Text>
           <Text style={styles.signUpButtonText}>Sign up</Text>
         </Pressable>
-      </View>
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -155,7 +151,7 @@ const styles = StyleSheet.create({
     marginTop: 64,
     justifyContent: "flex-end",
     alignSelf: "stretch",
-    width: Dimensions.get("window").width,
+    
   },
   title: {
     color: Color.materialThemeSysLightOnSurfaceVariant,

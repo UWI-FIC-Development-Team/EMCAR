@@ -5,7 +5,6 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   FlatList,
-  Dimensions
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, FontSize, Color, Padding } from "../../GlobalStyles";
@@ -58,10 +57,7 @@ const SessionRequest = () => {
         label={"End time"}
       />
     </View>,
-    <KeyboardAvoidingView
-      style={styles.keyboardAvoidingView}
-      behavior={Platform.OS === "ios" ? "padding" : "height"} // Specify the behavior prop according to the platform
-    >
+   
       <FormInput
         multiline={true}
         style={styles.textInput}
@@ -70,7 +66,6 @@ const SessionRequest = () => {
           "Enter a brief summary of what you want to learn or improve in this session"
         }
       />
-    </KeyboardAvoidingView>,
   ]);
 
   return (
@@ -80,17 +75,19 @@ const SessionRequest = () => {
       </Text>
 
       {/* Wrap the content that needs to be adjusted inside a KeyboardAvoidingView */}
-
-      <ScrollView 
-      showsVerticalScrollIndicator={false}
-      style={styles.textFieldParent}>
+    <KeyboardAvoidingView
+        style={styles.keyboardAvoidingView}
+        behavior={Platform.OS === "ios" ? "padding" : "height"} // Specify the behavior prop according to the platform
+      >
+      <View style={styles.textFieldParent}>
         <FlatList
+        showsVerticalScrollIndicator={false}
           data={frameFlatListData}
           renderItem={({ item }) => item}
           contentContainerStyle={styles.frameFlatListContent}
         />
-      </ScrollView>
-
+      </View>
+      </KeyboardAvoidingView>
       <PrimaryButton title={"Submit your request"} />
     </View>
   );
@@ -134,8 +131,6 @@ const styles = StyleSheet.create({
     marginTop: 25,
     justifyContent: "flex-end",
     alignSelf: "stretch",
-    width: Dimensions.get("window").width,
-    paddingHorizonta1: 20,
   },
   title: {
     color: Color.materialThemeSysLightOnSurfaceVariant,
@@ -144,7 +139,7 @@ const styles = StyleSheet.create({
   // Add a style for the KeyboardAvoidingView
   keyboardAvoidingView: {
     flex: 1,
-
+    paddingBottom:20
   },
 });
 
