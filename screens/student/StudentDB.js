@@ -55,7 +55,7 @@ const StudentDB = () => {
           <SessionCard/>
           <SessionCard/>
         </DashBoardCard>
-        <FloatingButton/>
+        <FloatingButton />
     </ScrollView>
   );
 };
