@@ -64,6 +64,7 @@ const signUp = async (email, password, userName) => {
       .withUid(userId)
       .withEmail(email)
       .withDisplayName(userName)
+      .withRole('student')
       .build();
 
     // Add the student data to Firestore with user ID as the document ID

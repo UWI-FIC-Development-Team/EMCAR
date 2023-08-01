@@ -3,6 +3,7 @@ class Student {
     this.studentId = "";
     this.name = "";
     this.email = "";
+    this.role = ''
   }
 }
 
@@ -24,6 +25,11 @@ class StudentBuilder {
 
   withEmail(email) {
     this.student.email = email;
+    return this;
+  }
+
+  withRole(role) {
+    this.student.role = role;
     return this;
   }
 
