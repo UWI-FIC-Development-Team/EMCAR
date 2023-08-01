@@ -89,7 +89,7 @@ const SessionRequest = () => {
         />
       </View>
       </KeyboardAvoidingView>
-      <PrimaryButton title={"Save & select a tutor"} onPress={()=>{navigation.navigate('option Screen')}}/>
+      <PrimaryButton title={"Save & select a tutor"} onPress={()=>{navigation.navigate('Select a tutor')}}/>
     </View>
   );
 };
