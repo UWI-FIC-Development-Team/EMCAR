@@ -36,7 +36,7 @@ function AuthProvider({ children }) {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-
+        getUserName(user.uid)
         getUserRole(user.uid);
       })
       .catch((error) => {
@@ -127,7 +127,7 @@ function AuthProvider({ children }) {
       // Check if the user document exists and has the display_name field
       if (userDoc.exists && userDoc.data().displayName) {
         const name = userDoc.data().displayName;
-        console.log('My name is: ', name);
+        setActiveUser(name)
       } else {
         // Return a default value or throw an error
         return "Unknown user";
@@ -156,12 +156,12 @@ function AuthProvider({ children }) {
     return () => {
       unsubscribe();
     };
-  }, [auth]);
+  }, []);
 
 
   return (
     <AuthContext.Provider
-      value={{ signUp, login, signOut, getUserRole, isTutor }}
+      value={{ signUp, login, signOut, getUserRole, isTutor,activeUser , setActiveUser}}
     >
       {children}
     </AuthContext.Provider>

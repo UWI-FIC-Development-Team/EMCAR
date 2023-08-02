@@ -18,11 +18,12 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContextProvider";
 
 const Settings = () => {
-  const {signOut} = useContext(AuthContext)
+  const {signOut, setActiveUser} = useContext(AuthContext)
   const navigation = useNavigation();
 
   const handleSignOut = () =>{
     signOut()
+    setActiveUser('')
     navigation.navigate('Log In')
   }
 

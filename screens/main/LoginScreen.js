@@ -1,4 +1,4 @@
-import { useContext} from "react";
+import { useContext } from "react";
 import {
   View,
   Text,
@@ -16,27 +16,28 @@ import { AuthContext } from "../../context/AuthContextProvider";
 import { useState } from "react";
 
 const LoginScreen = () => {
-  const { login} = useContext(AuthContext);
+  const { login, activeUser, setActiveUser } = useContext(AuthContext);
   const navigation = useNavigation();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-
-
+  if (activeUser) {
+    console.log("I am the current user logged in: ", activeUser);
+  } else {
+    null;
+  }
 
   const handleLogin = async () => {
     try {
       if (password && email) {
-        setLoading(true);
         // Set the loading state to true before fetching user data
         const userCredential = await login(auth, email, password);
-        setLoading(false);
         setEmail("");
         setPassword("");
         navigation.navigate("StudentDB");
       } else {
-        alert("Please enter login information")
+        alert("Please enter login information");
       }
     } catch (error) {
       console.error("Login error:", error.message);
@@ -100,7 +101,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 40,
     paddingHorizontal: Padding.p_6xl,
-
   },
 
   signUpButton: {
@@ -136,7 +136,6 @@ const styles = StyleSheet.create({
     marginTop: 64,
     justifyContent: "flex-end",
     alignSelf: "stretch",
-    
   },
   title: {
     color: Color.materialThemeSysLightOnSurfaceVariant,
