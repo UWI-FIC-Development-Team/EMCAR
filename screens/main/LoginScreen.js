@@ -17,7 +17,7 @@ import { AuthContext } from "../../context/AuthContextProvider";
 import { useState } from "react";
 
 const LoginScreen = () => {
-  const { login, checkIfUserIsTutor, signOut } = useContext(AuthContext);
+  const { login,  signOut } = useContext(AuthContext);
   const navigation = useNavigation();
 
   const [email, setEmail] = useState("");

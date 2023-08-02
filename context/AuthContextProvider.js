@@ -14,7 +14,7 @@ import {
 } from "firebase/firestore";
 
 import RequestBuilder from "../builders/RequestBuilder"
-import StudentBuilder from "../builders/StudentBuilder";
+import createStudent from "../builders/StudentBuilder";
 
 const AuthContext = createContext();
 
@@ -23,6 +23,7 @@ const AuthContext = createContext();
 // }
 
 function AuthProvider({ children }) {
+
   const [activeUser, setActiveUser] = useState("");
   const [loading, setLoading] = useState(true);
   const [isTutor, setIsTutor] = useState(false);
@@ -59,13 +60,16 @@ const signUp = async (email, password, userName) => {
     const user = userCredential.user;
     const userId = user.uid;
 
+    console.log('This is start of the function before execution')
     // Create a new Student object using the StudentBuilder
-    const student = new StudentBuilder()
-      .withUid(userId)
-      .withEmail(email)
-      .withDisplayName(userName)
-      .withRole('student')
-      .build();
+    const student = createStudent()
+    .withUid(userId)
+    .withEmail(email)
+    .withDisplayName(userName)
+    .build();
+   
+
+    console.log('This is the student object: ',student)
 
     // Add the student data to Firestore with user ID as the document ID
     const studentRef = doc(db, "students", userId);

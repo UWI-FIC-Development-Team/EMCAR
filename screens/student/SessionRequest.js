@@ -19,7 +19,7 @@ import FormInput from "../../components/atoms/FormInput";
 import InfoText from "../../components/atoms/InfoText";
 
 const SessionRequest = () => {
-  const { login, checkIfUserIsTutor, signOut } = useContext(AuthContext);
+  const { login,  signOut } = useContext(AuthContext);
   const navigation = useNavigation()
 
   const [frameFlatListData] = useState([

@@ -9,7 +9,7 @@ import TutorPage from "../screens/student/TutorPage";
 import SessionRequest from "../screens/student/SessionRequest";
 import SignUpScreen from "../screens/main/SignUpScreen";
 import LoginScreen from "../screens/main/LoginScreen";
-import TutorLogin from "../screens/tutor/TutorLogin";
+
 import { createStackNavigator } from "@react-navigation/stack";
 import BottomNavigation from "./BottomNavigation";
 import { getHeaderTitle } from "@react-navigation/elements";
@@ -120,11 +120,7 @@ const MainStack = () => {
         component={BottomNavigation}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
-        name="TutorLogin"
-        component={TutorLogin}
-        options={{ headerShown: true }}
-      />
+      
       <Stack.Screen
         name="OnboardingScreen2"
         component={OnboardingScreen2}
