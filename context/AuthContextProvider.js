@@ -36,14 +36,12 @@ function AuthProvider({ children }) {
         // Signed in
         const user = userCredential.user;
 
-        // const userName = getUserName(user.uid);
-        checkIfUserIsTutor(user.uid);
-        console.log("The current user signed in is: ", userName);
-        setActiveUser(userName);
+        getUserRole(user.uid);
+        // console.log("The current user signed in is: ", userName);
+        // setActiveUser(userName);
         console.log("User logged in:", user.uid);
       })
       .catch((error) => {
-        const errorCode = error.code;
         const errorMessage = error.message;
         console.error("Login error:", errorMessage);
       });
@@ -62,18 +60,26 @@ const signUp = async (email, password, userName) => {
 
     console.log('This is start of the function before execution')
     // Create a new Student object using the StudentBuilder
-    const student = createStudent()
+    const studentToStudentCollection = createStudent()
     .withUid(userId)
     .withEmail(email)
     .withDisplayName(userName)
     .build();
-   
+    
+    const studentToUserCollection = createStudent()
+    .withEmail(email)
+    .withDisplayName(userName)
+    .build();
 
-    console.log('This is the student object: ',student)
+    console.log('This is the student object: ',studentToStudentCollection, studentToUserCollection)
 
-    // Add the student data to Firestore with user ID as the document ID
-    const studentRef = doc(db, "students", userId);
-    await setDoc(studentRef, student);
+    // Add the student student to the student collection
+    const studentToStudentRef = doc(db, "students", userId);
+    await setDoc(studentToStudentRef, studentToStudentCollection);
+
+    // add the student to the user collection
+    const studentTutorRef = doc(db, "users", userId);
+    await setDoc(studentTutorRef, studentToUserCollection);
 
     return userCredential;
   } catch (error) {
@@ -84,10 +90,10 @@ const signUp = async (email, password, userName) => {
 
 
   // Get the tutor status
-  const getUSerRole = async (currentUserId) => {
+  const getUserRole = async (currentUserId) => {
     try {
       // Fetch the user data from Firestore based on the provided user ID
-      const userRef = doc(db, `tutors/${currentUserId}`);
+      const userRef = doc(db, `users/${currentUserId}`);
       const userDoc = await getDoc(userRef);
 
       // Check if the user document exists and has the isTutor field set to true
@@ -151,7 +157,7 @@ const signUp = async (email, password, userName) => {
 
   return (
     <AuthContext.Provider
-      value={{ signUp, login, signOut, getUSerRole, isTutor }}
+      value={{ signUp, login, signOut, getUserRole, isTutor }}
     >
       {children}
     </AuthContext.Provider>
