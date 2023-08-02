@@ -1,59 +1,85 @@
-import React, { useState, useEffect,useContext } from "react";
-import { View, Text, Pressable, StyleSheet, KeyboardAvoidingView } from "react-native";
+import React, { useState, useEffect, useContext } from "react";
+import {
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  KeyboardAvoidingView,
+  ActivityIndicator,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, FontSize, Color, Padding } from "../../GlobalStyles";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import FormInput from "../../components/atoms/FormInput";
 import SocialLoginButton from "../../components/atoms/SocialLoginButton";
 import { ScrollView } from "react-native-gesture-handler";
-import { AuthContext} from "../../context/AuthContextProvider";
+import { AuthContext } from "../../context/AuthContextProvider";
 import { auth } from "../../services/firebaseConfig";
 
-
-
 const SignUpScreen = () => {
-  const {signUp} = useContext(AuthContext)
+  const { signUp, activeUser } = useContext(AuthContext);
   const navigation = useNavigation();
 
-  const[name, setName] = useState('')
-  const[email, setEmail] = useState('')
-  const[password, setPassword] = useState('')
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    // Check if the activeUser is available and not an empty string, then navigate to the "StudentDB" screen
+    if (!!activeUser) {
+      navigation.navigate("StudentDB");
+    }
+  }, [activeUser, navigation]);
 
+  const handleSignUp = async () => {
+    try {
+      if (name && email && password) {
+        setLoading(true); // Set loading state to true before sign-up
+        // Call the signUp function and await its completion
+        await signUp(email, password, name);
 
-  const handleSignUp = () =>{
-    const registerUser = signUp(email, password, name);
-    setName('')
-    setEmail('')
-    setPassword('')
-    navigation.navigate('StudentDB')
-  }
+        // Reset the input fields and loading state after successful sign-up
+        setLoading(false);
+        setName("");
+        setEmail("");
+        setPassword("");
 
+        // The navigation to "StudentDB" will happen automatically when useEffect is triggered
+      } else {
+        alert("Please fill in all the required fields");
+      }
+    } catch (error) {
+      console.error("Sign up error:", error.message);
+      setLoading(false); // Set loading state to false in case of sign-up error
+      // Handle sign up errors, show an error message, etc.
+    }
+  };
 
   return (
     <View style={styles.loginScreen}>
       <Text style={[styles.title, styles.titleTypo]}>
-        Let's create your account. Please fill out the following information to get started.
+        Let's create your account. Please fill out the following information to
+        get started.
       </Text>
 
-      {/* Wrap the content that needs to be adjusted inside a KeyboardAvoidingView */}
       <KeyboardAvoidingView
         style={styles.keyboardAvoidingView}
-        behavior={Platform.OS === "ios" ? "padding" : "height"} // Specify the behavior prop according to the platform
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <View style={styles.textFieldParent}>
-          <FormInput 
+          <FormInput
             onChangeText={setName}
             value={name}
-            placeholder="Enter your full name" 
-            label={"Full name"} 
+            placeholder="Enter your full name"
+            label={"Full name"}
           />
           <FormInput
             onChangeText={setEmail}
             value={email}
             placeholder="Enter your email"
             label={"Email"}
-            keyboardType={'email-address'}
+            keyboardType={"email-address"}
           />
           <FormInput
             onChangeText={setPassword}
@@ -63,12 +89,16 @@ const SignUpScreen = () => {
             secureTextEntry
           />
         </View>
-        <PrimaryButton
-          title={"Register your account"}
-          onPress={handleSignUp}
-        />
+        {loading ? (
+          <ActivityIndicator size="large" color="#0000ff" />
+        ) : (
+          <PrimaryButton
+            title={"Register your account"}
+            onPress={handleSignUp}
+          />
+        )}
         <Text style={styles.optionText}>OR</Text>
-        <SocialLoginButton/>
+        <SocialLoginButton />
       </KeyboardAvoidingView>
     </View>
   );
@@ -100,13 +130,12 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     fontFamily: "Roboto_medium",
     textDecorationLine: "underline",
-
   },
 
-  optionText:{
+  optionText: {
     fontFamily: FontFamily.materialThemeTitleMedium,
-    textAlign:"center",
-    marginBottom:8
+    textAlign: "center",
+    marginBottom: 8,
   },
   labelText: {
     color: Color.materialThemeSysLightOnPrimary,

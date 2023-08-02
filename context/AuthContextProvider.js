@@ -90,7 +90,8 @@ function AuthProvider({ children }) {
       // add the student to the user collection
       const studentTutorRef = doc(db, "users", userId);
       await setDoc(studentTutorRef, studentToUserCollection);
-
+        
+      await getUserName(userId)
       return userCredential;
     } catch (error) {
       console.error("Registration error:", error.message);

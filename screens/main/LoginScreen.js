@@ -51,16 +51,17 @@ const LoginScreen = () => {
   };
 
   return (
+    <KeyboardAvoidingView
+        style={styles.keyboardAvoidingView}
+        behavior={Platform.OS === "ios" ? "padding" : "height"} // Specify the behavior prop according to the platform
+      >
     <View style={styles.loginScreen}>
       <Text style={[styles.title, styles.titleTypo]}>
         Welcome! Please log into your account
       </Text>
 
       {/* Wrap the content that needs to be adjusted inside a KeyboardAvoidingView */}
-      <KeyboardAvoidingView
-        style={styles.keyboardAvoidingView}
-        behavior={Platform.OS === "ios" ? "padding" : "height"} // Specify the behavior prop according to the platform
-      >
+      
         <View style={styles.textFieldParent}>
           <FormInput
             value={email}
@@ -95,8 +96,8 @@ const LoginScreen = () => {
           <Text style={styles.signUpText}>First time here? </Text>
           <Text style={styles.signUpButtonText}>Sign up</Text>
         </Pressable>
-      </KeyboardAvoidingView>
     </View>
+      </KeyboardAvoidingView>
   );
 };
 
