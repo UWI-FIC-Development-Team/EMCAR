@@ -26,7 +26,7 @@ const AuthContext = createContext();
 
 function AuthProvider({ children }) {
   const [activeUser, setActiveUser] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [isTutor, setIsTutor] = useState(false);
 
   // This function is used to login the current user into there account
@@ -36,8 +36,12 @@ function AuthProvider({ children }) {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
+        // setLoading(true)
+        console.log('start');
         getUserName(user.uid)
         getUserRole(user.uid);
+        console.log('end');
+        return true
       })
       .catch((error) => {
         const errorMessage = error.message;
@@ -122,6 +126,7 @@ function AuthProvider({ children }) {
     try {
       // Fetch the user data from Firestore based on the provided user ID
       const userRef = doc(db, `users/${currentUserId}`);
+
       const userDoc = await getDoc(userRef);
 
       // Check if the user document exists and has the display_name field
@@ -161,7 +166,7 @@ function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ signUp, login, signOut, getUserRole, isTutor,activeUser , setActiveUser}}
+      value={{ signUp, login, signOut, getUserRole, isTutor,activeUser , setActiveUser, loading}}
     >
       {children}
     </AuthContext.Provider>

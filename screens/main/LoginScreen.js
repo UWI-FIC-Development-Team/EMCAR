@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect} from "react";
 import {
   View,
   Text,
@@ -16,26 +16,31 @@ import { AuthContext } from "../../context/AuthContextProvider";
 import { useState } from "react";
 
 const LoginScreen = () => {
-  const { login, activeUser, setActiveUser } = useContext(AuthContext);
+  const { login, activeUser} = useContext(AuthContext);
   const navigation = useNavigation();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  if (activeUser) {
-    console.log("I am the current user logged in: ", activeUser);
-  } else {
-    null;
-  }
+  const [loading, setLoading]= useState(false)
+  
+  useEffect(() => {
+    // Check if the activeUser is available and not null, then navigate to the "StudentDB" screen
+    if (!!activeUser) {
+      setLoading(false)
+      navigation.navigate("StudentDB");
+    }
+  }, [activeUser]);
 
   const handleLogin = async () => {
     try {
       if (password && email) {
         // Set the loading state to true before fetching user data
+        setLoading(true)
         const userCredential = await login(auth, email, password);
         setEmail("");
         setPassword("");
-        navigation.navigate("StudentDB");
+      
+
       } else {
         alert("Please enter login information");
       }
