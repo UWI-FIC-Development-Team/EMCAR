@@ -1,94 +1,107 @@
-class Request {
-  constructor() {
-    this.requestId = "";
-    this.studentId = "";
-    this.tutorId = "";
-    this.subjects = [];
-    this.topics = [];
-    this.status = "";
-    this.requestDate = "";
-    this.startTime = "";
-    this.endTime = "";
-    this.confirmationTime = "";
-    this.location = "";
-    this.additionalDetails = "";
-    this.cancellationReason = "";
-  }
-}
+const createRequest = () => {
+  const request = {
+    requestId: "",
+    studentId: "",
+    tutorId: "",
+    subjects: [],
+    topics: [],
+    status: "",
+    requestDate: "",
+    startTime: "",
+    endTime: "",
+    confirmationTime: "",
+    location: "",
+    additionalDetails: "",
+    cancellationReason: "",
+  };
 
-class RequestBuilder {
-  constructor() {
-    this.request = new Request();
-  }
+  const withRequestId = (requestId) => {
+    request.requestId = requestId;
+    return builder;
+  };
 
-  withRequestId(requestId) {
-    this.request.requestId = requestId;
-    return this;
-  }
+  const withStudentId = (studentId) => {
+    request.studentId = studentId;
+    return builder;
+  };
 
-  withStudentId(studentId) {
-    this.request.studentId = studentId;
-    return this;
-  }
+  const withTutorId = (tutorId) => {
+    request.tutorId = tutorId;
+    return builder;
+  };
 
-  withTutorId(tutorId) {
-    this.request.tutorId = tutorId;
-    return this;
-  }
+  const withSubjects = (subjects) => {
+    request.subjects = subjects;
+    return builder;
+  };
 
-  withSubjects(subjects) {
-    this.request.subjects = subjects;
-    return this;
-  }
+  const withTopics = (topics) => {
+    request.topics = topics;
+    return builder;
+  };
 
-  withTopics(topics) {
-    this.request.topics = topics;
-    return this;
-  }
+  const withStatus = (status) => {
+    request.status = status;
+    return builder;
+  };
 
-  withStatus(status) {
-    this.request.status = status;
-    return this;
-  }
+  const withRequestDate = (requestDate) => {
+    request.requestDate = requestDate;
+    return builder;
+  };
 
-  withRequestDate(requestDate) {
-    this.request.requestDate = requestDate;
-    return this;
-  }
+  const withStartTime = (startTime) => {
+    request.startTime = startTime;
+    return builder;
+  };
 
-  withStartTime(startTime) {
-    this.request.startTime = startTime;
-    return this;
-  }
+  const withEndTime = (endTime) => {
+    request.endTime = endTime;
+    return builder;
+  };
 
-  withEndTime(endTime) {
-    this.request.endTime = endTime;
-    return this;
-  }
+  const withConfirmationTime = (confirmationTime) => {
+    request.confirmationTime = confirmationTime;
+    return builder;
+  };
 
-  withConfirmationTime(confirmationTime) {
-    this.request.confirmationTime = confirmationTime;
-    return this;
-  }
+  const withLocation = (location) => {
+    request.location = location;
+    return builder;
+  };
 
-  withLocation(location) {
-    this.request.location = location;
-    return this;
-  }
+  const withAdditionalDetails = (additionalDetails) => {
+    request.additionalDetails = additionalDetails;
+    return builder;
+  };
 
-  withAdditionalDetails(additionalDetails) {
-    this.request.additionalDetails = additionalDetails;
-    return this;
-  }
+  const withCancellationReason = (cancellationReason) => {
+    request.cancellationReason = cancellationReason;
+    return builder;
+  };
 
-  withCancellationReason(cancellationReason) {
-    this.request.cancellationReason = cancellationReason;
-    return this;
-  }
+  const build = () => {
+    return request;
+  };
 
-  build() {
-    return this.request;
-  }
-}
+  const builder = {
+    withRequestId,
+    withStudentId,
+    withTutorId,
+    withSubjects,
+    withTopics,
+    withStatus,
+    withRequestDate,
+    withStartTime,
+    withEndTime,
+    withConfirmationTime,
+    withLocation,
+    withAdditionalDetails,
+    withCancellationReason,
+    build,
+  };
 
-export default RequestBuilder
+  return builder;
+};
+
+export default createRequest;
