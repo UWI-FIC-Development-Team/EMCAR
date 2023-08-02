@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext} from "react";
 import {
   View,
   Text,
@@ -11,35 +11,19 @@ import { useNavigation } from "@react-navigation/native";
 import { FontFamily, FontSize, Color, Padding } from "../../GlobalStyles";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import FormInput from "../../components/atoms/FormInput";
-import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../services/firebaseConfig";
 import { AuthContext } from "../../context/AuthContextProvider";
 import { useState } from "react";
 
 const LoginScreen = () => {
-  const { login,  signOut } = useContext(AuthContext);
+  const { login} = useContext(AuthContext);
   const navigation = useNavigation();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [isTutor, setIsTutor] = useState(false);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        console.log("User is signed in:", user.uid);
-        // Redirect or navigate to the home screen
-      } else {
-        console.log("User is signed out");
-      }
-    });
 
-    // Clean up the listener when the component unmounts
-    return () => {
-      unsubscribe();
-    };
-  }, []);
 
   const handleLogin = async () => {
     try {
@@ -59,6 +43,7 @@ const LoginScreen = () => {
       // Handle login errors, show an error message, etc.
     }
   };
+
   return (
     <View style={styles.loginScreen}>
       <Text style={[styles.title, styles.titleTypo]}>
