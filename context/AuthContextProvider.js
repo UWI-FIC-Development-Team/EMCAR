@@ -127,7 +127,7 @@ function AuthProvider({ children }) {
       // Check if the user document exists and has the display_name field
       if (userDoc.exists && userDoc.data().displayName) {
         const name = userDoc.data().displayName;
-        return name;
+        console.log('My name is: ', name);
       } else {
         // Return a default value or throw an error
         return "Unknown user";
@@ -156,15 +156,8 @@ function AuthProvider({ children }) {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [auth]);
 
-  // const value = {
-  //   currentUser,
-  //   getUser,
-  //   login,
-  //   signOut,
-  //   signUp
-  // }
 
   return (
     <AuthContext.Provider
