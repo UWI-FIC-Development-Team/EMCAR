@@ -17,21 +17,23 @@ import {
 import DashBoardCard from "../../components/atoms/DashBoardCard";
 import DashBoardChip from "../../components/atoms/DashBoardChip";
 import TopBar2 from "../../components/atoms/TopBar2";
-import { AuthContext } from "../../context/AuthContextProvider";
 import SessionCard from "../../components/atoms/SessionCard";
 import FloatingButton from "../../components/atoms/FloatingButton"
+import { AuthContext } from "../../context/AuthContextProvider";
+
+
 
 const StudentDB = () => {
+  const {activeUser} = useContext(AuthContext)
   const navigation = useNavigation();
-  const {actveUser} = useContext(AuthContext)
 
-  console.log('The current user name is: ',actveUser);
+  console.log('The current user name is: ',activeUser);
 
   return (
     <ScrollView style={styles.studentDb} >
       <StatusBar barStyle={"dark-content"} />
      
-        <TopBar2 userName={actveUser}/>
+        <TopBar2 userName={activeUser}/>
         <DashBoardCard
         showSeeAll={true}
           showTitle={true}

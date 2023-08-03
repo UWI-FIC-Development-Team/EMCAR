@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect} from "react";
 import {
   View,
   Text,
@@ -11,65 +11,57 @@ import { useNavigation } from "@react-navigation/native";
 import { FontFamily, FontSize, Color, Padding } from "../../GlobalStyles";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import FormInput from "../../components/atoms/FormInput";
-import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../services/firebaseConfig";
 import { AuthContext } from "../../context/AuthContextProvider";
 import { useState } from "react";
 
 const LoginScreen = () => {
-  const { login, checkIfUserIsTutor, signOut } = useContext(AuthContext);
+  const { login, activeUser} = useContext(AuthContext);
   const navigation = useNavigation();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [isTutor, setIsTutor] = useState(false);
-
+  const [loading, setLoading]= useState(false)
+  
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        console.log("User is signed in:", user.uid);
-        // Redirect or navigate to the home screen
-      } else {
-        console.log("User is signed out");
-      }
-    });
-
-    // Clean up the listener when the component unmounts
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+    // Check if the activeUser is available and not null, then navigate to the "StudentDB" screen
+    if (!!activeUser) {
+      setLoading(false)
+      navigation.navigate("StudentDB");
+    }
+  }, [activeUser]);
 
   const handleLogin = async () => {
     try {
       if (password && email) {
-        setLoading(true);
         // Set the loading state to true before fetching user data
+        setLoading(true)
         const userCredential = await login(auth, email, password);
-        setLoading(false);
         setEmail("");
         setPassword("");
-        navigation.navigate("StudentDB");
+      
+
       } else {
-        alert("Please enter login information")
+        alert("Please enter login information");
       }
     } catch (error) {
       console.error("Login error:", error.message);
       // Handle login errors, show an error message, etc.
     }
   };
+
   return (
+    <KeyboardAvoidingView
+        style={styles.keyboardAvoidingView}
+        behavior={Platform.OS === "ios" ? "padding" : "height"} // Specify the behavior prop according to the platform
+      >
     <View style={styles.loginScreen}>
       <Text style={[styles.title, styles.titleTypo]}>
         Welcome! Please log into your account
       </Text>
 
       {/* Wrap the content that needs to be adjusted inside a KeyboardAvoidingView */}
-      <KeyboardAvoidingView
-        style={styles.keyboardAvoidingView}
-        behavior={Platform.OS === "ios" ? "padding" : "height"} // Specify the behavior prop according to the platform
-      >
+      
         <View style={styles.textFieldParent}>
           <FormInput
             value={email}
@@ -104,8 +96,8 @@ const LoginScreen = () => {
           <Text style={styles.signUpText}>First time here? </Text>
           <Text style={styles.signUpButtonText}>Sign up</Text>
         </Pressable>
-      </KeyboardAvoidingView>
     </View>
+      </KeyboardAvoidingView>
   );
 };
 
@@ -115,7 +107,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 40,
     paddingHorizontal: Padding.p_6xl,
-
   },
 
   signUpButton: {
@@ -151,7 +142,6 @@ const styles = StyleSheet.create({
     marginTop: 64,
     justifyContent: "flex-end",
     alignSelf: "stretch",
-    
   },
   title: {
     color: Color.materialThemeSysLightOnSurfaceVariant,

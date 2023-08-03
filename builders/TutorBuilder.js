@@ -1,56 +1,65 @@
-class Tutor {
-  constructor() {
-    this.tutorId = "";
-    this.name = "";
-    this.email = "";
-    this.subjects = [];
-    this.topics = [];
-    this.availableTimes = {};
-    this.bio = {};
-  }
-}
+const createTutor = () => {
+  const tutor = {
+    tutorId: "",
+    name: "",
+    email: "",
+    subjects: [],
+    topics: [],
+    availableTimes: {},
+    bio: {},
+  };
 
-class TutorBuilder {
-  constructor() {
-    this.tutor = new Tutor();
-  }
+  const withTutorId = (tutorId) => {
+    tutor.tutorId = tutorId;
+    return builder;
+  };
 
-  withTutorId(tutorId) {
-    this.tutor.tutorId = tutorId;
-    return this;
-  }
+  const withName = (name) => {
+    tutor.name = name;
+    return builder;
+  };
 
-  withName(name) {
-    this.tutor.name = name;
-    return this;
-  }
+  const withEmail = (email) => {
+    tutor.email = email;
+    return builder;
+  };
 
-  withEmail(email) {
-    this.tutor.email = email;
-    return this;
-  }
+  const withSubjects = (subjects) => {
+    tutor.subjects = subjects;
+    return builder;
+  };
 
-  withSubjects(subjects) {
-    this.tutor.subjects = subjects;
-    return this;
-  }
+  const withTopics = (topics) => {
+    tutor.topics = topics;
+    return builder;
+  };
 
-  withTopics(topics) {
-    this.tutor.topics = topics;
-    return this;
-  }
+  const withAvailableTimes = (availableTimes) => {
+    tutor.availableTimes = availableTimes;
+    return builder;
+  };
 
-  withAvailableTimes(availableTimes) {
-    this.tutor.availableTimes = availableTimes;
-    return this;
-  }
+  const withBio = (bio) => {
+    tutor.bio = bio;
+    return builder;
+  };
 
-  withBio(bio) {
-    this.tutor.bio = bio;
-    return this;
-  }
+  const build = () => {
+    return tutor;
+  };
 
-  build() {
-    return this.tutor;
-  }
-}
+  const builder = {
+    withTutorId,
+    withName,
+    withEmail,
+    withSubjects,
+    withTopics,
+    withAvailableTimes,
+    withBio,
+    build,
+  };
+
+  return builder;
+};
+
+export default createTutor;

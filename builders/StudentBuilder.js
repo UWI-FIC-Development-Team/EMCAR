@@ -1,35 +1,40 @@
-class Student {
-  constructor() {
-    this.studentId = "";
-    this.name = "";
-    this.email = "";
-  }
-}
+// Student Builder function
+const createStudent = () => {
+  const student = {
+    uid: "",
+    email: "",
+    displayName: "",
+    role: 'student',
+  };
+
+  const withUid = (uid) => {
+    student.uid = uid;
+    return builder;
+  };
+
+  const withEmail = (email) => {
+    student.email = email;
+    return builder;
+  };
+
+  const withDisplayName = (displayName) => {
+    student.displayName = displayName;
+    return builder;
+  };
 
 
-class StudentBuilder {
-  constructor() {
-    this.student = new Student();
-  }
+  const build = () => {
+    return student;
+  };
 
-  withStudentId(studentId) {
-    this.student.studentId = studentId;
-    return this;
-  }
+  const builder = {
+    withUid,
+    withEmail,
+    withDisplayName,
+    build,
+  };
 
-  withName(name) {
-    this.student.name = name;
-    return this;
-  }
+  return builder;
+};
 
-  withEmail(email) {
-    this.student.email = email;
-    return this;
-  }
-
-  build() {
-    return this.student;
-  }
-}
-
-
+export default createStudent;
