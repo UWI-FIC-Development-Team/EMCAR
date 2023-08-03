@@ -2,8 +2,9 @@ import { StyleSheet, View, Text } from "react-native";
 import { useState } from "react";
 import { Dropdown } from "react-native-element-dropdown";
 import { Feather } from "@expo/vector-icons";
+import { onChange } from "react-native-reanimated";
 
-const DropDownPicker = ({ style, data, label, placeholder}) => {
+const DropDownPicker = ({ style, data, label, placeholder, value, onChange}) => {
   const [ItemOpen, setItemOpen] = useState(false);
   const [listItems, setListItems] = useState([
     { value: "COMP1205", label: "COMP1205" },
@@ -17,22 +18,21 @@ const DropDownPicker = ({ style, data, label, placeholder}) => {
     <View style={style}>
       <Text style={styles.label}>{label}</Text>
       <Dropdown
+        autoScroll
         style={styles.dropdown}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
         iconStyle={styles.iconStyle}
-        data={listItems}
+        data={data}
         search
         maxHeight={300}
         labelField="label"
         valueField="value"
         placeholder={placeholder}
         searchPlaceholder="Search..."
-        value={listItemValue}
-        onChange={(item) => {
-          setListItemValue(item.value);
-        }}
+        value={value}
+        onChange={onChange}
         renderLeftIcon={() => (
           <Feather style={styles.icon} color="black" name="" size={20} />
         )}

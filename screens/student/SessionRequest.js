@@ -9,26 +9,63 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, FontSize, Color, Padding } from "../../GlobalStyles";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../../services/firebaseConfig";
-import { AuthContext } from "../../context/AuthContextProvider";
 import DropDownPicker from "../../components/DropDownPicker";
 import DateAndTimePicker from "../../components/atoms/DateAndTimePicker";
-import { ScrollView } from "react-native-gesture-handler";
 import FormInput from "../../components/atoms/FormInput";
 import InfoText from "../../components/atoms/InfoText";
-
+import { SessionContext } from "../../context/RequestContextProvider";
 const SessionRequest = () => {
-  const { login,  signOut } = useContext(AuthContext);
   const navigation = useNavigation()
 
-  const [frameFlatListData] = useState([
+  const { sendARequest } = useContext(SessionContext);
+
+  const [courseId, setCourseId] = useState("");
+  const [topic, setTopic] = useState("");
+  const [date, setDate] = useState(null);
+  const [startTime, setStartTime] = useState(null);
+  const [endTime, setEndTime] = useState(null);
+  const [additionalInfo, setAdditionalInfo] = useState("");
+
+
+  //dummy data for Drop Down Pickers:
+  const Topics = [
+  { id: "topic1", name: "Algebra" },
+  { id: "topic2", name: "Calculus" },
+  { id: "topic3", name: "Physics" },
+  { id: "topic4", name: "Chemistry" },
+  { id: "topic5", name: "Biology" },
+  // Add more topics as needed
+];
+
+const CourseIDs = [
+  { id: "course1", name: "Math101" },
+  { id: "course2", name: "Phys101" },
+  { id: "course3", name: "Chem101" },
+  { id: "course4", name: "Bio101" },
+  { id: "course5", name: "CompSci101" },
+  // Add more course IDs as needed
+];
+
+  
+
+
+  //TODO: Set values and OnChage handles to each form element. 
+  //TODO: populate downdown pickers with dummy data. 
+  const [FormListComponents] = useState([
     <DropDownPicker
+      data={CourseIDs}
+      value={courseId}
+      onChange={setCourseId}
       style={styles.container}
       label={"Course ID"}
       placeholder={"Select your course ID"}
     />,
     <DropDownPicker
+
+      data={Topics}
+      value={courseId}
+      onChange={setCourseId}
       style={styles.container}
       label={"Topic"}
       placeholder={"Choose your topic"}
@@ -61,6 +98,8 @@ const SessionRequest = () => {
     </View>,
    
       <FormInput
+        value={additionalInfo}
+        onChangeText={setAdditionalInfo}
         multiline={true}
         style={styles.textInput}
         label={"Additional Info"}
@@ -82,7 +121,7 @@ const SessionRequest = () => {
       <View style={styles.textFieldParent}>
         <FlatList
         showsVerticalScrollIndicator={false}
-          data={frameFlatListData}
+          data={FormListComponents}
           renderItem={({ item }) => item}
           contentContainerStyle={styles.frameFlatListContent}
         />

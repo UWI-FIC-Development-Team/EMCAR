@@ -30,11 +30,11 @@ function SessionProvider({ children }) {
 
 
   return (
-    <AuthContext.Provider
+    <SessionContext.Provider
       value={{}}
     >
       {children}
-    </AuthContext.Provider>
+    </SessionContext.Provider>
   );
 }
 

@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import { Text,StyleSheet, View, TouchableOpacity } from "react-native";
 import DateTimePicker from '@react-native-community/datetimepicker';
 
+
+
+// modify the function so that when the date input is active 
+// it shows the file picker ina modal
+
 const DateAndTimePicker = ({ style, mode, placeholder, label }) => {
   const [textFieldDatePicker, setTextFieldDatePicker] = useState(undefined);
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -37,7 +42,7 @@ const DateAndTimePicker = ({ style, mode, placeholder, label }) => {
           mode={mode}
           value={textFieldDatePicker || new Date()}
           onChange={handleDateChange}
-          display="spinner"
+          display='inline'
         />
       )}
     </View>
