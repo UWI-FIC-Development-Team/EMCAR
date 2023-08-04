@@ -18,6 +18,7 @@ function SessionProvider({ children }) {
   const [user, setUser] = useState(null);
   const [allRequests, setAllRequests] = useState([]);
   const [dataIsSent, setDataIsSent] = useState(false);
+  const [sessionRequest, setSessionRequest] = useState({})
 
   useEffect(() => {
     // Listen for changes in the authentication state
@@ -90,7 +91,8 @@ function SessionProvider({ children }) {
         allRequests,
         getAllRequests,
         getAllConfirmedRequests,
-        dataIsSent
+        dataIsSent,
+        sessionRequest
       }}
     >
       {children}
