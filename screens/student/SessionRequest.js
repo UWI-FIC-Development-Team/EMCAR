@@ -21,12 +21,14 @@ import FormInput from "../../components/atoms/FormInput";
 import InfoText from "../../components/atoms/InfoText";
 import { SessionContext } from "../../context/RequestContextProvider";
 import { ScrollView } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 
 const SessionRequest = () => {
   const navigation = useNavigation();
 
-  const { sendARequest } = useContext(SessionContext);
-
+  const { sendARequest, dataIsSent } = useContext(SessionContext);
+  // get the current user logged in by ID
+  const currentUserID = auth.currentUser.uid
   const [courseId, setCourseId] = useState([]);
   const [topic, setTopic] = useState([]);
   const [date, setDate] = useState(new Date());
@@ -34,6 +36,16 @@ const SessionRequest = () => {
   const [endTime, setEndTime] = useState(null);
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  // check to see if there data as being sent to the database
+  useEffect(() => {
+    // Check if the activeUser is available and not null, then navigate to the "StudentDB" screen
+    if (dataIsSent) {
+      setLoading(false);
+      navigation.navigate("Select a tutor");
+    }
+  }, [dataIsSent]);
 
   const handleDateChange = (event, selectedDate) => {
     setShowDatePicker(false);
@@ -46,11 +58,30 @@ const SessionRequest = () => {
     setShowDatePicker(true);
   };
 
-  const topicsData = [
-    { value: "Topic 1", label: "Topic 1" },
-    { value: "Topic 2", label: "Topic 2" },
-    { value: "Topic 3", label: "Topic 3" },
-  ];
+  const handleSendRequest = async () => {
+    // Example request data
+    const requestData = {
+      studentId: currentUserID, // Assuming the user is a student and has a UID
+      tutorId: "", // The UID of the tutor to whom the request is sent
+      subjects: courseId,
+      topics: topic,
+      requestDate: date,
+      startTime: startTime,
+      endTime: endTime,
+      location: "",
+      additionalDetails: additionalInfo,
+    };
+
+    try {
+      // Call the sendARequest function to send the request
+      // set loading state before getting the data
+      setLoading(true);
+      await sendARequest(requestData);
+      console.log("Request sent successfully!");
+    } catch (error) {
+      console.error("Error while sending request:", error.message);
+    }
+  };
 
   const FormListComponents = [
     <CourseDropDown
@@ -132,12 +163,14 @@ const SessionRequest = () => {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-      <PrimaryButton
-        title={"Save & select a tutor"}
-        onPress={() => {
-          navigation.navigate("Select a tutor");
-        }}
-      />
+      {loading ? (
+        <ActivityIndicator animating={true} color="#006A6A" />
+      ) : (
+        <PrimaryButton
+          title={"Save & select a tutor"}
+          onPress={handleSendRequest}
+        />
+      )}
     </View>
   );
 };
