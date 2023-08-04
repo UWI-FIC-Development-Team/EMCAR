@@ -5,7 +5,6 @@ import {
   Pressable,
   StyleSheet,
   KeyboardAvoidingView,
-  ActivityIndicator,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, FontSize, Color, Padding } from "../../GlobalStyles";
@@ -14,6 +13,7 @@ import FormInput from "../../components/atoms/FormInput";
 import { auth } from "../../services/firebaseConfig";
 import { AuthContext } from "../../context/AuthContextProvider";
 import { useState } from "react";
+import { ActivityIndicator } from "react-native-paper";
 
 const LoginScreen = () => {
   const { login, activeUser} = useContext(AuthContext);
@@ -85,7 +85,7 @@ const LoginScreen = () => {
           </Pressable>
         </View>
         {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
+          <ActivityIndicator style={{marginVertical:16}} animating={true} color="#006A6A" />
         ) : (
           <PrimaryButton title={"Login"} onPress={handleLogin} />
         )}

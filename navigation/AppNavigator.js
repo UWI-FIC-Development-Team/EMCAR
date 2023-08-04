@@ -14,10 +14,10 @@ import { createStackNavigator } from "@react-navigation/stack";
 import BottomNavigation from "./BottomNavigation";
 import { getHeaderTitle } from "@react-navigation/elements";
 import Header from "../components/atoms/Header";
-import OptionsScreen from "../screens/main/OptionsScreen";
 import AllTutors from "../screens/student/AllTutorsScreen";
 import TutorSelection from "../screens/student/TutorSelection";
 import SuccessScreen from "../screens/student/SuccessScreen";
+import SubmitSessionScreen from "../screens/main/SubmitSessionScreen";
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -56,7 +56,7 @@ const AppNavigator = () => {
           >
             <RootStack.Screen
               name="submit session"
-              component={OptionsScreen}
+              component={SubmitSessionScreen}
               options={{
                 headerMode: "none",
                 cardStyle: {
