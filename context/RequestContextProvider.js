@@ -92,7 +92,8 @@ function SessionProvider({ children }) {
         getAllRequests,
         getAllConfirmedRequests,
         dataIsSent,
-        sessionRequest
+        sessionRequest,
+        setSessionRequest
       }}
     >
       {children}
@@ -100,4 +101,4 @@ function SessionProvider({ children }) {
   );
 }
 
-export { SessionContext, SessionProvider };
+export { SessionContext, SessionProvider};

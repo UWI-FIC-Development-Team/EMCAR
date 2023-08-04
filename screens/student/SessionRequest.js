@@ -1,16 +1,14 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { useState } from "react";
 import {
   View,
-  Text,
   StyleSheet,
   KeyboardAvoidingView,
-  FlatList,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, FontSize, Color, Padding } from "../../GlobalStyles";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import { auth, db } from "../../services/firebaseConfig";
+import { auth } from "../../services/firebaseConfig";
 import {
   CourseDropDown,
   TimeDropDown,
@@ -21,14 +19,14 @@ import FormInput from "../../components/atoms/FormInput";
 import InfoText from "../../components/atoms/InfoText";
 import { SessionContext } from "../../context/RequestContextProvider";
 import { ScrollView } from "react-native";
-import { ActivityIndicator } from "react-native-paper";
 
 const SessionRequest = () => {
   const navigation = useNavigation();
 
-  const { sendARequest, dataIsSent } = useContext(SessionContext);
+  const { sendARequest, dataIsSent, setSessionRequest } =
+    useContext(SessionContext);
   // get the current user logged in by ID
-  const currentUserID = auth.currentUser.uid
+  const currentUserID = auth.currentUser.uid;
   const [courseId, setCourseId] = useState([]);
   const [topic, setTopic] = useState([]);
   const [date, setDate] = useState(new Date());
@@ -37,15 +35,6 @@ const SessionRequest = () => {
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  // check to see if there data as being sent to the database
-  useEffect(() => {
-    // Check if the activeUser is available and not null, then navigate to the "StudentDB" screen
-    if (dataIsSent) {
-      setLoading(false);
-      navigation.navigate("Select a tutor");
-    }
-  }, [dataIsSent]);
 
   const handleDateChange = (event, selectedDate) => {
     setShowDatePicker(false);
@@ -73,10 +62,11 @@ const SessionRequest = () => {
     };
 
     try {
-      // Call the sendARequest function to send the request
-      // set loading state before getting the data
-      setLoading(true);
-      await sendARequest(requestData);
+      // keep a copy of the object with state
+      setSessionRequest((prev) => {
+        return { ...prev, ...requestData };
+      });
+      navigation.navigate('Select a tutor')
       console.log("Request sent successfully!");
     } catch (error) {
       console.error("Error while sending request:", error.message);
@@ -163,14 +153,11 @@ const SessionRequest = () => {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-      {loading ? (
-        <ActivityIndicator animating={true} color="#006A6A" />
-      ) : (
-        <PrimaryButton
-          title={"Save & select a tutor"}
-          onPress={handleSendRequest}
-        />
-      )}
+
+      <PrimaryButton
+        title={"Save & select a tutor"}
+        onPress={handleSendRequest}
+      />
     </View>
   );
 };

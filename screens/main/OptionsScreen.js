@@ -1,15 +1,36 @@
-import React from "react";
+import { useContext, useEffect} from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import DashBoardChip from "../../components/atoms/DashBoardChip";
+import { SessionContext } from "../../context/RequestContextProvider";
+import { useState } from "react";
+import { ActivityIndicator } from "react-native-paper";
 
 const OptionsScreen = ({ onPresent, onClose, route }) => {
+  const { sessionRequest, setSessionRequest, dataIsSent, sendARequest} = useContext(SessionContext);
   const navigation = useNavigation();
   const { selectedTutor } = route.params;
 
+  const [loading, setLoading] = useState(false)
+  // check to see if there data as being sent to the database
+  useEffect(() => {
+    // Check if the activeUser is available and not null, then navigate to the "StudentDB" screen
+    if (dataIsSent) {
+      setLoading(false);
+      navigation.navigate("Select a tutor");
+    }
+  }, [dataIsSent]);
+
+
   // Define the function to handle navigation to the CreateRequest screen
-  const handleCreateRequest = () => {
+  const handleCreateRequest = async (tutorID) => {
+    // updating the tutor ID with the id, and return the new object
+    setSessionRequest((prev) => {
+      return { ...prev, tutorId:tutorID};
+    });
+    setLoading(true)
+    await sendARequest(sessionRequest)
     navigation.pop();
     navigation.navigate("Complete request", { selectedTutor: selectedTutor });
   };
@@ -20,10 +41,12 @@ const OptionsScreen = ({ onPresent, onClose, route }) => {
       <View style={{ width: "100%" }}>
         <DashBoardChip tutorName={selectedTutor} iconIsVisible={false} />
       </View>
-      <PrimaryButton
+      {loading ? <ActivityIndicator animating={true} color="#006A6A"/>
+     : <PrimaryButton
         title="Sumbit your request"
-        onPress={handleCreateRequest}
+        onPress={()=>handleCreateRequest(selectedTutor)}
       />
+      }
     </View>
   );
 };
