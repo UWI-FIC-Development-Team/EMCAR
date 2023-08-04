@@ -28,6 +28,7 @@ function AuthProvider({ children }) {
   const [activeUser, setActiveUser] = useState("");
   const [loading, setLoading] = useState(false);
   const [isTutor, setIsTutor] = useState(false);
+  const [dataSent, setDataSent] = useState(false)
 
   // This function is used to login the current user into there account
 

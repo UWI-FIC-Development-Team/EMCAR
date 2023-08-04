@@ -1,25 +1,23 @@
 import React, { useState } from "react";
-import { Text,StyleSheet, View, TouchableOpacity } from "react-native";
-import DateTimePicker from '@react-native-community/datetimepicker';
+import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
-const DateAndTimePicker = ({ style, mode, placeholder, label }) => {
-  const [textFieldDatePicker, setTextFieldDatePicker] = useState(undefined);
-  const [showDatePicker, setShowDatePicker] = useState(false);
+// TODO: modify the function so that when the date input is active...
+// TODO:...it shows the file picker in a modal
 
-  const handleDateChange = (event, selectedDate) => {
-    setShowDatePicker(false);
-    if (selectedDate) {
-      setTextFieldDatePicker(selectedDate);
-    }
-  };
+const DateAndTimePicker = ({
+  label,
+  style,
+  mode,
+  placeholder,
+  date,
+  handleDateChange,
+  handleOpenDatePicker,
+  showDatePicker,
 
-  const formattedDate = textFieldDatePicker
-    ? textFieldDatePicker.toLocaleDateString()
-    : '';
+}) => {
 
-  const handleOpenDatePicker = () => {
-    setShowDatePicker(true);
-  };
+   const formattedDate = date ? date.toLocaleDateString() : '';
 
   return (
     <View style={styles.container}>
@@ -35,9 +33,9 @@ const DateAndTimePicker = ({ style, mode, placeholder, label }) => {
         <DateTimePicker
           style={styles.textField}
           mode={mode}
-          value={textFieldDatePicker || new Date()}
+          value={date}
           onChange={handleDateChange}
-          display="spinner"
+          display="inline"
         />
       )}
     </View>
@@ -47,7 +45,7 @@ const DateAndTimePicker = ({ style, mode, placeholder, label }) => {
 const styles = StyleSheet.create({
   label: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 5,
   },
   textFieldDatePickerPlaceHolder: {
@@ -61,8 +59,8 @@ const styles = StyleSheet.create({
     color: "#191c1c",
   },
   container: {
-    alignSelf: 'stretch',
-    marginBottom:16,
+    alignSelf: "stretch",
+    marginBottom: 16,
   },
   customInput: {
     height: 56,
@@ -70,7 +68,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     justifyContent: "center",
     paddingHorizontal: 12,
-    borderRadius:12
+    borderRadius: 12,
   },
 });
 
