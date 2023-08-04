@@ -1,4 +1,5 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
+import { useState } from "react";
 import {
   View,
   Text,
@@ -10,62 +11,47 @@ import { useNavigation } from "@react-navigation/native";
 import { FontFamily, FontSize, Color, Padding } from "../../GlobalStyles";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { auth, db } from "../../services/firebaseConfig";
-import DropDownPicker from "../../components/DropDownPicker";
+import {
+  CourseDropDown,
+  TimeDropDown,
+  TopicDropDown,
+} from "../../components/DropDownPicker";
 import DateAndTimePicker from "../../components/atoms/DateAndTimePicker";
 import FormInput from "../../components/atoms/FormInput";
 import InfoText from "../../components/atoms/InfoText";
 import { SessionContext } from "../../context/RequestContextProvider";
+import { ScrollView } from "react-native";
+
 const SessionRequest = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   const { sendARequest } = useContext(SessionContext);
 
-  const [courseId, setCourseId] = useState("");
-  const [topic, setTopic] = useState("");
+  const [courseId, setCourseId] = useState([]);
+  const [topic, setTopic] = useState([]);
   const [date, setDate] = useState(null);
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [additionalInfo, setAdditionalInfo] = useState("");
 
+  const topicsData = [
+    { value: "Topic 1", label: "Topic 1" },
+    { value: "Topic 2", label: "Topic 2" },
+    { value: "Topic 3", label: "Topic 3" },
+  ];
 
-  //dummy data for Drop Down Pickers:
-  const Topics = [
-  { id: "topic1", name: "Algebra" },
-  { id: "topic2", name: "Calculus" },
-  { id: "topic3", name: "Physics" },
-  { id: "topic4", name: "Chemistry" },
-  { id: "topic5", name: "Biology" },
-  // Add more topics as needed
-];
-
-const CourseIDs = [
-  { id: "course1", name: "Math101" },
-  { id: "course2", name: "Phys101" },
-  { id: "course3", name: "Chem101" },
-  { id: "course4", name: "Bio101" },
-  { id: "course5", name: "CompSci101" },
-  // Add more course IDs as needed
-];
-
-  
-
-
-  //TODO: Set values and OnChage handles to each form element. 
-  //TODO: populate downdown pickers with dummy data. 
-  const [FormListComponents] = useState([
-    <DropDownPicker
-      data={CourseIDs}
+  const FormListComponents = [
+    <CourseDropDown
       value={courseId}
-      onChange={setCourseId}
+      onChange={(item) => setCourseId(item)}
       style={styles.container}
       label={"Course ID"}
       placeholder={"Select your course ID"}
     />,
-    <DropDownPicker
-
-      data={Topics}
-      value={courseId}
-      onChange={setCourseId}
+    <TopicDropDown
+      // data={topicsData}
+      value={topic}
+      onChange={(item) => setTopic(item)}
       style={styles.container}
       label={"Topic"}
       placeholder={"Choose your topic"}
@@ -82,52 +68,60 @@ const CourseIDs = [
         alignItems: "center",
       }}
     >
-      <DropDownPicker
+      <TimeDropDown
+        value={startTime}
+        onChange={(item) => setStartTime(item)}
         style={styles.inputSmall}
         placeholder={"Pick a time"}
         mode={"time"}
         label={"Start time"}
       />
 
-      <DropDownPicker
+      <TimeDropDown
+        value={endTime}
+        onChange={(item) => setEndTime(item)}
         style={styles.inputSmall}
         placeholder={"Pick a time"}
         mode={"time"}
         label={"End time"}
       />
     </View>,
-   
-      <FormInput
-        value={additionalInfo}
-        onChangeText={setAdditionalInfo}
-        multiline={true}
-        style={styles.textInput}
-        label={"Additional Info"}
-        placeholder={
-          "Enter a brief summary of what you want to learn or improve in this session"
-        }
-      />
-  ]);
+
+    <FormInput
+      value={additionalInfo}
+      onChangeText={setAdditionalInfo}
+      multiline={true}
+      style={styles.textInput}
+      label={"Additional Info"}
+      placeholder={
+        "Enter a brief summary of what you want to learn or improve in this session"
+      }
+    />,
+  ];
 
   return (
     <View style={styles.loginScreen}>
-     <InfoText/>
+      <InfoText />
 
       {/* Wrap the content that needs to be adjusted inside a KeyboardAvoidingView */}
-    <KeyboardAvoidingView
+      <KeyboardAvoidingView
         style={styles.keyboardAvoidingView}
         behavior={Platform.OS === "ios" ? "padding" : "height"} // Specify the behavior prop according to the platform
       >
-      <View style={styles.textFieldParent}>
-        <FlatList
-        showsVerticalScrollIndicator={false}
-          data={FormListComponents}
-          renderItem={({ item }) => item}
-          contentContainerStyle={styles.frameFlatListContent}
-        />
-      </View>
+        <ScrollView>
+          <View style={styles.textFieldParent}>
+            {FormListComponents.map((items) => {
+              return items;
+            })}
+          </View>
+        </ScrollView>
       </KeyboardAvoidingView>
-      <PrimaryButton title={"Save & select a tutor"} onPress={()=>{navigation.navigate('Select a tutor')}}/>
+      <PrimaryButton
+        title={"Save & select a tutor"}
+        onPress={() => {
+          navigation.navigate("Select a tutor");
+        }}
+      />
     </View>
   );
 };
@@ -178,7 +172,7 @@ const styles = StyleSheet.create({
   // Add a style for the KeyboardAvoidingView
   keyboardAvoidingView: {
     flex: 1,
-    paddingBottom:20
+    paddingBottom: 20,
   },
 });
 
