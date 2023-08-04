@@ -7,8 +7,8 @@ import { SessionContext } from "../../context/RequestContextProvider";
 import { useState } from "react";
 import { ActivityIndicator } from "react-native-paper";
 
-const OptionsScreen = ({ onPresent, onClose, route }) => {
-  const { sessionRequest, setSessionRequest, dataIsSent, sendARequest} = useContext(SessionContext);
+const SubmitSessionScreen = ({ onPresent, onClose, route }) => {
+  const { sessionRequest, setSessionRequest, dataIsSent, sendARequest, setDataIsSent} = useContext(SessionContext);
   const navigation = useNavigation();
   const { selectedTutor } = route.params;
 
@@ -25,13 +25,18 @@ const OptionsScreen = ({ onPresent, onClose, route }) => {
 
   // Define the function to handle navigation to the CreateRequest screen
   const handleCreateRequest = async (tutorID) => {
+    console.log('This is the tutor you requested: ', tutorID);
     // updating the tutor ID with the id, and return the new object
     setSessionRequest((prev) => {
+      // console.log('This is the prev data after sending a request:', prev);
       return { ...prev, tutorId:tutorID};
+
     });
     setLoading(true)
     await sendARequest(sessionRequest)
     navigation.pop();
+    setSessionRequest({})
+    setDataIsSent(false)
     navigation.navigate("Complete request", { selectedTutor: selectedTutor });
   };
 
@@ -81,4 +86,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OptionsScreen;
+export default SubmitSessionScreen;

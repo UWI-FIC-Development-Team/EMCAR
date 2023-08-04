@@ -93,7 +93,8 @@ function SessionProvider({ children }) {
         getAllConfirmedRequests,
         dataIsSent,
         sessionRequest,
-        setSessionRequest
+        setSessionRequest,
+        setDataIsSent
       }}
     >
       {children}

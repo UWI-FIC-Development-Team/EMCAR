@@ -64,10 +64,12 @@ const SessionRequest = () => {
     try {
       // keep a copy of the object with state
       setSessionRequest((prev) => {
+        console.log('This is the prev data:', prev);
+        console.log('This is the new data:', requestData);
         return { ...prev, ...requestData };
       });
       navigation.navigate('Select a tutor')
-      console.log("Request sent successfully!");
+      console.log("next request");
     } catch (error) {
       console.error("Error while sending request:", error.message);
     }
