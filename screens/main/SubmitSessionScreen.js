@@ -7,6 +7,7 @@ import { SessionContext } from "../../context/RequestContextProvider";
 import { useState } from "react";
 import { ActivityIndicator } from "react-native-paper";
 
+
 const SubmitSessionScreen = ({ onPresent, onClose, route }) => {
   const { sessionRequest, setSessionRequest, dataIsSent, sendARequest, setDataIsSent} = useContext(SessionContext);
   const navigation = useNavigation();
@@ -26,14 +27,9 @@ const SubmitSessionScreen = ({ onPresent, onClose, route }) => {
   // Define the function to handle navigation to the CreateRequest screen
   const handleCreateRequest = async (tutorID) => {
     console.log('This is the tutor you requested: ', tutorID);
-    // updating the tutor ID with the id, and return the new object
-    setSessionRequest((prev) => {
-      // console.log('This is the prev data after sending a request:', prev);
-      return { ...prev, tutorId:tutorID};
-
-    });
     setLoading(true)
-    await sendARequest(sessionRequest)
+    // Update the tutorId directly in the sendARequest function call
+    await sendARequest({ ...sessionRequest, tutorId: tutorID }); 
     navigation.pop();
     setSessionRequest({})
     setDataIsSent(false)
