@@ -42,7 +42,7 @@ const SubmitSessionScreen = ({ onPresent, onClose, route }) => {
       <View style={{ width: "100%" }}>
         <DashBoardChip tutorName={selectedTutor} iconIsVisible={false} />
       </View>
-      {loading ? <ActivityIndicator animating={true} color="#006A6A"/>
+      {loading ? <ActivityIndicator style={{marginVertical:16}} animating={true} color="#006A6A"/>
      : <PrimaryButton
         title="Sumbit your request"
         onPress={()=>handleCreateRequest(selectedTutor)}
