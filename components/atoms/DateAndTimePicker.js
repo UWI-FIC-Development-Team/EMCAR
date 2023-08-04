@@ -6,20 +6,19 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 // TODO:...it shows the file picker in a modal
 
 const DateAndTimePicker = ({
+  label,
   style,
   mode,
   placeholder,
-  label,
-  value,
   date,
   handleDateChange,
   handleOpenDatePicker,
   showDatePicker,
-  formattedDate,
+
 }) => {
 
    const formattedDate = date ? date.toLocaleDateString() : '';
-   
+
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>

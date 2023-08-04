@@ -71,7 +71,7 @@ const SessionRequest = () => {
     <DateAndTimePicker
       showDatePicker={showDatePicker}
       handleOpenDatePicker={handleOpenDatePicker}
-      value={date}
+      date={date}
       handleDateChange={handleDateChange}
       placeholder={"Choose a date"}
       mode={"date"}
