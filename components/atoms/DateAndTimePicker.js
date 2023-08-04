@@ -4,11 +4,10 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 
 
-// modify the function so that when the date input is active 
-// it shows the file picker ina modal
+// TODO: modify the function so that when the date input is active... 
+// TODO:...it shows the file picker in a modal
 
-const DateAndTimePicker = ({ style, mode, placeholder, label, value, onChange}) => {
-  const [textFieldDatePicker, setTextFieldDatePicker] = useState(undefined);
+const DateAndTimePicker = ({ style, mode, placeholder, label, value, date,handleDateChange, handleOpenDatePicker,showDatePicker}) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const handleDateChange = (event, selectedDate) => {
@@ -18,13 +17,9 @@ const DateAndTimePicker = ({ style, mode, placeholder, label, value, onChange}) 
     }
   };
 
-  const formattedDate = textFieldDatePicker
-    ? textFieldDatePicker.toLocaleDateString()
+  const formattedDate = date
+    ? date.toLocaleDateString()
     : '';
-
-  const handleOpenDatePicker = () => {
-    setShowDatePicker(true);
-  };
 
   return (
     <View style={styles.container}>
@@ -40,7 +35,7 @@ const DateAndTimePicker = ({ style, mode, placeholder, label, value, onChange}) 
         <DateTimePicker
           style={styles.textField}
           mode={mode}
-          value={textFieldDatePicker || new Date()}
+          value={date}
           onChange={handleDateChange}
           display='inline'
         />

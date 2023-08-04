@@ -29,10 +29,22 @@ const SessionRequest = () => {
 
   const [courseId, setCourseId] = useState([]);
   const [topic, setTopic] = useState([]);
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(new Date());
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [additionalInfo, setAdditionalInfo] = useState("");
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  const handleDateChange = (event, selectedDate) => {
+    setShowDatePicker(false);
+    if (selectedDate) {
+      setDate(selectedDate);
+    }
+  };
+
+  const handleOpenDatePicker = () => {
+    setShowDatePicker(true);
+  };
 
   const topicsData = [
     { value: "Topic 1", label: "Topic 1" },
@@ -57,6 +69,10 @@ const SessionRequest = () => {
       placeholder={"Choose your topic"}
     />,
     <DateAndTimePicker
+      showDatePicker={showDatePicker}
+      handleOpenDatePicker={handleOpenDatePicker}
+      value={date}
+      handleDateChange={handleDateChange}
       placeholder={"Choose a date"}
       mode={"date"}
       label={"Date"}
