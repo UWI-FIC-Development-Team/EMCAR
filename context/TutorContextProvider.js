@@ -9,16 +9,7 @@ function TutorProvider({ children }) {
   const [user, setUser] = useState(null);
   const [tutors, setTutors] = useState([]);
 
-//   useEffect(() => {
-//     // Listen for changes in the authentication state
-//     const unsubscribe = onAuthStateChanged(auth, (user) => {
-//       setUser(user);
-//     });
-
-//     // Clean up the subscription when the component unmounts
-//     return () => unsubscribe();
-//   }, []);
-
+  // TODO: add custom claims to both tutor and student.
   // Function to get all tutors
   const getAllTutors = async () => {
     try {
@@ -32,13 +23,7 @@ function TutorProvider({ children }) {
   };
 
   return (
-    <TutorContext.Provider
-      value={{
-        tutors,
-      }}
-    >
-      {children}
-    </TutorContext.Provider>
+    <TutorContext.Provider value={{ tutors }}>{children}</TutorContext.Provider>
   );
 }
 
