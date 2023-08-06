@@ -4,9 +4,12 @@ import { useNavigation } from "@react-navigation/native";
 import { Padding } from "../../GlobalStyles";
 import DashBoardCard from "../../components/atoms/DashBoardCard";
 import DashBoardChip from "../../components/atoms/DashBoardChip";
+import { TutorContext } from "../../context/TutorContextProvider";
+import { useContext } from "react";
 
 const TutorSelection = () => {
   const navigation = useNavigation();
+  const {tutors} = useContext(TutorContext)
 
   // Available tutors list
   const availableTutors = [
@@ -27,7 +30,7 @@ const TutorSelection = () => {
 
       <View style={styles.listDialogParent}>
         <DashBoardCard title={"Available"} showTitle={true}>
-          {availableTutors.map((tutor) => (
+          {tutors.map((tutor) => (
             <DashBoardChip
               key={tutor.name}
               tutorName={tutor.name}
@@ -39,7 +42,7 @@ const TutorSelection = () => {
           ))}
         </DashBoardCard>
         <DashBoardCard title={"Unavailable"} showTitle={true}>
-          {unavailableTutors.map((tutor) => (
+          {tutors.map((tutor) => (
             <DashBoardChip
               key={tutor.name}
               tutorName={tutor.name}
