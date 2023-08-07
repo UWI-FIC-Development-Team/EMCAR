@@ -32,7 +32,7 @@ const Header = ({ title, style, backButtomShown, NotificationIconShown}) => {
       <Text style={styles.headerText}>{title}</Text>
       {NotificationIconShown ? (
         <Feather name="bell" size={32} color="black" />
-      ) : <Text></Text>
+      ) : <Text style={{height:32, width:32}}></Text>
       }
     </View>
   );

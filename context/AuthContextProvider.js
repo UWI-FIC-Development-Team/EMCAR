@@ -15,9 +15,11 @@ import {
   getDocs,
 } from "firebase/firestore";
 
-import RequestBuilder from "../builders/RequestBuilder";
 import createStudent from "../builders/StudentBuilder";
 import createTutor from "../builders/TutorBuilder";
+
+import { TutorContext } from "./TutorContextProvider";
+
 const AuthContext = createContext();
 
 // export function useAuth() {
@@ -25,6 +27,8 @@ const AuthContext = createContext();
 // }
 
 function AuthProvider({ children }) {
+  const { getTutors } = useContext(TutorContext);
+
   const [activeUser, setActiveUser] = useState("");
   const [loading, setLoading] = useState(false);
   const [isTutor, setIsTutor] = useState(false);
@@ -41,6 +45,7 @@ function AuthProvider({ children }) {
         console.log("start");
         getUserName(user.uid);
         getUserRole(user.uid);
+        getTutors();
         console.log("end");
         return true;
       })
@@ -126,11 +131,7 @@ function AuthProvider({ children }) {
   };
 
   // Function to create a tutor account
-  const createTutorAccount = async (
-    email,
-    password,
-    name,
-  ) => {
+  const createTutorAccount = async (email, password, name) => {
     try {
       // Create a tutor object using the TutorBuilder
       const tutorToTutorCollection = createTutor()
@@ -141,7 +142,7 @@ function AuthProvider({ children }) {
       const tutorToUserCollection = {
         name: name,
         email: email,
-        role:'tutor'
+        role: "tutor",
       };
 
       // Create the tutor account in Firebase Authentication
@@ -178,7 +179,7 @@ function AuthProvider({ children }) {
       if (userDoc.exists && userDoc.data().name) {
         const name = userDoc.data().name;
         setActiveUser(name);
-      } 
+      }
     } catch (error) {
       console.error(
         "Error while checking if the user is a tutor:",

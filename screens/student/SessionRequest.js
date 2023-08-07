@@ -149,7 +149,7 @@ const SessionRequest = () => {
       >
         <ScrollView>
           <View style={styles.textFieldParent}>
-            {FormListComponents.map((items) => {
+            {FormListComponents.map((items,index) => {
               return items;
             })}
           </View>

@@ -10,8 +10,12 @@ function TutorProvider({ children }) {
   const [tutors, setTutors] = useState([]);
 
   // TODO: add custom claims to both tutor and student.
+  // having custom claims for user will allow us
+  // to call this function based on role.
+
+
   // Function to get all tutors
-  const getAllTutors = async () => {
+  const getTutors = async () => {
     try {
       const tutorsRef = collection(db, "tutors");
       const querySnapshot = await getDocs(tutorsRef);
@@ -22,10 +26,14 @@ function TutorProvider({ children }) {
     }
   };
 
+ 
+
   
 
   return (
-    <TutorContext.Provider value={{ tutors }}>{children}</TutorContext.Provider>
+    <TutorContext.Provider value={{ tutors, getTutors}}>
+      {children}
+    </TutorContext.Provider>
   );
 }
 
