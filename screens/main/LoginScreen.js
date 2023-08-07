@@ -1,4 +1,4 @@
-import { useContext, useEffect} from "react";
+import { useContext, useEffect } from "react";
 import {
   View,
   Text,
@@ -15,19 +15,18 @@ import { AuthContext } from "../../context/AuthContextProvider";
 import { useState } from "react";
 import { ActivityIndicator } from "react-native-paper";
 
-const LoginScreen = ({route}) => {
-
-  const { login, activeUser} = useContext(AuthContext);
+const LoginScreen = ({ route }) => {
+  const { login, activeUser } = useContext(AuthContext);
   const navigation = useNavigation();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading]= useState(false)
-  
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     // Check if the activeUser is available and not null, then navigate to the "StudentDB" screen
     if (!!activeUser) {
-      setLoading(false)
+      setLoading(false);
       navigation.navigate("StudentDB");
     }
   }, [activeUser]);
@@ -36,12 +35,10 @@ const LoginScreen = ({route}) => {
     try {
       if (password && email) {
         // Set the loading state to true before fetching user data
-        setLoading(true)
+        setLoading(true);
         await login(auth, email, password);
         setEmail("");
         setPassword("");
-      
-
       } else {
         alert("Please enter login information");
       }
@@ -53,16 +50,16 @@ const LoginScreen = ({route}) => {
 
   return (
     <KeyboardAvoidingView
-        style={styles.keyboardAvoidingView}
-        behavior={Platform.OS === "ios" ? "padding" : "height"} // Specify the behavior prop according to the platform
-      >
-    <View style={styles.loginScreen}>
-      <Text style={[styles.title, styles.titleTypo]}>
-        Welcome! Please log into your account
-      </Text>
+      style={styles.keyboardAvoidingView}
+      behavior={Platform.OS === "ios" ? "padding" : "height"} // Specify the behavior prop according to the platform
+    >
+      <View style={styles.loginScreen}>
+        <Text style={[styles.title, styles.titleTypo]}>
+          Welcome! Please log into your account
+        </Text>
 
-      {/* Wrap the content that needs to be adjusted inside a KeyboardAvoidingView */}
-      
+        {/* Wrap the content that needs to be adjusted inside a KeyboardAvoidingView */}
+
         <View style={styles.textFieldParent}>
           <FormInput
             value={email}
@@ -86,13 +83,16 @@ const LoginScreen = ({route}) => {
           </Pressable>
         </View>
         {loading ? (
-          <ActivityIndicator style={{marginVertical:16}} animating={true} color="#006A6A" />
+          <ActivityIndicator
+            style={{ marginVertical: 16 }}
+            animating={true}
+            color="#006A6A"
+          />
         ) : (
           <PrimaryButton title={"Login"} onPress={handleLogin} />
         )}
-      
-    </View>
-      </KeyboardAvoidingView>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -104,9 +104,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: Padding.p_6xl,
   },
 
- 
   forgotPassword: {
-    marginVertical:8,
+    marginBottom: 16,
     alignSelf: "stretch",
     justifyContent: "center",
     alignItems: "flex-end",

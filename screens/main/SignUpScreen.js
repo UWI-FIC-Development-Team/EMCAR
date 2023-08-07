@@ -1,20 +1,20 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
   Pressable,
   StyleSheet,
   KeyboardAvoidingView,
-  ActivityIndicator,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, FontSize, Color, Padding } from "../../GlobalStyles";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import FormInput from "../../components/atoms/FormInput";
 import SocialLoginButton from "../../components/atoms/SocialLoginButton";
-import { ScrollView } from "react-native-gesture-handler";
 import { AuthContext } from "../../context/AuthContextProvider";
-import { auth } from "../../services/firebaseConfig";
+import { ActivityIndicator } from "react-native-paper";
+
+
 
 const SignUpScreen = ({ route }) => {
   const { role } = route.params;
@@ -93,7 +93,7 @@ const SignUpScreen = ({ route }) => {
           />
         </View>
         {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
+          <ActivityIndicator animating={true} size={'large'} color="#006A6A" />
         ) : (
           <PrimaryButton
             title={"Register your account"}

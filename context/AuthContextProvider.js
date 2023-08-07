@@ -175,8 +175,8 @@ function AuthProvider({ children }) {
       const userDoc = await getDoc(userRef);
 
       // Check if the user document exists and has the display_name field
-      if (userDoc.exists && userDoc.data().displayName) {
-        const name = userDoc.data().displayName;
+      if (userDoc.exists && userDoc.data().name) {
+        const name = userDoc.data().name;
         setActiveUser(name);
       } 
     } catch (error) {
