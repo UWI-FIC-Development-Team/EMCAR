@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
-  Pressable,
   StyleSheet,
   KeyboardAvoidingView,
   ActivityIndicator,
@@ -11,13 +10,12 @@ import { useNavigation } from "@react-navigation/native";
 import { FontFamily, FontSize, Color, Padding } from "../../GlobalStyles";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import FormInput from "../../components/atoms/FormInput";
-import SocialLoginButton from "../../components/atoms/SocialLoginButton";
-import { ScrollView } from "react-native-gesture-handler";
 import { AuthContext } from "../../context/AuthContextProvider";
 import { auth } from "../../services/firebaseConfig";
+import { ActivityIndicator } from "react-native-paper";
 
-const SignUpScreen = () => {
-  const { createStudentAccount, activeUser } = useContext(AuthContext);
+const TutorSignUpScreen = () => {
+  const { createTutorAccount, activeUser } = useContext(AuthContext);
   const navigation = useNavigation();
 
   const [name, setName] = useState("");
@@ -28,7 +26,7 @@ const SignUpScreen = () => {
   useEffect(() => {
     // Check if the activeUser is available and not an empty string, then navigate to the "StudentDB" screen
     if (!!activeUser) {
-      navigation.navigate("StudentDB");
+      navigation.navigate("Log In");
     }
   }, [activeUser, navigation]);
 
@@ -37,7 +35,7 @@ const SignUpScreen = () => {
       if (name && email && password) {
         setLoading(true); // Set loading state to true before sign-up
         // Call the signUp function and await its completion
-        await createStudentAccount(email, password, name);
+        await signUp(email, password, name);
 
         // Reset the input fields and loading state after successful sign-up
         setLoading(false);
@@ -90,15 +88,13 @@ const SignUpScreen = () => {
           />
         </View>
         {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
+          <ActivityIndicator style={{marginVertical:16}} animating={true} color="#0000ff" />
         ) : (
           <PrimaryButton
             title={"Register your account"}
             onPress={handleSignUp}
           />
         )}
-        <Text style={styles.optionText}>OR</Text>
-        <SocialLoginButton />
       </KeyboardAvoidingView>
     </View>
   );
@@ -179,4 +175,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignUpScreen;
+export default TutorSignUpScreen;

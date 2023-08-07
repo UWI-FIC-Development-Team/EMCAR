@@ -17,7 +17,7 @@ import {
 
 import RequestBuilder from "../builders/RequestBuilder";
 import createStudent from "../builders/StudentBuilder";
-
+import createTutor from "../builders/TutorBuilder";
 const AuthContext = createContext();
 
 // export function useAuth() {
@@ -28,7 +28,7 @@ function AuthProvider({ children }) {
   const [activeUser, setActiveUser] = useState("");
   const [loading, setLoading] = useState(false);
   const [isTutor, setIsTutor] = useState(false);
-  const [dataSent, setDataSent] = useState(false)
+  const [dataSent, setDataSent] = useState(false);
 
   // This function is used to login the current user into there account
 
@@ -38,11 +38,11 @@ function AuthProvider({ children }) {
         // Signed in
         const user = userCredential.user;
         // setLoading(true)
-        console.log('start');
-        getUserName(user.uid)
+        console.log("start");
+        getUserName(user.uid);
         getUserRole(user.uid);
-        console.log('end');
-        return true
+        console.log("end");
+        return true;
       })
       .catch((error) => {
         const errorMessage = error.message;
@@ -54,8 +54,13 @@ function AuthProvider({ children }) {
   function signOut() {
     return auth.signOut();
   }
-  // create a new student
-  const signUp = async (email, password, userName) => {
+
+  // create a new student account
+  const createStudentAccount = async (
+    email,
+    password,
+    userName,
+  ) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -73,10 +78,10 @@ function AuthProvider({ children }) {
         .withDisplayName(userName)
         .build();
 
-      const studentToUserCollection = createStudent()
-        .withEmail(email)
-        .withDisplayName(userName)
-        .build();
+      const studentToUserCollection = {
+        name:userName,
+        email:email
+      }
 
       console.log(
         "This is the student object: ",
@@ -89,10 +94,10 @@ function AuthProvider({ children }) {
       await setDoc(studentToStudentRef, studentToStudentCollection);
 
       // add the student to the user collection
-      const studentTutorRef = doc(db, "users", userId);
-      await setDoc(studentTutorRef, studentToUserCollection);
-        
-      await getUserName(userId)
+      const studentToUserRef = doc(db, "users", userId);
+      await setDoc(studentToUserRef, studentToUserCollection);
+
+      await getUserName(userId);
       return userCredential;
     } catch (error) {
       console.error("Registration error:", error.message);
@@ -100,7 +105,7 @@ function AuthProvider({ children }) {
     }
   };
 
-  // Get the tutor status
+  // Get the user role
   const getUserRole = async (currentUserId) => {
     try {
       // Fetch the user data from Firestore based on the provided user ID
@@ -124,6 +129,58 @@ function AuthProvider({ children }) {
     }
   };
 
+  // Function to create a tutor account
+  const createTutorAccount = async (
+    email,
+    password,
+    name,
+    subjects,
+    topics,
+    availableTimes,
+    bio
+  ) => {
+    try {
+      // Create a tutor object using the TutorBuilder
+      const tutorToTutorCollection = createTutorBuilder()
+        .withName(name)
+        .withEmail(email)
+        .withSubjects(subjects)
+        .withTopics(topics)
+        .withAvailableTimes(availableTimes)
+        .withBio(bio)
+        .build();
+
+      const tutorToUserCollection = {
+        name:name,
+        email:email
+      }
+
+      // Create the tutor account in Firebase Authentication
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const userId = userCredential.user.uid;
+
+      // Add the tutor data to the "tutors" collection in Firestore with the user ID as the document ID
+      const tutorRef = doc(db, "tutors", userId);
+      await setDoc(tutorRef, tutorToTutorCollection);
+
+      // Add the tutor data to the "tutors" collection in Firestore with the user ID as the document ID
+      const tutorTouserRef = doc(db, "users", userId);
+      await setDoc(tutorRef, tutorToUserCollection);
+
+      // Fetch all tutors again to update the allTutors state
+      getAllTutors();
+
+      return userCredential;
+    } catch (error) {
+      console.error("Error while creating tutor account:", error.message);
+      // Handle the error as needed
+    }
+  };
+
   const getUserName = async (currentUserId) => {
     try {
       // Fetch the user data from Firestore based on the provided user ID
@@ -134,7 +191,7 @@ function AuthProvider({ children }) {
       // Check if the user document exists and has the display_name field
       if (userDoc.exists && userDoc.data().displayName) {
         const name = userDoc.data().displayName;
-        setActiveUser(name)
+        setActiveUser(name);
       } else {
         // Return a default value or throw an error
         return "Unknown user";
@@ -165,10 +222,19 @@ function AuthProvider({ children }) {
     };
   }, []);
 
-
   return (
     <AuthContext.Provider
-      value={{ signUp, login, signOut, getUserRole, isTutor,activeUser , setActiveUser, loading}}
+      value={{
+        createStudentAccount,
+        createTutorAccount,
+        login,
+        signOut,
+        getUserRole,
+        isTutor,
+        activeUser,
+        setActiveUser,
+        loading,
+      }}
     >
       {children}
     </AuthContext.Provider>
