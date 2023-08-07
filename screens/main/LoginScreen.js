@@ -15,7 +15,8 @@ import { AuthContext } from "../../context/AuthContextProvider";
 import { useState } from "react";
 import { ActivityIndicator } from "react-native-paper";
 
-const LoginScreen = () => {
+const LoginScreen = ({route}) => {
+
   const { login, activeUser} = useContext(AuthContext);
   const navigation = useNavigation();
 
@@ -36,7 +37,7 @@ const LoginScreen = () => {
       if (password && email) {
         // Set the loading state to true before fetching user data
         setLoading(true)
-        const userCredential = await login(auth, email, password);
+        await login(auth, email, password);
         setEmail("");
         setPassword("");
       
@@ -89,13 +90,7 @@ const LoginScreen = () => {
         ) : (
           <PrimaryButton title={"Login"} onPress={handleLogin} />
         )}
-        <Pressable
-          style={styles.signUpButton}
-          onPress={() => navigation.navigate("Sign Up")}
-        >
-          <Text style={styles.signUpText}>First time here? </Text>
-          <Text style={styles.signUpButtonText}>Sign up</Text>
-        </Pressable>
+      
     </View>
       </KeyboardAvoidingView>
   );
@@ -109,14 +104,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: Padding.p_6xl,
   },
 
-  signUpButton: {
-    borderRadius: 8,
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
-  },
+ 
   forgotPassword: {
-    marginTop: 3,
+    marginVertical:8,
     alignSelf: "stretch",
     justifyContent: "center",
     alignItems: "flex-end",

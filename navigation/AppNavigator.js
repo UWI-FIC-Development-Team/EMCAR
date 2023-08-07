@@ -18,6 +18,7 @@ import AllTutors from "../screens/student/AllTutorsScreen";
 import TutorSelection from "../screens/student/TutorSelection";
 import SuccessScreen from "../screens/student/SuccessScreen";
 import SubmitSessionScreen from "../screens/main/SubmitSessionScreen";
+import TutorSignUpScreen from "../screens/tutor/TutorRegistrationScreen";
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -125,6 +126,11 @@ const MainStack = () => {
         name="OnboardingScreen2"
         component={OnboardingScreen2}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Sign up"
+        component={TutorSignUpScreen}
+        options={{ headerShown: true }}
       />
       <Stack.Screen
         name="PasswordReset"

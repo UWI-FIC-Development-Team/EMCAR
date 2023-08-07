@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   KeyboardAvoidingView,
-  ActivityIndicator,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, FontSize, Color, Padding } from "../../GlobalStyles";
@@ -33,9 +32,10 @@ const TutorSignUpScreen = () => {
   const handleSignUp = async () => {
     try {
       if (name && email && password) {
-        setLoading(true); // Set loading state to true before sign-up
+
+        setLoading(true)
         // Call the signUp function and await its completion
-        await signUp(email, password, name);
+        await createTutorAccount(email, password, name);
 
         // Reset the input fields and loading state after successful sign-up
         setLoading(false);

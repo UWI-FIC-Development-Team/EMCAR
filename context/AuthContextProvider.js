@@ -56,11 +56,7 @@ function AuthProvider({ children }) {
   }
 
   // create a new student account
-  const createStudentAccount = async (
-    email,
-    password,
-    userName,
-  ) => {
+  const createStudentAccount = async (email, password, userName) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -79,9 +75,9 @@ function AuthProvider({ children }) {
         .build();
 
       const studentToUserCollection = {
-        name:userName,
-        email:email
-      }
+        name: userName,
+        email: email,
+      };
 
       console.log(
         "This is the student object: ",
@@ -134,26 +130,19 @@ function AuthProvider({ children }) {
     email,
     password,
     name,
-    subjects,
-    topics,
-    availableTimes,
-    bio
   ) => {
     try {
       // Create a tutor object using the TutorBuilder
-      const tutorToTutorCollection = createTutorBuilder()
+      const tutorToTutorCollection = createTutor()
         .withName(name)
         .withEmail(email)
-        .withSubjects(subjects)
-        .withTopics(topics)
-        .withAvailableTimes(availableTimes)
-        .withBio(bio)
         .build();
 
       const tutorToUserCollection = {
-        name:name,
-        email:email
-      }
+        name: name,
+        email: email,
+        role:'tutor'
+      };
 
       // Create the tutor account in Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(
@@ -164,15 +153,12 @@ function AuthProvider({ children }) {
       const userId = userCredential.user.uid;
 
       // Add the tutor data to the "tutors" collection in Firestore with the user ID as the document ID
-      const tutorRef = doc(db, "tutors", userId);
-      await setDoc(tutorRef, tutorToTutorCollection);
+      const tutorToTutorRef = doc(db, "tutors", userId);
+      await setDoc(tutorToTutorRef, tutorToTutorCollection);
 
       // Add the tutor data to the "tutors" collection in Firestore with the user ID as the document ID
-      const tutorTouserRef = doc(db, "users", userId);
-      await setDoc(tutorRef, tutorToUserCollection);
-
-      // Fetch all tutors again to update the allTutors state
-      getAllTutors();
+      const tutorToUserRef = doc(db, "users", userId);
+      await setDoc(tutorToUserRef, tutorToUserCollection);
 
       return userCredential;
     } catch (error) {
@@ -192,11 +178,7 @@ function AuthProvider({ children }) {
       if (userDoc.exists && userDoc.data().displayName) {
         const name = userDoc.data().displayName;
         setActiveUser(name);
-      } else {
-        // Return a default value or throw an error
-        return "Unknown user";
-        // Or: throw new Error("User document does not exist or has no display_name");
-      }
+      } 
     } catch (error) {
       console.error(
         "Error while checking if the user is a tutor:",

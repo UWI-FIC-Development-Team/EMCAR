@@ -16,8 +16,10 @@ import { ScrollView } from "react-native-gesture-handler";
 import { AuthContext } from "../../context/AuthContextProvider";
 import { auth } from "../../services/firebaseConfig";
 
-const SignUpScreen = () => {
-  const { createStudentAccount, activeUser } = useContext(AuthContext);
+const SignUpScreen = ({ route }) => {
+  const { role } = route.params;
+  const { createStudentAccount, activeUser, createTutorAccount } =
+    useContext(AuthContext);
   const navigation = useNavigation();
 
   const [name, setName] = useState("");
@@ -25,22 +27,23 @@ const SignUpScreen = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    // Check if the activeUser is available and not an empty string, then navigate to the "StudentDB" screen
-    if (!!activeUser) {
-      navigation.navigate("StudentDB");
-    }
-  }, [activeUser, navigation]);
+
 
   const handleSignUp = async () => {
     try {
       if (name && email && password) {
-        setLoading(true); // Set loading state to true before sign-up
-        // Call the signUp function and await its completion
-        await createStudentAccount(email, password, name);
+        setLoading(true);
+        if (role === "tutor") {
+          // Call the signUp function and await its completion
+          await createTutorAccount(email, password, name);
+        } else {
+          // Call the signUp function and await its completion
+          await createStudentAccount(email, password, name);
+        }
 
         // Reset the input fields and loading state after successful sign-up
         setLoading(false);
+        navigation.navigate("Log In")
         setName("");
         setEmail("");
         setPassword("");
@@ -97,6 +100,13 @@ const SignUpScreen = () => {
             onPress={handleSignUp}
           />
         )}
+        <Pressable
+          style={styles.signUpButton}
+          onPress={() => navigation.navigate("Log In")}
+        >
+          <Text style={styles.signUpText}>Already have an account? </Text>
+          <Text style={styles.signUpButtonText}>Log In</Text>
+        </Pressable>
         <Text style={styles.optionText}>OR</Text>
         <SocialLoginButton />
       </KeyboardAvoidingView>
@@ -106,7 +116,7 @@ const SignUpScreen = () => {
 
 const styles = StyleSheet.create({
   loginScreen: {
-    backgroundColor: Color.materialThemeSysLightBackground,
+    backgroundColor: '#fff',
     flex: 1,
     paddingTop: 20,
     paddingHorizontal: Padding.p_6xl,
@@ -117,6 +127,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
+    marginVertical:8
   },
   forgotPassword: {
     marginTop: 3,
