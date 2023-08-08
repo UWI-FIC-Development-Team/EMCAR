@@ -19,12 +19,13 @@ import FormInput from "../../components/atoms/FormInput";
 import InfoText from "../../components/atoms/InfoText";
 import { SessionContext } from "../../context/RequestContextProvider";
 import { ScrollView } from "react-native";
+import { AuthContext } from "../../context/AuthContextProvider";
 
 const SessionRequest = () => {
   const navigation = useNavigation();
 
-  const { sendARequest, dataIsSent, setSessionRequest } =
-    useContext(SessionContext);
+  const {setSessionRequest } =useContext(SessionContext);
+  const {activeUser } =useContext(AuthContext);
   // get the current user logged in by ID
   const currentUserID = auth.currentUser.uid;
   const [courseId, setCourseId] = useState([]);
@@ -50,7 +51,7 @@ const SessionRequest = () => {
   const handleSendRequest = async () => {
     // Example request data
     const requestData = {
-      studentId: currentUserID, // Assuming the user is a student and has a UID
+      studentName: activeUser, // Assuming the user is a student and has a UID
       tutorId: "", // The UID of the tutor to whom the request is sent
       subjects: courseId,
       topics: topic,

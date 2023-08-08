@@ -33,11 +33,11 @@ function SessionProvider({ children }) {
   // Function to send a request
   const sendARequest = async (requestData) => {
     try {
-      const { studentId, tutorId, subjects, topics, requestDate, startTime, endTime, location, additionalDetails } = requestData;
+      const { studentName, tutorId, subjects, topics, requestDate, startTime, endTime, location, additionalDetails } = requestData;
 
       // Create a request object using the RequestBuilder
       const request = RequestBuilder()
-        .withStudentId(studentId)
+        .withStudentName(studentName)
         .withTutorId(tutorId)
         .withSubjects(subjects)
         .withTopics(topics)

@@ -1,7 +1,7 @@
 const createRequest = () => {
   const request = {
     requestId: "",
-    studentId: "",
+    studentName: "",
     tutorId: "",
     subjects: [],
     topics: [],
@@ -20,8 +20,8 @@ const createRequest = () => {
     return builder;
   };
 
-  const withStudentId = (studentId) => {
-    request.studentId = studentId;
+  const withStudentName = (studentName) => {
+    request.studentName = studentName;
     return builder;
   };
 
@@ -86,7 +86,7 @@ const createRequest = () => {
 
   const builder = {
     withRequestId,
-    withStudentId,
+    withStudentName,
     withTutorId,
     withSubjects,
     withTopics,

@@ -20,6 +20,8 @@ const TutorDB = () => {
   const navigation = useNavigation();
   const tutorId = auth.currentUser.uid
 
+  
+
   useEffect(() => {
     // Fetch pending requests associated with the tutor
     const fetchPendingRequests = async () => {
@@ -28,9 +30,8 @@ const TutorDB = () => {
     };
 
     fetchPendingRequests();
-  }, [activeUser]);
+  }, []);
 
-  console.log("The current user name is: ", activeUser);
 
   return (
     <ScrollView style={styles.studentDb}>
@@ -42,7 +43,7 @@ const TutorDB = () => {
         title={"Pending Sessions"}
         showSeeAll={true}
       >
-       {pendingRequests.map((request)=>{return(<SessionCard tutor={request.studentId}/>)})}
+       {pendingRequests.map((request)=>{return(<SessionCard tutor={request.studentName}/>)})}
       </DashBoardCard>
       <DashBoardCard
         showTitle={true}
