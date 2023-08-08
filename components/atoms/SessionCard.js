@@ -39,7 +39,7 @@ const SessionCard = ({time, data, room, courseCode, Topic, tutor}) => {
                   </Text>
                 </View>
               </View>
-              <Text style={styles.joelBlenman}>Joel Blenman</Text>
+              <Text style={styles.joelBlenman}>{tutor}</Text>
             </View>
           </View>
         </View>

@@ -1,18 +1,38 @@
 import { createContext, useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../services/firebaseConfig";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 const TutorContext = createContext();
 
 function TutorProvider({ children }) {
   const [user, setUser] = useState(null);
   const [tutors, setTutors] = useState([]);
+  const [tutorId, setTutorId] = useState(""); // Set the tutor ID here
+  const [pendingRequests, setPendingRequests] = useState([]);
+
+  const getPendingRequests = async (tutorId) => {
+    try {
+      const requestsRef = collection(db, "requests");
+      const pendingRequestsQuery = query(
+        requestsRef,
+        where("tutorId", "==", tutorId),
+        where("status", "==", "pending")
+      );
+      const querySnapshot = await getDocs(pendingRequestsQuery);
+      const pendingRequestsData = querySnapshot.docs.map((doc) => doc.data());
+      setPendingRequests((prev) => {
+        return [...prev, ...pendingRequestsData];
+      });
+    } catch (error) {
+      console.error("Error while fetching pending requests:", error.message);
+      console.log("No request");
+    }
+  };
 
   // TODO: add custom claims to both tutor and student.
   // having custom claims for user will allow us
   // to call this function based on role.
-
 
   // Function to get all tutors
   const getTutors = async () => {
@@ -26,12 +46,8 @@ function TutorProvider({ children }) {
     }
   };
 
- 
-
-  
-
   return (
-    <TutorContext.Provider value={{ tutors, getTutors}}>
+    <TutorContext.Provider value={{ tutors, getTutors, getPendingRequests, pendingRequests}}>
       {children}
     </TutorContext.Provider>
   );

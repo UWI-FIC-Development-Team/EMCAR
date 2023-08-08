@@ -1,9 +1,6 @@
-import React, { useState, useCallback, useContext } from "react";
+import React, {useState, useContext, useEffect} from "react";
 import {
   StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
   ScrollView,
   StatusBar,
 } from "react-native";
@@ -11,17 +8,27 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, Padding, Color } from "../../GlobalStyles";
 import DashBoardCard from "../../components/atoms/DashBoardCard";
-import DashBoardChip from "../../components/atoms/DashBoardChip";
 import TopBar2 from "../../components/atoms/TopBar2";
 import SessionCard from "../../components/atoms/SessionCard";
-import FloatingButton from "../../components/atoms/FloatingButton";
 import { AuthContext } from "../../context/AuthContextProvider";
 import { TutorContext } from "../../context/TutorContextProvider";
+import { auth } from "../../services/firebaseConfig";
 
 const TutorDB = () => {
   const { activeUser } = useContext(AuthContext);
-  const { tutors } = useContext(TutorContext);
+  const { tutors, getPendingRequests, pendingRequests} = useContext(TutorContext);
   const navigation = useNavigation();
+  const tutorId = auth.currentUser.uid
+
+  useEffect(() => {
+    // Fetch pending requests associated with the tutor
+    const fetchPendingRequests = async () => {
+      await getPendingRequests(tutorId);
+  
+    };
+
+    fetchPendingRequests();
+  }, [activeUser]);
 
   console.log("The current user name is: ", activeUser);
 
@@ -35,8 +42,7 @@ const TutorDB = () => {
         title={"Pending Sessions"}
         showSeeAll={true}
       >
-        <SessionCard />
-        <SessionCard />
+       {pendingRequests.map((request)=>{return(<SessionCard tutor={request.studentId}/>)})}
       </DashBoardCard>
       <DashBoardCard
         showTitle={true}
