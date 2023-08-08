@@ -19,6 +19,7 @@ import TutorSelection from "../screens/student/TutorSelection";
 import SuccessScreen from "../screens/student/SuccessScreen";
 import SubmitSessionScreen from "../screens/main/SubmitSessionScreen";
 import TutorSignUpScreen from "../screens/tutor/TutorRegistrationScreen";
+import RequestConfirmationScreen from "../screens/tutor/RequestConfirmationScreen";
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -75,6 +76,22 @@ const AppNavigator = () => {
             <RootStack.Screen
               name="Complete request"
               component={SuccessScreen}
+              options={{
+                headerMode: "none",
+                cardStyle: {
+                  backgroundColor: "rgba(0,0,0,0)",
+                },
+              }}
+            />
+          </RootStack.Group>
+          <RootStack.Group
+            screenOptions={{
+              presentation: 'modal',
+            }}
+          >
+            <RootStack.Screen
+              name="Confirm Request"
+              component={RequestConfirmationScreen}
               options={{
                 headerMode: "none",
                 cardStyle: {

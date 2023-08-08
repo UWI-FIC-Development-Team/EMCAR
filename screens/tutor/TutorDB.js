@@ -1,9 +1,5 @@
-import React, {useState, useContext, useEffect} from "react";
-import {
-  StyleSheet,
-  ScrollView,
-  StatusBar,
-} from "react-native";
+import React, { useState, useContext, useEffect } from "react";
+import { StyleSheet, ScrollView, StatusBar } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, Padding, Color } from "../../GlobalStyles";
@@ -13,25 +9,23 @@ import SessionCard from "../../components/atoms/SessionCard";
 import { AuthContext } from "../../context/AuthContextProvider";
 import { TutorContext } from "../../context/TutorContextProvider";
 import { auth } from "../../services/firebaseConfig";
+import { TouchableOpacity } from "react-native";
 
 const TutorDB = () => {
   const { activeUser } = useContext(AuthContext);
-  const { tutors, getPendingRequests, pendingRequests} = useContext(TutorContext);
+  const { tutors, getPendingRequests, pendingRequests } =
+    useContext(TutorContext);
   const navigation = useNavigation();
-  const tutorId = auth.currentUser.uid
-
-  
+  const tutorId = auth.currentUser.uid;
 
   useEffect(() => {
     // Fetch pending requests associated with the tutor
     const fetchPendingRequests = async () => {
       await getPendingRequests(tutorId);
-  
     };
 
     fetchPendingRequests();
   }, []);
-
 
   return (
     <ScrollView style={styles.studentDb}>
@@ -43,7 +37,13 @@ const TutorDB = () => {
         title={"Pending Sessions"}
         showSeeAll={true}
       >
-       {pendingRequests.map((request)=>{return(<SessionCard tutor={request.studentName}/>)})}
+        {pendingRequests.map((request) => {
+          return (
+            <TouchableOpacity onPress={()=>{navigation.navigate('Confirm Request', {sessionDetials: pendingRequests})}}>
+              <SessionCard tutor={request.studentName} />
+            </TouchableOpacity>
+          );
+        })}
       </DashBoardCard>
       <DashBoardCard
         showTitle={true}
