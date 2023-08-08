@@ -1,5 +1,4 @@
-import React, { useState, useCallback } from "react";
-import { Image } from "expo-image";
+import React, { useState, useCallback, useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,58 +6,92 @@ import {
   TouchableOpacity,
   ScrollView,
   StatusBar,
-
 } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
-import { Border, FontFamily, Padding, Color, FontSize } from "../../GlobalStyles";
-import DashBoardCard from "../../components/atoms/DashBoardCard"
-import SessionChip from "../../components/atoms/SessionChip";
+import { FontFamily, Padding, Color } from "../../GlobalStyles";
+import DashBoardCard from "../../components/atoms/DashBoardCard";
+import DashBoardChip from "../../components/atoms/DashBoardChip";
+import TopBar2 from "../../components/atoms/TopBar2";
+import SessionCard from "../../components/atoms/SessionCard";
+import FloatingButton from "../../components/atoms/FloatingButton";
+import { AuthContext } from "../../context/AuthContextProvider";
+import { TutorContext } from "../../context/TutorContextProvider";
 
 const TutorDB = () => {
- 
+  const { activeUser } = useContext(AuthContext);
+  const { tutors } = useContext(TutorContext);
+  const navigation = useNavigation();
 
- return (
-    <ScrollView style={styles.tutorDb}>
-      <StatusBar barStyle={'dark-content'}/>
-          <DashBoardCard title={'Pending Sessions'}>
-            <SessionChip 
-            studentName={'Joel'} 
-            IconName={'alert-circle'} 
-            courseTitle={'COMP1205'}/>
-             <SessionChip 
-            studentName={'blenman'} 
-            IconName={'alert-circle'} 
-            courseTitle={'MATH0110'}/>
-          </DashBoardCard>
-          <DashBoardCard title={'Upcoming Sessions'}>
-            <SessionChip 
-            studentName={'Joel'} 
-            IconName={'calendar'} 
-            courseTitle={'COMP1205'}/>
-          </DashBoardCard>
-          <DashBoardCard title={'Recent Sessions'}>
+  console.log("The current user name is: ", activeUser);
 
-             <SessionChip 
-            studentName={'Grayson'} 
-            IconName={'calendar'} 
-            courseTitle={'COMP1205'}/>
-          </DashBoardCard>
+  return (
+    <ScrollView style={styles.studentDb}>
+      <StatusBar barStyle={"dark-content"} />
+
+      <TopBar2 userName={activeUser} />
+      <DashBoardCard
+        showTitle={true}
+        title={"Pending Sessions"}
+        showSeeAll={true}
+      >
+        <SessionCard />
+        <SessionCard />
+      </DashBoardCard>
+      <DashBoardCard
+        showTitle={true}
+        title={"Upcoming Sessions"}
+        showSeeAll={true}
+      >
+        <SessionCard />
+        <SessionCard />
+      </DashBoardCard>
+      <DashBoardCard
+        showTitle={true}
+        title={"Recent Sessions"}
+        showSeeAll={true}
+      >
+        <SessionCard />
+        <SessionCard />
+      </DashBoardCard>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  icon: {
+    color: Color.materialThemeSysLightPrimary,
+  },
 
-  tutorDb: {
+  headlineContainer: {
+    flex: 1,
+    marginLeft: 12,
+  },
+
+  headline4: {
+    fontFamily: FontFamily.materialThemeLabelMedium,
+    fontWeight: "500",
+    lineHeight: 12,
+    fontSize: 12,
+    textAlign: "left",
+    marginTop: 6,
+    color: "#3F4948",
+  },
+  headline: {
+    fontFamily: FontFamily.materialThemeTitleMedium,
+    fontWeight: "500",
+    fontSize: 16,
+    textAlign: "left",
+    color: Color.materialThemeSysLightOnPrimaryContainer,
+  },
+
+  studentDb: {
     width: "100%",
     paddingHorizontal: Padding.p_6xl,
-    paddingTop:20,
+    paddingTop: 20,
     flex: 1,
     backgroundColor: Color.materialThemeSysLightBackground,
   },
 });
- 
-     
 
 export default TutorDB;

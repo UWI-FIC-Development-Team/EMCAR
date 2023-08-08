@@ -1,9 +1,7 @@
 import * as React from "react";
 import {
   Text,
-  StyleSheet,
-  View,
-  Pressable,
+  StyleSheet, 
   TouchableOpacity,
   ScrollView,
 } from "react-native";
@@ -13,24 +11,21 @@ import SettingChipContainer from "../../components/molecules/SettingChipContaine
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, Color, FontSize, Padding } from "../../GlobalStyles";
 import SettingSelectChip from "../../components/atoms/SettingSelectChip";
-import { color } from "react-native-reanimated";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContextProvider";
 
 const Settings = () => {
-  const {signOut} = useContext(AuthContext)
+  const {signOut, activeUser, setActiveUser} = useContext(AuthContext)
   const navigation = useNavigation();
 
-  const handleSignOut = () =>{
+ const handleSignOut = () =>{
     signOut()
+    setActiveUser('')
     navigation.navigate('Log In')
-  }
-  const userinfo = {
-    path:'../../assets/woman.png'
-  }
+  } 
   return (
     <ScrollView style={styles.settings}>
-       <UserProfileHeader UserName={'Linda Simon'} path={userinfo.path}/> 
+       <UserProfileHeader UserName={activeUser} /> 
        <SettingChipContainer title={'Account'}>
           <SettingSelectChip iconName={'user'} title={'Profile'}/>
           <SettingSelectChip iconName={'mail'} title={'Email'}/>

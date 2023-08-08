@@ -10,20 +10,6 @@ import { useContext } from "react";
 const TutorSelection = () => {
   const navigation = useNavigation();
   const {tutors} = useContext(TutorContext)
-
-  // Available tutors list
-  const availableTutors = [
-    { name: "John Smith" },
-    { name: "Emily Johnson" },
-    { name: "Michael Brown" },
-  ];
-
-  // Unavailable tutors list
-  const unavailableTutors = [
-    { name: "Jessica Lee" },
-    { name: "David Clark" },
-  ];
-
   return (
     <ScrollView style={styles.studentDb}>
       <StatusBar barStyle={"dark-content"} />
@@ -36,12 +22,12 @@ const TutorSelection = () => {
               tutorName={tutor.name}
               iconIsVisible={false}
              onPress={() => {
-                navigation.navigate("submit session", { selectedTutor: tutor.name });
+                navigation.navigate("submit session", { selectedTutor: tutor.name, tutorId:tutor.tutorId});
               }} 
             />
           ))}
         </DashBoardCard>
-        <DashBoardCard title={"Unavailable"} showTitle={true}>
+        {/* <DashBoardCard title={"Unavailable"} showTitle={true}>
           {tutors.map((tutor) => (
             <DashBoardChip
               key={tutor.name}
@@ -50,7 +36,7 @@ const TutorSelection = () => {
               onPress={() => {}}
             />
           ))}
-        </DashBoardCard>
+        </DashBoardCard> */}
       </View>
     </ScrollView>
   );

@@ -3,8 +3,6 @@ import {
   View, 
   Text, 
   StyleSheet, 
-  Pressable, 
-  SafeAreaView
 } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
@@ -29,8 +27,8 @@ const OnboardingScreen2 = () => {
         Are you a curious student or an EMCAR tutor?
         </Text>
         <View style={styles.buttonParent}>
-          <PrimaryButton title={'Student'} onPress={()=>{navigation.navigate('Log In')}}/>
-          <PrimaryButton title={'Emcar Tutor'} onPress={()=>{navigation.navigate('Log In')}}/>
+          <PrimaryButton title={'Student'} onPress={()=>{navigation.navigate('Sign Up', {role:'student'})}}/>
+          <PrimaryButton title={'Emcar Tutor'} onPress={()=>{navigation.navigate('Sign Up',{ role:'tutor'})}}/>
         </View>
     </View>
   );

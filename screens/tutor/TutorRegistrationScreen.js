@@ -1,8 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
-  Pressable,
   StyleSheet,
   KeyboardAvoidingView,
 } from "react-native";
@@ -10,16 +9,12 @@ import { useNavigation } from "@react-navigation/native";
 import { FontFamily, FontSize, Color, Padding } from "../../GlobalStyles";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import FormInput from "../../components/atoms/FormInput";
-import SocialLoginButton from "../../components/atoms/SocialLoginButton";
 import { AuthContext } from "../../context/AuthContextProvider";
+import { auth } from "../../services/firebaseConfig";
 import { ActivityIndicator } from "react-native-paper";
 
-
-
-const SignUpScreen = ({ route }) => {
-  const { role } = route.params;
-  const { createStudentAccount, activeUser, createTutorAccount } =
-    useContext(AuthContext);
+const TutorSignUpScreen = () => {
+  const { createTutorAccount, activeUser } = useContext(AuthContext);
   const navigation = useNavigation();
 
   const [name, setName] = useState("");
@@ -27,23 +22,23 @@ const SignUpScreen = ({ route }) => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-
+  useEffect(() => {
+    // Check if the activeUser is available and not an empty string, then navigate to the "StudentDB" screen
+    if (!!activeUser) {
+      navigation.navigate("Log In");
+    }
+  }, [activeUser, navigation]);
 
   const handleSignUp = async () => {
     try {
       if (name && email && password) {
-        setLoading(true);
-        if (role === "tutor") {
-          // Call the signUp function and await its completion
-          await createTutorAccount(email, password, name);
-        } else {
-          // Call the signUp function and await its completion
-          await createStudentAccount(email, password, name);
-        }
+
+        setLoading(true)
+        // Call the signUp function and await its completion
+        await createTutorAccount(email, password, name);
 
         // Reset the input fields and loading state after successful sign-up
         setLoading(false);
-        navigation.navigate("Log In")
         setName("");
         setEmail("");
         setPassword("");
@@ -93,22 +88,13 @@ const SignUpScreen = ({ route }) => {
           />
         </View>
         {loading ? (
-          <ActivityIndicator animating={true} size={'large'} color="#006A6A" />
+          <ActivityIndicator style={{marginVertical:16}} animating={true} color="#0000ff" />
         ) : (
           <PrimaryButton
             title={"Register your account"}
             onPress={handleSignUp}
           />
         )}
-        <Pressable
-          style={styles.signUpButton}
-          onPress={() => navigation.navigate("Log In")}
-        >
-          <Text style={styles.signUpText}>Already have an account? </Text>
-          <Text style={styles.signUpButtonText}>Log In</Text>
-        </Pressable>
-        <Text style={styles.optionText}>OR</Text>
-        <SocialLoginButton />
       </KeyboardAvoidingView>
     </View>
   );
@@ -116,7 +102,7 @@ const SignUpScreen = ({ route }) => {
 
 const styles = StyleSheet.create({
   loginScreen: {
-    backgroundColor: '#fff',
+    backgroundColor: Color.materialThemeSysLightBackground,
     flex: 1,
     paddingTop: 20,
     paddingHorizontal: Padding.p_6xl,
@@ -127,7 +113,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
-    marginVertical:8
   },
   forgotPassword: {
     marginTop: 3,
@@ -190,4 +175,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignUpScreen;
+export default TutorSignUpScreen;
