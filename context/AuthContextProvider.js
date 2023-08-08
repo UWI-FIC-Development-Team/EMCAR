@@ -133,8 +133,16 @@ function AuthProvider({ children }) {
   // Function to create a tutor account
   const createTutorAccount = async (email, password, name) => {
     try {
+      // Create the tutor account in Firebase Authentication
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const userId = userCredential.user.uid;
       // Create a tutor object using the TutorBuilder
       const tutorToTutorCollection = createTutor()
+        .withTutorId(userId)
         .withName(name)
         .withEmail(email)
         .build();
@@ -145,13 +153,6 @@ function AuthProvider({ children }) {
         role: "tutor",
       };
 
-      // Create the tutor account in Firebase Authentication
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const userId = userCredential.user.uid;
 
       // Add the tutor data to the "tutors" collection in Firestore with the user ID as the document ID
       const tutorToTutorRef = doc(db, "tutors", userId);

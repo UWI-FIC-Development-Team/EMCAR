@@ -11,7 +11,7 @@ import { ActivityIndicator } from "react-native-paper";
 const SubmitSessionScreen = ({ onPresent, onClose, route }) => {
   const { sessionRequest, setSessionRequest, dataIsSent, sendARequest, setDataIsSent} = useContext(SessionContext);
   const navigation = useNavigation();
-  const { selectedTutor } = route.params;
+  const { selectedTutor, tutorId} = route.params;
 
   const [loading, setLoading] = useState(false)
   // check to see if there data as being sent to the database
@@ -45,7 +45,7 @@ const SubmitSessionScreen = ({ onPresent, onClose, route }) => {
       {loading ? <ActivityIndicator style={{marginVertical:16}} animating={true} color="#006A6A"/>
      : <PrimaryButton
         title="Sumbit your request"
-        onPress={()=>handleCreateRequest(selectedTutor)}
+        onPress={()=>handleCreateRequest(tutorId)}
       />
       }
     </View>
