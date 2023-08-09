@@ -1,22 +1,21 @@
 const createRequest = () => {
-  const request = {
-    requestId: "",
+  const request = { 
+    studentId:"",
     studentName: "",
     tutorId: "",
+    tutorName:"",
     subjects: [],
     topics: [],
     status: "",
     requestDate: "",
     startTime: "",
     endTime: "",
-    confirmationTime: "",
     location: "",
     additionalDetails: "",
-    cancellationReason: "",
   };
 
-  const withRequestId = (requestId) => {
-    request.requestId = requestId;
+  const withStudentId = (studentId) => {
+    request.studentId = studentId;
     return builder;
   };
 
@@ -27,6 +26,11 @@ const createRequest = () => {
 
   const withTutorId = (tutorId) => {
     request.tutorId = tutorId;
+    return builder;
+  };
+
+  const withTutorName = (tutorName) => {
+    request.tutorName = tutorName;
     return builder;
   };
 
@@ -60,10 +64,7 @@ const createRequest = () => {
     return builder;
   };
 
-  const withConfirmationTime = (confirmationTime) => {
-    request.confirmationTime = confirmationTime;
-    return builder;
-  };
+ 
 
   const withLocation = (location) => {
     request.location = location;
@@ -75,17 +76,15 @@ const createRequest = () => {
     return builder;
   };
 
-  const withCancellationReason = (cancellationReason) => {
-    request.cancellationReason = cancellationReason;
-    return builder;
-  };
+ 
 
   const build = () => {
     return request;
   };
 
   const builder = {
-    withRequestId,
+    withTutorName, // new field
+    withStudentId, // new field
     withStudentName,
     withTutorId,
     withSubjects,
@@ -94,10 +93,8 @@ const createRequest = () => {
     withRequestDate,
     withStartTime,
     withEndTime,
-    withConfirmationTime,
     withLocation,
     withAdditionalDetails,
-    withCancellationReason,
     build,
   };
 

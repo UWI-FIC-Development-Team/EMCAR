@@ -18,7 +18,7 @@ function SessionProvider({ children }) {
   const [user, setUser] = useState(null);
   const [allRequests, setAllRequests] = useState([]);
   const [dataIsSent, setDataIsSent] = useState(false);
-  const [sessionRequest, setSessionRequest] = useState({})
+  const [sessionRequest, setSessionRequest] = useState({});
 
   useEffect(() => {
     // Listen for changes in the authentication state
@@ -33,12 +33,26 @@ function SessionProvider({ children }) {
   // Function to send a request
   const sendARequest = async (requestData) => {
     try {
-      const { studentName, tutorId, subjects, topics, requestDate, startTime, endTime, location, additionalDetails } = requestData;
+      const {
+        studentName,
+        tutorId,
+        subjects,
+        topics,
+        requestDate,
+        startTime,
+        endTime,
+        location,
+        additionalDetails,
+        studentId,
+        tutorName,
+      } = requestData;
 
       // Create a request object using the RequestBuilder
       const request = RequestBuilder()
+        .withStudentId(studentId)
         .withStudentName(studentName)
         .withTutorId(tutorId)
+        .withTutorName(tutorName)
         .withSubjects(subjects)
         .withTopics(topics)
         .withStatus("pending")
@@ -52,7 +66,7 @@ function SessionProvider({ children }) {
       // Add the request object to the "requests" collection in Firestore
       const requestRef = collection(db, "requests");
       await addDoc(requestRef, request);
-      setDataIsSent(true)
+      setDataIsSent(true);
     } catch (error) {
       console.error("Error while sending a request:", error.message);
     }
@@ -74,11 +88,18 @@ function SessionProvider({ children }) {
   const getAllConfirmedRequests = async (studentId, tutorId) => {
     try {
       const requestRef = collection(db, "requests");
-      const querySnapshot = await getDocs(requestRef.where("studentId", "==", studentId).where("tutorId", "==", tutorId));
+      const querySnapshot = await getDocs(
+        requestRef
+          .where("studentId", "==", studentId)
+          .where("tutorId", "==", tutorId)
+      );
       const confirmedRequests = querySnapshot.docs.map((doc) => doc.data());
       return confirmedRequests;
     } catch (error) {
-      console.error("Error while getting all confirmed requests:", error.message);
+      console.error(
+        "Error while getting all confirmed requests:",
+        error.message
+      );
       return [];
     }
   };
@@ -94,7 +115,7 @@ function SessionProvider({ children }) {
         dataIsSent,
         sessionRequest,
         setSessionRequest,
-        setDataIsSent
+        setDataIsSent,
       }}
     >
       {children}
@@ -102,4 +123,4 @@ function SessionProvider({ children }) {
   );
 }
 
-export { SessionContext, SessionProvider};
+export { SessionContext, SessionProvider };
