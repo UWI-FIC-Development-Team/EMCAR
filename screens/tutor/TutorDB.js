@@ -27,6 +27,8 @@ const TutorDB = () => {
     fetchPendingRequests();
   }, []);
 
+
+
   return (
     <ScrollView style={styles.studentDb}>
       <StatusBar barStyle={"dark-content"} />
@@ -39,7 +41,13 @@ const TutorDB = () => {
       >
         {pendingRequests.map((request) => {
           return (
-            <TouchableOpacity onPress={()=>{navigation.navigate('Confirm Request', {sessionDetials: pendingRequests})}}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Confirm Request", {
+                  sessionDetails: pendingRequests,
+                });
+              }}
+            >
               <SessionCard tutor={request.studentName} />
             </TouchableOpacity>
           );

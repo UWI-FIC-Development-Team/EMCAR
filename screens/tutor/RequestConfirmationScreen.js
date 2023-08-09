@@ -1,12 +1,27 @@
 import * as React from "react";
 import { Text, StyleSheet, View, Pressable } from "react-native";
-import { FontFamily, Padding, Color, Border, FontSize } from "../GlobalStyles";
+import { FontFamily, Padding, Color, Border, FontSize } from "../../GlobalStyles";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { Divider } from "react-native-paper";
 
-const RequestConfirmationScreen = ({route}) => {
+const RequestConfirmationScreen = ({ route }) => {
+  const {sessionDetails} = route.params;
 
-    const {sessionDetails} = route.params
+  console.log('This is the details for your sessions', sessionDetails);
+
+   const {
+    studentName,
+    tutorId,
+    subjects,
+    topics,
+    requestDate,
+    startTime,
+    endTime,
+    location,
+    additionalDetails,
+  } = sessionDetails
+
+
   return (
     <View style={styles.confirmSessionDetails}>
       <View style={styles.headlineParent}>
@@ -23,26 +38,36 @@ const RequestConfirmationScreen = ({route}) => {
           <View style={styles.content}>
             <Text style={[styles.headline1, styles.headlineTypo]}>Courses</Text>
           </View>
-          <Text style={styles.text}>Pre-Calculus</Text>
-          <Text style={styles.text}>Computing 1</Text>
 
+          {/* {subjects.map((course, index) => {
+            return (
+              <Text key={index} style={styles.text}>
+                course
+              </Text>
+            );
+          })} */}
           <Divider />
         </View>
         <View style={[styles.listDialog1, styles.listSpaceBlock]}>
           <View style={styles.content}>
             <Text style={[styles.headline1, styles.headlineTypo]}>Topics</Text>
           </View>
-          <Text style={[styles.text2, styles.textTypo]}>
-            Object-Oriented-Programming
-          </Text>
-          <Text style={styles.text}>Materics</Text>
+
+          {/* {topics.map((topic, index) => {
+            return (
+              <Text key={index} style={styles.text}>
+                course
+              </Text>
+            );
+          })} */}
+
           <Divider />
         </View>
         <View style={[styles.listDialog1, styles.listSpaceBlock]}>
           <View style={styles.content}>
             <Text style={[styles.headline1, styles.headlineTypo]}>Date</Text>
           </View>
-          <Text style={[styles.text2, styles.textTypo]}>30 June 2023</Text>
+          <Text style={[styles.text2, styles.textTypo]}>{}</Text>
           <Divider />
         </View>
         <View style={[styles.listDialog1, styles.listSpaceBlock]}>
@@ -50,8 +75,8 @@ const RequestConfirmationScreen = ({route}) => {
             <Text style={[styles.headline1, styles.headlineTypo]}>Time</Text>
           </View>
           <View style={[styles.time, styles.textSpaceBlock]}>
-            <Text style={styles.textTypo}>From: 12:30 pm</Text>
-            <Text style={[styles.text6, styles.textTypo]}>To: 2:30 pm</Text>
+            <Text style={styles.textTypo}>From:{}</Text>
+            <Text style={[styles.text6, styles.textTypo]}>To:{}</Text>
           </View>
           <Divider />
         </View>
@@ -62,15 +87,12 @@ const RequestConfirmationScreen = ({route}) => {
             </Text>
           </View>
           <Text style={[styles.text7, styles.textTypo]}>
-            Hi, I'm Lisa, a student who needs help with algebra. I have trouble
-            understanding some of the concepts and solving the equations. I want
-            to improve my grades and confidence in math. I learn best when I see
-            examples and practice problems.
+            {}
           </Text>
         </View>
       </View>
-      <PrimaryButton title={'Confirm session'} onPress={()=>{}}/>
-      <PrimaryButton title={'Reject request'} onPress={()=>{}}/>
+      <PrimaryButton title={"Confirm session"} onPress={() => {}} />
+      <PrimaryButton title={"Reject request"} onPress={() => {}} />
     </View>
   );
 };
@@ -204,7 +226,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   confirmSessionDetails: {
-    backgroundColor: Color.mintcream_100,
+    backgroundColor: '#fff',
     width: "100%",
     height: 806,
     paddingHorizontal: Padding.p_6xl,
