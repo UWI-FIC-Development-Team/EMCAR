@@ -45,10 +45,12 @@ function SessionProvider({ children }) {
         additionalDetails,
         studentId,
         tutorName,
+        requestId,
       } = requestData;
 
       // Create a request object using the RequestBuilder
       const request = RequestBuilder()
+        .withRequestId(requestId)
         .withStudentId(studentId)
         .withStudentName(studentName)
         .withTutorId(tutorId)
@@ -72,9 +74,6 @@ function SessionProvider({ children }) {
     }
   };
 
-
-
-
   // get all upcoming sessions
   const getupcomingSessions = async (studentId) => {
     try {
@@ -93,7 +92,31 @@ function SessionProvider({ children }) {
       console.error("Error while fetching upcoming requests:", error.message);
       console.log("No request");
     }
-  }; 
+  };
+
+  const updateRequestStatusToUpcoming = async (requestId) => {
+    try {
+      const requestRef = doc(db, "requests", requestId);
+      await updateDoc(requestRef, {
+        status: "upcoming",
+      });
+      console.log("Request status updated to upcoming");
+    } catch (error) {
+      console.error("Error while updating request status:", error.message);
+    }
+  };
+
+  const updateRequestLocation = async (requestId, newLocation) => {
+    try {
+      const requestRef = doc(db, "requests", requestId);
+      await updateDoc(requestRef, {
+        location: newLocation,
+      });
+      console.log("Request location updated");
+    } catch (error) {
+      console.error("Error while updating request location:", error.message);
+    }
+  };
 
   return (
     <SessionContext.Provider
@@ -105,7 +128,9 @@ function SessionProvider({ children }) {
         setSessionRequest,
         setDataIsSent,
         upcomingSessions,
-        getupcomingSessions
+        getupcomingSessions,
+        updateRequestLocation,
+        updateRequestStatusToUpcoming
       }}
     >
       {children}

@@ -1,9 +1,10 @@
 const createRequest = () => {
-  const request = { 
-    studentId:"",
+  const request = {
+    requestId: "",
+    studentId: "",
     studentName: "",
     tutorId: "",
-    tutorName:"",
+    tutorName: "",
     subjects: [],
     topics: [],
     status: "",
@@ -16,6 +17,11 @@ const createRequest = () => {
 
   const withStudentId = (studentId) => {
     request.studentId = studentId;
+    return builder;
+  };
+
+  const withRequestId = (requestId) => {
+    request.requestId = requestId;
     return builder;
   };
 
@@ -64,8 +70,6 @@ const createRequest = () => {
     return builder;
   };
 
- 
-
   const withLocation = (location) => {
     request.location = location;
     return builder;
@@ -76,13 +80,12 @@ const createRequest = () => {
     return builder;
   };
 
- 
-
   const build = () => {
     return request;
   };
 
   const builder = {
+    withRequestId,
     withTutorName, // new field
     withStudentId, // new field
     withStudentName,

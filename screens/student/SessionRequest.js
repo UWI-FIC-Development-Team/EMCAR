@@ -15,6 +15,7 @@ import InfoText from "../../components/atoms/InfoText";
 import { SessionContext } from "../../context/RequestContextProvider";
 import { ScrollView } from "react-native";
 import { AuthContext } from "../../context/AuthContextProvider";
+import uuid from 'react-native-uuid';
 
 const SessionRequest = () => {
   const navigation = useNavigation();
@@ -54,6 +55,7 @@ const SessionRequest = () => {
     const userId = auth.currentUser.uid;
     // Example request data
     const requestData = {
+      requestId:requestId,
       studentId: userId,
       studentName: activeUser, // Assuming the user is a student and has a UID
       tutorId: "", // The UID of the tutor to whom the request is sent

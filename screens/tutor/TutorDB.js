@@ -41,6 +41,7 @@ const TutorDB = () => {
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("Confirm Request", {
+                requestId: request.requestId,
                 studentName: request.studentName,
                 tutorId: request.tutorId,
                 subjects: request.subjects,
