@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Padding.p_6xl,
     paddingTop: 20,
     flex: 1,
-    backgroundColor: Color.materialThemeSysLightBackground,
+    backgroundColor: '#fff',
   },
 });
 
