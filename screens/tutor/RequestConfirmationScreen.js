@@ -9,6 +9,7 @@ import {
 } from "../../GlobalStyles";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { Divider } from "react-native-paper";
+import { ScrollView } from "react-native-gesture-handler";
 
 const RequestConfirmationScreen = ({ route }) => {
   const {
@@ -25,10 +26,11 @@ const RequestConfirmationScreen = ({ route }) => {
 
   // Convert Firestore timestamps to human-readable format
   const formattedRequestDate = requestDate.toDate().toLocaleDateString();
-//   const formattedStartTime = startTime.toDate().toLocaleTimeString();
-//   const formattedEndTime = endTime.toDate().toLocaleTimeString();
+  //   const formattedStartTime = startTime.toDate().toLocaleTimeString();
+  //   const formattedEndTime = endTime.toDate().toLocaleTimeString();
 
-  console.log("Details for the request:", 
+  console.log(
+    "Details for the request:",
     studentName,
     tutorId,
     subjects,
@@ -37,222 +39,125 @@ const RequestConfirmationScreen = ({ route }) => {
     // formattedStartTime,
     // formattedEndTime,
     location,
-    additionalDetails,
+    additionalDetails
   );
 
   return (
-    <View style={styles.confirmSessionDetails}>
+    <ScrollView style={styles.confirmSessionDetails}>
       <View style={styles.headlineParent}>
-        <Text style={[styles.headline, styles.headlineTypo]}>
-          Session Details
-        </Text>
-        <Text style={[styles.title, styles.textSpaceBlock]}>
+        <Text style={styles.headline0}>Session Details</Text>
+        <Text style={styles.title}>
           This page displays the information you provided for your tutor
           request. This helps the tutor prepare a personalized lesson for you.
         </Text>
       </View>
-      <View style={styles.buttomsFlexBox}>
-        <View style={styles.listSpaceBlock}>
-          <View style={styles.content}>
-            <Text style={[styles.headline1, styles.headlineTypo]}>Courses</Text>
-          </View>
 
-          {subjects.map((course, index) => {
-            return (
-              <Text style={styles.text}>
-                {course}
-              </Text>
-            );
-          })}
-          <Divider />
-        </View>
-        <View style={[styles.listDialog1, styles.listSpaceBlock]}>
-          <View style={styles.content}>
-            <Text style={[styles.headline1, styles.headlineTypo]}>Topics</Text>
+      <View style={styles.listSpaceBlock}>
+        <Text style={[styles.headline1, styles.headlineTypo]}>Courses</Text>
+
+        {subjects.map((course, index) => {
+          return <Text style={styles.textTypo}>{course}</Text>;
+        })}
           </View>
+        <Divider style={{ width: "100%", height: 3, marginBottom: 16 }} />
+
+        <View style={styles.listSpaceBlock}>
+          <Text style={[styles.headline1, styles.headlineTypo]}>Topics</Text>
 
           {topics.map((topic, index) => {
-            return (
-              <Text style={styles.text}>
-                {topic}
-              </Text>
-            );
+            return <Text style={styles.textTypo}>{topic}</Text>;
           })}
 
-          <Divider />
         </View>
-        <View style={[styles.listDialog1, styles.listSpaceBlock]}>
-          <View style={styles.content}>
-            <Text style={[styles.headline1, styles.headlineTypo]}>Date</Text>
-          </View>
-          <Text style={[ styles.textTypo]}>{formattedRequestDate}</Text>
-          <Divider />
+          <Divider style={{ width: "100%", height: 3,marginBottom: 16}} />
+        <View style={styles.listSpaceBlock}>
+          <Text style={[styles.headline1, styles.headlineTypo]}>Date</Text>
+
+          <Text style={[styles.textTypo]}>{formattedRequestDate}</Text>
         </View>
-        <View style={[styles.listDialog1, styles.listSpaceBlock]}>
-          <View style={styles.content}>
-            <Text style={[styles.headline1, styles.headlineTypo]}>Time</Text>
-          </View>
-          <View style={[styles.time, styles.textSpaceBlock]}>
+          <Divider style={{ width: "100%", height: 3,marginBottom: 16 }} />
+
+        <View style={styles.listSpaceBlock}>
+          <Text style={[styles.headline1, styles.headlineTypo]}>Time</Text>
+
+          <View style={{ flexDirection: "row" }}>
             <Text style={styles.textTypo}>From:{}</Text>
-            <Text style={[styles.text6, styles.textTypo]}>
-              To:{}
-            </Text>
+            <Text style={styles.textTypo}>To:{}</Text>
           </View>
-          <Divider />
         </View>
-        <View style={[styles.listDialog1, styles.listSpaceBlock]}>
-          <View style={styles.content}>
-            <Text style={[styles.headline1, styles.headlineTypo]}>
-              Additional information
-            </Text>
-          </View>
-          <Text style={[styles.text7, styles.textTypo]}>
-            {additionalDetails}
+
+          <Divider style={{ width: "100%", height: 3, marginBottom: 16}} />
+        <View style={styles.listSpaceBlock}>
+          <Text style={[styles.headline1, styles.headlineTypo]}>
+            Additional information
           </Text>
+
+          <Text style={styles.textTypo}>{additionalDetails}</Text>
         </View>
+      
+      <View style={{ marginVertical: 36 }}>
+        <PrimaryButton title={"Confirm session"} onPress={() => {}} />
+        <PrimaryButton title={"Reject request"} onPress={() => {}} />
       </View>
-      <PrimaryButton title={"Confirm session"} onPress={() => {}} />
-      <PrimaryButton title={"Reject request"} onPress={() => {}} />
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  headlineTypo: {
-    textAlign: "left",
-    fontFamily: FontFamily.materialThemeLabelMedium,
-    fontWeight: "500",
-    alignSelf: "stretch",
+   listSpaceBlock: {
+    
   },
-  textSpaceBlock: {
-    marginTop: 12,
-    alignSelf: "stretch",
-  },
-  listSpaceBlock: {
-    paddingBottom: Padding.p_9xs,
-    paddingHorizontal: Padding.p_xs,
-    backgroundColor: Color.lightcyan_100,
-    borderRadius: Border.br_xs,
-    alignSelf: "stretch",
-    alignItems: "center",
-  },
+
   textTypo: {
-    color: Color.darkslategray_100,
+    color: '#404040',
     fontFamily: FontFamily.manropeSemiBold,
     fontWeight: "600",
-    fontSize: FontSize.materialThemeLabelMedium_size,
+    fontSize: 14,
     textAlign: "left",
+    marginBottom:12
   },
-  buttomsFlexBox: {
-    marginTop: 25,
-    alignSelf: "stretch",
-    alignItems: "center",
-  },
-  buttonFlexBox: {
-    justifyContent: "center",
-    height: 50,
-    overflow: "hidden",
-    borderRadius: Border.br_xs,
-    alignSelf: "stretch",
-    alignItems: "center",
-  },
-  labelFlexBox: {
-    width: 302,
-    display: "flex",
-    textAlign: "center",
-    justifyContent: "center",
-    lineHeight: 20,
-    fontSize: FontSize.materialThemeTitleSmall_size,
-    fontFamily: FontFamily.materialThemeLabelMedium,
-    fontWeight: "500",
-    alignItems: "center",
-    flex: 1,
-  },
-  headline: {
-    fontSize: FontSize.title3_size,
-    lineHeight: 28,
-    color: Color.materialThemeSysLightOnSurface,
-  },
+
   title: {
     color: "#487777",
     lineHeight: 20,
-    fontSize: FontSize.materialThemeTitleSmall_size,
-    marginTop: 12,
+    fontSize: 14,
+    marginVertical: 12,
     textAlign: "left",
-    fontFamily: FontFamily.materialThemeLabelMedium,
+    // fontFamily: FontFamily.materialThemeLabelMedium,
     fontWeight: "500",
   },
   headlineParent: {
-    alignSelf: "stretch",
-    alignItems: "center",
+    
   },
+
+ headlineTypo: {
+    textAlign: "left",
+    fontFamily: FontFamily.materialThemeTitleMedium,
+    fontWeight: "500",
+    alignSelf: "stretch",
+  },
+
+
   headline1: {
-    fontSize: FontSize.paragraphIBMPlexSansRegular_size,
+    fontSize: 18,
     lineHeight: 24,
     color: Color.materialThemeSysLightOnPrimaryContainer,
+    marginBottom:12
   },
-  content: {
-    overflow: "hidden",
-    alignSelf: "stretch",
+  headline0: {
+    fontSize: 24,
+    lineHeight: 24,
+    color: Color.materialThemeSysLightOnPrimaryContainer,
+    justifyContent: "flex-start",
+    width: "100%",
+    fontWeight:'600'
   },
-  text: {
-    color: Color.darkslategray_200,
-    height: 16,
-    fontFamily: FontFamily.manropeSemiBold,
-    fontWeight: "600",
-    fontSize: FontSize.materialThemeLabelMedium_size,
-    marginTop: 12,
-    textAlign: "left",
-    alignSelf: "stretch",
-  },
-  divider: {
-    backgroundColor: Color.gainsboro,
-    height: 2,
-  },
-  text2: {
-    marginTop: 12,
-    alignSelf: "stretch",
-    flex: 1,
-  },
-  listDialog1: {
-    marginTop: 8,
-  },
-  text6: {
-    marginLeft: 8,
-  },
-  time: {
-    flexDirection: "row",
-  },
-  text7: {
-    height: 82,
-    marginTop: 12,
-    alignSelf: "stretch",
-  },
-  labelText: {
-    color: Color.materialThemeSysLightOnSecondaryContainer,
-  },
-  buttonTonal: {
-    backgroundColor: Color.materialThemeSysLightSecondaryContainer,
-  },
-  labelText1: {
-    color: Color.white,
-  },
-  buttonFilled: {
-    backgroundColor: Color.materialThemeSysLightPrimary,
-    marginTop: 15,
-  },
-  buttoms: {
-    justifyContent: "flex-end",
-    flex: 1,
-  },
+
   confirmSessionDetails: {
     backgroundColor: "#fff",
     width: "100%",
-    height: 806,
-    paddingHorizontal: Padding.p_6xl,
+    paddingHorizontal: 16,
     paddingTop: Padding.p_5xl,
-    paddingBottom: Padding.p_base,
-    alignItems: "center",
     flex: 1,
   },
 });

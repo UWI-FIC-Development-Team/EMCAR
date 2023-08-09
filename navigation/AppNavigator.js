@@ -94,9 +94,7 @@ const AppNavigator = () => {
               component={RequestConfirmationScreen}
               options={{
                 headerMode: "none",
-                cardStyle: {
-                  backgroundColor: "rgba(0,0,0,0)",
-                },
+               
               }}
             />
           </RootStack.Group>
