@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Text, StyleSheet, View, TouchableOpacity, Modal, Button } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
-const DateAndTimePicker = ({
+ export const DatePicker = ({
   label,
   style,
   mode,
@@ -57,6 +57,63 @@ const DateAndTimePicker = ({
   );
 };
 
+
+export const TimePicker = ({
+  label,
+  style,
+  mode,
+  placeholder,
+  time,
+  handleTimeChange,
+}) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const formattedTime = time ? time.toLocaleTimeString() : '';
+
+  const handleOpenDatePicker = () => {
+    setModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.label}>{label}</Text>
+      <TouchableOpacity onPress={handleOpenDatePicker}>
+        <View style={styles.customInput}>
+          <Text style={styles.textFieldDatePickerValue}>
+            {formattedTime || placeholder}
+          </Text>
+        </View>
+      </TouchableOpacity>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={handleCloseModal}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <DateTimePicker
+              style={styles.textField}
+              mode={mode}
+              value={time}
+              onChange={(event, selectedDate) => {
+                handleCloseModal();
+                handleTimeChange(event, selectedDate);
+              }}
+              display="spinner"
+            />
+            <Button title="Close" onPress={handleCloseModal} />
+          </View>
+        </View>
+      </Modal>
+    </View>
+  );
+};
+
+
 const styles = StyleSheet.create({
   label: {
     fontSize: 16,
@@ -94,4 +151,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DateAndTimePicker;
+

@@ -98,7 +98,7 @@ const LoginScreen = ({ route }) => {
 
 const styles = StyleSheet.create({
   loginScreen: {
-    backgroundColor: Color.materialThemeSysLightBackground,
+    backgroundColor: '#fff',
     flex: 1,
     paddingTop: 40,
     paddingHorizontal: Padding.p_6xl,

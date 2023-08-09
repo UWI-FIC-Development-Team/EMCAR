@@ -1,20 +1,15 @@
 import { useContext } from "react";
 import { useState } from "react";
-import {
-  View,
-  StyleSheet,
-  KeyboardAvoidingView,
-} from "react-native";
+import { View, StyleSheet, KeyboardAvoidingView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, FontSize, Color, Padding } from "../../GlobalStyles";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { auth } from "../../services/firebaseConfig";
+import { CourseDropDown, TopicDropDown } from "../../components/DropDownPicker";
 import {
-  CourseDropDown,
-  TimeDropDown,
-  TopicDropDown,
-} from "../../components/DropDownPicker";
-import DateAndTimePicker from "../../components/atoms/DateAndTimePicker";
+  DatePicker,
+  TimePicker,
+} from "../../components/atoms/DateAndTimePicker";
 import FormInput from "../../components/atoms/FormInput";
 import InfoText from "../../components/atoms/InfoText";
 import { SessionContext } from "../../context/RequestContextProvider";
@@ -24,38 +19,45 @@ import { AuthContext } from "../../context/AuthContextProvider";
 const SessionRequest = () => {
   const navigation = useNavigation();
 
-  const {setSessionRequest } =useContext(SessionContext);
-  const {activeUser } =useContext(AuthContext);
+  const { setSessionRequest } = useContext(SessionContext);
+  const { activeUser } = useContext(AuthContext);
   // get the current user logged in by ID
   const currentUserID = auth.currentUser.uid;
   const [courseId, setCourseId] = useState([]);
   const [topic, setTopic] = useState([]);
   const [date, setDate] = useState(new Date());
-  const [startTime, setStartTime] = useState(null);
-  const [endTime, setEndTime] = useState(null);
+  const [startTime, setStartTime] = useState(new Date(Date.now()));
+  const [endTime, setEndTime] = useState(new Date(Date.now()));
   const [additionalInfo, setAdditionalInfo] = useState("");
-  const [showDatePicker, setShowDatePicker] = useState(false);
   const [loading, setLoading] = useState(false);
 
+
+  const handleStartTimeChange = (event, selectedDate) => {
+    if (selectedDate) {
+      setStartTime(selectedDate);
+    }
+  };
+
+  const handleEndTimeChange = (event, selectedDate) => { 
+    if (selectedDate) {
+      setEndTime(selectedDate);
+    }
+  };
   const handleDateChange = (event, selectedDate) => {
-    setShowDatePicker(false);
     if (selectedDate) {
       setDate(selectedDate);
     }
   };
 
-  const handleOpenDatePicker = () => {
-    setShowDatePicker(true);
-  };
-
+ 
   const handleSendRequest = async () => {
-    const userId = auth.currentUser.uid 
+    const userId = auth.currentUser.uid;
     // Example request data
     const requestData = {
-      studentId:userId,
+      studentId: userId,
       studentName: activeUser, // Assuming the user is a student and has a UID
       tutorId: "", // The UID of the tutor to whom the request is sent
-      tutorName:"",
+      tutorName: "",
       subjects: courseId,
       topics: topic,
       requestDate: date,
@@ -68,11 +70,11 @@ const SessionRequest = () => {
     try {
       // keep a copy of the object with state
       setSessionRequest((prev) => {
-        console.log('This is the prev data:', prev);
-        console.log('This is the new data:', requestData);
+        console.log("This is the prev data:", prev);
+        console.log("This is the new data:", requestData);
         return { ...prev, ...requestData };
       });
-      navigation.navigate('Select a tutor')
+      navigation.navigate("Select a tutor");
       console.log("next request");
     } catch (error) {
       console.error("Error while sending request:", error.message);
@@ -88,16 +90,13 @@ const SessionRequest = () => {
       placeholder={"Select your course ID"}
     />,
     <TopicDropDown
-      // data={topicsData}
       value={topic}
       onChange={(item) => setTopic(item)}
       style={styles.container}
       label={"Topic"}
       placeholder={"Choose your topic"}
     />,
-    <DateAndTimePicker
-      showDatePicker={showDatePicker}
-      handleOpenDatePicker={handleOpenDatePicker}
+    <DatePicker
       date={date}
       handleDateChange={handleDateChange}
       placeholder={"Choose a date"}
@@ -111,19 +110,17 @@ const SessionRequest = () => {
         alignItems: "center",
       }}
     >
-      <TimeDropDown
-        value={startTime}
-        onChange={(item) => setStartTime(item)}
-        style={styles.inputSmall}
+      <TimePicker
+        time={startTime}
+        handleTimeChange={handleStartTimeChange}
         placeholder={"Pick a time"}
         mode={"time"}
         label={"Start time"}
       />
 
-      <TimeDropDown
-        value={endTime}
-        onChange={(item) => setEndTime(item)}
-        style={styles.inputSmall}
+      <TimePicker
+        time={endTime}
+        handleTimeChange={handleEndTimeChange}
         placeholder={"Pick a time"}
         mode={"time"}
         label={"End time"}
@@ -153,7 +150,7 @@ const SessionRequest = () => {
       >
         <ScrollView>
           <View style={styles.textFieldParent}>
-            {FormListComponents.map((items,index) => {
+            {FormListComponents.map((items, index) => {
               return items;
             })}
           </View>

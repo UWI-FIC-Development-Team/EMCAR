@@ -101,46 +101,7 @@ export const TopicDropDown = ({
   );
 };
 
-export const TimeDropDown = ({
-  style,
-  label,
-  placeholder,
-  value,
-  onChange,
-}) => {
-  const timeData = [
-    { value: "Morning", label: "Morning" },
-    { value: "Afternoon", label: "Afternoon" },
-    { value: "Evening", label: "Evening" },
-  ];
 
-  const [selectedTime, setSelectedTime] = useState(null);
-
-  return (
-    <View style={style}>
-      <Text style={styles.label}>{label}</Text>
-      <Dropdown
-        style={styles.dropdown}
-        placeholderStyle={styles.placeholderStyle}
-        selectedTextStyle={styles.selectedTextStyle}
-        inputSearchStyle={styles.inputSearchStyle}
-        iconStyle={styles.iconStyle}
-        data={timeData}
-        search
-        maxHeight={150}
-        labelField="label"
-        valueField="value"
-        placeholder={`Select Time (${placeholder})`}
-        searchPlaceholder="Search..."
-        value={value}
-        onChange={onChange}
-        renderLeftIcon={() => (
-          <Feather style={styles.icon} color="black" name="" size={20} />
-        )}
-      />
-    </View>
-  );
-};
 
 const styles = StyleSheet.create({
   label: {
