@@ -1,15 +1,17 @@
 import * as React from "react";
 import { Text, StyleSheet, View, Pressable } from "react-native";
-import { FontFamily, Padding, Color, Border, FontSize } from "../../GlobalStyles";
+import {
+  FontFamily,
+  Padding,
+  Color,
+  Border,
+  FontSize,
+} from "../../GlobalStyles";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { Divider } from "react-native-paper";
 
 const RequestConfirmationScreen = ({ route }) => {
-  const {sessionDetails} = route.params;
-
-  console.log('This is the details for your sessions', sessionDetails);
-
-   const {
+  const {
     studentName,
     tutorId,
     subjects,
@@ -19,8 +21,24 @@ const RequestConfirmationScreen = ({ route }) => {
     endTime,
     location,
     additionalDetails,
-  } = sessionDetails
+  } = route.params;
 
+  // Convert Firestore timestamps to human-readable format
+  const formattedRequestDate = requestDate.toDate().toLocaleDateString();
+//   const formattedStartTime = startTime.toDate().toLocaleTimeString();
+//   const formattedEndTime = endTime.toDate().toLocaleTimeString();
+
+  console.log("Details for the request:", 
+    studentName,
+    tutorId,
+    subjects,
+    topics,
+    formattedRequestDate,
+    // formattedStartTime,
+    // formattedEndTime,
+    location,
+    additionalDetails,
+  );
 
   return (
     <View style={styles.confirmSessionDetails}>
@@ -39,13 +57,13 @@ const RequestConfirmationScreen = ({ route }) => {
             <Text style={[styles.headline1, styles.headlineTypo]}>Courses</Text>
           </View>
 
-          {/* {subjects.map((course, index) => {
+          {subjects.map((course, index) => {
             return (
-              <Text key={index} style={styles.text}>
-                course
+              <Text style={styles.text}>
+                {course}
               </Text>
             );
-          })} */}
+          })}
           <Divider />
         </View>
         <View style={[styles.listDialog1, styles.listSpaceBlock]}>
@@ -53,13 +71,13 @@ const RequestConfirmationScreen = ({ route }) => {
             <Text style={[styles.headline1, styles.headlineTypo]}>Topics</Text>
           </View>
 
-          {/* {topics.map((topic, index) => {
+          {topics.map((topic, index) => {
             return (
-              <Text key={index} style={styles.text}>
-                course
+              <Text style={styles.text}>
+                {topic}
               </Text>
             );
-          })} */}
+          })}
 
           <Divider />
         </View>
@@ -67,7 +85,7 @@ const RequestConfirmationScreen = ({ route }) => {
           <View style={styles.content}>
             <Text style={[styles.headline1, styles.headlineTypo]}>Date</Text>
           </View>
-          <Text style={[styles.text2, styles.textTypo]}>{}</Text>
+          <Text style={[ styles.textTypo]}>{formattedRequestDate}</Text>
           <Divider />
         </View>
         <View style={[styles.listDialog1, styles.listSpaceBlock]}>
@@ -76,7 +94,9 @@ const RequestConfirmationScreen = ({ route }) => {
           </View>
           <View style={[styles.time, styles.textSpaceBlock]}>
             <Text style={styles.textTypo}>From:{}</Text>
-            <Text style={[styles.text6, styles.textTypo]}>To:{}</Text>
+            <Text style={[styles.text6, styles.textTypo]}>
+              To:{}
+            </Text>
           </View>
           <Divider />
         </View>
@@ -87,7 +107,7 @@ const RequestConfirmationScreen = ({ route }) => {
             </Text>
           </View>
           <Text style={[styles.text7, styles.textTypo]}>
-            {}
+            {additionalDetails}
           </Text>
         </View>
       </View>
@@ -226,7 +246,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   confirmSessionDetails: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     width: "100%",
     height: 806,
     paddingHorizontal: Padding.p_6xl,

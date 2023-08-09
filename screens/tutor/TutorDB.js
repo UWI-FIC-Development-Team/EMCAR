@@ -27,8 +27,6 @@ const TutorDB = () => {
     fetchPendingRequests();
   }, []);
 
-
-
   return (
     <ScrollView style={styles.studentDb}>
       <StatusBar barStyle={"dark-content"} />
@@ -39,19 +37,25 @@ const TutorDB = () => {
         title={"Pending Sessions"}
         showSeeAll={true}
       >
-        {pendingRequests.map((request) => {
-          return (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("Confirm Request", {
-                  sessionDetails: pendingRequests,
-                });
-              }}
-            >
-              <SessionCard tutor={request.studentName} />
-            </TouchableOpacity>
-          );
-        })}
+        {pendingRequests.map((request) => (
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Confirm Request", {
+                studentName: request.studentName,
+                tutorId: request.tutorId,
+                subjects: request.subjects,
+                topics: request.topics,
+                requestDate: request.requestDate,
+                startTime: request.startTime,
+                endTime: request.endTime,
+                location: request.location,
+                additionalDetails: request.additionalDetails,
+              });
+            }}
+          >
+            <SessionCard tutor={request.studentName} />
+          </TouchableOpacity>
+        ))}
       </DashBoardCard>
       <DashBoardCard
         showTitle={true}
