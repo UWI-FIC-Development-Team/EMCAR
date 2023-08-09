@@ -25,11 +25,11 @@ const SubmitSessionScreen = ({ onPresent, onClose, route }) => {
 
 
   // Define the function to handle navigation to the CreateRequest screen
-  const handleCreateRequest = async (tutorID) => {
+  const handleCreateRequest = async (tutorID,tutorName) => {
     console.log('This is the tutor you requested: ', tutorID);
     setLoading(true)
     // Update the tutorId directly in the sendARequest function call
-    await sendARequest({ ...sessionRequest, tutorId: tutorID }); 
+    await sendARequest({ ...sessionRequest, tutorId: tutorID, tutorName:tutorName }); 
     navigation.pop();
     setSessionRequest({})
     setDataIsSent(false)
@@ -45,7 +45,7 @@ const SubmitSessionScreen = ({ onPresent, onClose, route }) => {
       {loading ? <ActivityIndicator style={{marginVertical:16}} animating={true} color="#006A6A"/>
      : <PrimaryButton
         title="Sumbit your request"
-        onPress={()=>handleCreateRequest(tutorId)}
+        onPress={()=>handleCreateRequest(tutorId, selectedTutor)}
       />
       }
     </View>

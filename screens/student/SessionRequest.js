@@ -49,10 +49,13 @@ const SessionRequest = () => {
   };
 
   const handleSendRequest = async () => {
+    const userId = auth.currentUser.uid 
     // Example request data
     const requestData = {
+      studentId:userId,
       studentName: activeUser, // Assuming the user is a student and has a UID
       tutorId: "", // The UID of the tutor to whom the request is sent
+      tutorName:"",
       subjects: courseId,
       topics: topic,
       requestDate: date,
