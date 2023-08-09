@@ -26,7 +26,7 @@ const SubmitSessionScreen = ({ onPresent, onClose, route }) => {
 
   // Define the function to handle navigation to the CreateRequest screen
   const handleCreateRequest = async (tutorID,tutorName) => {
-    console.log('This is the tutor you requested: ', tutorID);
+    console.log('This is the tutor you requested: ', tutorID, tutorName);
     setLoading(true)
     // Update the tutorId directly in the sendARequest function call
     await sendARequest({ ...sessionRequest, tutorId: tutorID, tutorName:tutorName }); 

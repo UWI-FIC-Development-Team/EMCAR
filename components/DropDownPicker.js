@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Dropdown, MultiSelect } from "react-native-element-dropdown";
 import { Feather } from "@expo/vector-icons";
+import { topicsData, coursesData } from "../Data";
 
 export const CourseDropDown = ({
   style,
@@ -10,14 +11,6 @@ export const CourseDropDown = ({
   value,
   onChange,
 }) => {
-  const coursesData = [
-    { value: "COMP1205", label: "COMP1205" },
-    { value: "MATH0110", label: "MATH0110" },
-    { value: "COMP0001", label: "COMP0001" },
-  ];
-
-  const [selectedCourse, setSelectedCourse] = useState([]);
-
   return (
     <View style={style}>
       <Text style={styles.label}>{label}</Text>
@@ -59,14 +52,6 @@ export const TopicDropDown = ({
   value,
   onChange,
 }) => {
-  const topicsData = [
-    { value: "Topic 1", label: "Topic 1" },
-    { value: "Topic 2", label: "Topic 2" },
-    { value: "Topic 3", label: "Topic 3" },
-  ];
-
-  const [selectedTopic, setSelectedTopic] = useState([]);
-
   return (
     <View style={style}>
       <Text style={styles.label}>{label}</Text>
@@ -100,8 +85,6 @@ export const TopicDropDown = ({
     </View>
   );
 };
-
-
 
 const styles = StyleSheet.create({
   label: {

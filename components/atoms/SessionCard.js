@@ -3,7 +3,7 @@ import { Text, StyleSheet, View } from "react-native";
 import { Color, FontSize, FontFamily, Border, Padding } from "../../GlobalStyles";
 import { Divider } from "react-native-paper";
 
-const SessionCard = ({time, data, room, courseCode, Topic, tutor}) => {
+const SessionCard = ({time, data, room, courseCode, Topic, name}) => {
   return (
     <View style={[styles.sessionCard, styles.autoLayout]}>
         <View style={styles.timeDate}>
@@ -39,7 +39,7 @@ const SessionCard = ({time, data, room, courseCode, Topic, tutor}) => {
                   </Text>
                 </View>
               </View>
-              <Text style={styles.joelBlenman}>{tutor}</Text>
+              <Text style={styles.joelBlenman}>{name}</Text>
             </View>
           </View>
         </View>

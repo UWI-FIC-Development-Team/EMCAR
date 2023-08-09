@@ -16,9 +16,9 @@ const SessionContext = createContext();
 
 function SessionProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [allRequests, setAllRequests] = useState([]);
   const [dataIsSent, setDataIsSent] = useState(false);
   const [sessionRequest, setSessionRequest] = useState({});
+  const [upcomingSessions, setUpcomingSessions] = useState([]);
 
   useEffect(() => {
     // Listen for changes in the authentication state
@@ -72,50 +72,40 @@ function SessionProvider({ children }) {
     }
   };
 
-  // Function to get all requests
-  const getAllRequests = async () => {
-    try {
-      const requestRef = collection(db, "requests");
-      const querySnapshot = await getDocs(requestRef);
-      const requests = querySnapshot.docs.map((doc) => doc.data());
-      setAllRequests(requests);
-    } catch (error) {
-      console.error("Error while getting all requests:", error.message);
-    }
-  };
 
-  // Function to get all confirmed requests
-  const getAllConfirmedRequests = async (studentId, tutorId) => {
+
+
+  // get all upcoming sessions
+  const getupcomingSessions = async (studentId) => {
     try {
-      const requestRef = collection(db, "requests");
-      const querySnapshot = await getDocs(
-        requestRef
-          .where("studentId", "==", studentId)
-          .where("tutorId", "==", tutorId)
+      const requestsRef = collection(db, "requests");
+      const upcomingSessionsQuery = query(
+        requestsRef,
+        where("tutorId", "==", studentId),
+        where("status", "==", "upcoming")
       );
-      const confirmedRequests = querySnapshot.docs.map((doc) => doc.data());
-      return confirmedRequests;
+      const querySnapshot = await getDocs(upcomingSessionsQuery);
+      const upcomingSessionsData = querySnapshot.docs.map((doc) => doc.data());
+      setUpcomingRequests((prev) => {
+        return [...prev, ...upcomingSessionsData];
+      });
     } catch (error) {
-      console.error(
-        "Error while getting all confirmed requests:",
-        error.message
-      );
-      return [];
+      console.error("Error while fetching upcoming requests:", error.message);
+      console.log("No request");
     }
-  };
+  }; 
 
   return (
     <SessionContext.Provider
       value={{
         user,
         sendARequest,
-        allRequests,
-        getAllRequests,
-        getAllConfirmedRequests,
         dataIsSent,
         sessionRequest,
         setSessionRequest,
         setDataIsSent,
+        upcomingSessions,
+        getupcomingSessions
       }}
     >
       {children}

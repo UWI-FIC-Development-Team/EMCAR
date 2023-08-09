@@ -17,13 +17,26 @@ import SessionCard from "../../components/atoms/SessionCard";
 import FloatingButton from "../../components/atoms/FloatingButton";
 import { AuthContext } from "../../context/AuthContextProvider";
 import { TutorContext } from "../../context/TutorContextProvider";
+import { SessionContext } from "../../context/RequestContextProvider";
+import { auth } from "../../services/firebaseConfig";
 
 const StudentDB = () => {
   const { activeUser } = useContext(AuthContext);
+  const { upcomingSessions, getUpcomingSessions } = useContext(SessionContext);
   const { tutors } = useContext(TutorContext);
   const navigation = useNavigation();
 
   console.log("The current user name is: ", activeUser);
+
+  useEffect(() => {
+    const studentId = auth.currentUser.uid;
+    // Fetch pending requests associated with the tutor
+    const fetchPendingRequests = async () => {
+      await getUpcomingSessions(studentId);
+    };
+
+    fetchPendingRequests();
+  }, []);
 
   return (
     <ScrollView style={styles.studentDb}>
@@ -38,11 +51,15 @@ const StudentDB = () => {
           navigation.navigate("All tutors");
         }}
       >
-        {
-          tutors.map((tutor, index)=>{
-            return(<DashBoardChip key={index} tutorName={tutor.name} iconIsVisible={true}/>)
-          })
-        }
+        {tutors.map((tutor, index) => {
+          return (
+            <DashBoardChip
+              key={index}
+              tutorName={tutor.name}
+              iconIsVisible={true}
+            />
+          );
+        })}
       </DashBoardCard>
       <TouchableOpacity
         activeOpacity={0.2}
@@ -55,8 +72,9 @@ const StudentDB = () => {
         title={"Upcoming Sessions"}
         showSeeAll={true}
       >
-        <SessionCard />
-        <SessionCard />
+        {upcomingSessions.map((sessions) => {
+          return <SessionCard tutor={sessions.tutorName} />;
+        })}
       </DashBoardCard>
       <FloatingButton />
     </ScrollView>
@@ -95,7 +113,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Padding.p_6xl,
     paddingTop: 20,
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
 });
 

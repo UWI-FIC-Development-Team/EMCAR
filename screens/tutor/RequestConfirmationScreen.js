@@ -6,7 +6,7 @@ import { Divider } from "react-native-paper";
 import { ScrollView } from "react-native-gesture-handler";
 import { Feather } from "@expo/vector-icons";
 
-const RequestConfirmationScreen = ({ route, navigation}) => {
+const RequestConfirmationScreen = ({ route, navigation }) => {
   const {
     studentName,
     tutorId,
@@ -21,12 +21,15 @@ const RequestConfirmationScreen = ({ route, navigation}) => {
 
   // Convert Firestore timestamps to human-readable format
   const formattedRequestDate = requestDate.toDate().toLocaleDateString();
-  //   const formattedStartTime = startTime.toDate().toLocaleTimeString();
-  //   const formattedEndTime = endTime.toDate().toLocaleTimeString();
+  const formattedStartTime = startTime.toDate().toLocaleTimeString();
+  const formattedEndTime = endTime.toDate().toLocaleTimeString();
 
   return (
     <View style={styles.confirmSessionDetails}>
-      <TouchableOpacity onPress={()=> navigation.pop()} style={styles.bottomSheetHead} >
+      <TouchableOpacity
+        onPress={() => navigation.pop()}
+        style={styles.bottomSheetHead}
+      >
         <Feather name="x" size={24} color="black" />
       </TouchableOpacity>
       <ScrollView style={{ flex: 1, width: "100%" }}>
@@ -66,8 +69,8 @@ const RequestConfirmationScreen = ({ route, navigation}) => {
           <Text style={[styles.headline1, styles.headlineTypo]}>Time</Text>
 
           <View style={{ flexDirection: "row" }}>
-            <Text style={styles.textTypo}>From:{}</Text>
-            <Text style={styles.textTypo}>To:{}</Text>
+            <Text style={styles.textTypo}>From: {formattedStartTime}</Text>
+            <Text style={styles.textTypo}>To: {formattedEndTime}</Text>
           </View>
         </View>
 
@@ -91,15 +94,14 @@ const RequestConfirmationScreen = ({ route, navigation}) => {
 
 const styles = StyleSheet.create({
   bottomSheetHead: {
-    flexDirection:'row',
+    flexDirection: "row",
     width: "100%",
-    paddingVertical:12,
+    paddingVertical: 12,
     justifyContent: "flex-end",
-    alignItems:'center'
+    alignItems: "center",
   },
 
-  listSpaceBlock: {
-  },
+  listSpaceBlock: {},
 
   textTypo: {
     color: "#404040",
@@ -107,6 +109,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: "left",
     marginBottom: 12,
+    marginRight:8
   },
 
   title: {
