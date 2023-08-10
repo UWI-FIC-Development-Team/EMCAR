@@ -21,6 +21,7 @@ import SubmitSessionScreen from "../screens/main/SubmitSessionScreen";
 import TutorSignUpScreen from "../screens/tutor/TutorRegistrationScreen";
 import RequestConfirmationScreen from "../screens/tutor/RequestConfirmationScreen";
 import SubmitUpcomingSession from "../screens/tutor/SubmitUpcomingSession";
+import SessionDetails from "../screens/main/SessionDetails";
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -164,11 +165,15 @@ const MainStack = () => {
         component={OnboardingScreen2}
         options={{ headerShown: false }}
       />
-      {/* <Stack.Screen
-        name="Confirm Request"
-        component={RequestConfirmationScreen}
-        options={{ headerShown: false , presentation:'modal',gestureResponseDistance:1000}}
-      /> */}
+      <Stack.Screen
+        name="Session Details"
+        component={SessionDetails}
+        options={{
+          headerShown: false,
+          presentation: "modal",
+          gestureResponseDistance: 1000,
+        }}
+      />
       <Stack.Screen
         name="Sign up"
         component={TutorSignUpScreen}

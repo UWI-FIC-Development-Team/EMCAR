@@ -80,7 +80,7 @@ const StudentDB = () => {
         title={"Upcoming Sessions"}
         showSeeAll={true}
       >
-        {upcomingSessions !== undefined? (
+        {upcomingSessions ? (
           upcomingSessions.map((request) => (
             <TouchableOpacity
               onPress={() => {

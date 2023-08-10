@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
 import { FontFamily, Color } from "../../GlobalStyles";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { Divider } from "react-native-paper";
 import { ScrollView } from "react-native-gesture-handler";
 import { Feather } from "@expo/vector-icons";
@@ -88,11 +87,6 @@ const SessionDetails = ({ route, navigation }) => {
           </Text>
 
           <Text style={styles.textTypo}>{additionalDetails}</Text>
-        </View>
-
-        <View style={{ marginVertical: 36 }}>
-          <PrimaryButton title={"Confirm session"} onPress={() => {navigation.navigate('update session', {studentName: studentName, requestId:requestId})}} />
-          <PrimaryButton title={"Reject request"} onPress={() => {}} />
         </View>
       </ScrollView>
     </View>

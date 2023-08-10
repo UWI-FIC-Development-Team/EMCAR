@@ -25,7 +25,7 @@ const TutorDB = () => {
     // Fetch pending requests associated with the tutor
     const fetchPendingRequests = async () => {
       const tutorId = auth.currentUser.uid;
-      console.log("Current user ID:", tutorId);
+      console.log("Current user ID:", tutorUpcomingSessions);
       await getPendingRequests(tutorId);
       await getTutorUpcomingSessions(tutorId);
     };
@@ -43,7 +43,7 @@ const TutorDB = () => {
         title={"Pending Sessions"}
         showSeeAll={true}
       >
-        {pendingRequests !== undefined ? (
+        {pendingRequests ? (
           pendingRequests.map((request) => (
             <TouchableOpacity
               onPress={() => {
@@ -81,18 +81,37 @@ const TutorDB = () => {
         title={"Upcoming Sessions"}
         showSeeAll={true}
       >
-        {tutorUpcomingSessions.map((session) => {
-          return (
-            <SessionCard
-              name={session.studentName}
-              time={session.startTime.toDate().toLocaleTimeString()}
-              course={session.subjects[0]}
-              Topic={session.topics[0]}
-              date={session.requestDate.toDate().toLocaleDateString()}
-              location={session.location}
-            />
-          );
-        })}
+       {tutorUpcomingSessions ? (
+          tutorUpcomingSessions.map((request) => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Session Details", {
+                  requestId: request.requestId,
+                  studentName: request.studentName,
+                  tutorId: request.tutorId,
+                  subjects: request.subjects,
+                  topics: request.topics,
+                  requestDate: request.requestDate,
+                  startTime: request.startTime,
+                  endTime: request.endTime,
+                  location: request.location,
+                  additionalDetails: request.additionalDetails,
+                });
+              }}
+            >
+              <SessionCard
+                name={request.studentName}
+                time={request.startTime.toDate().toLocaleTimeString()}
+                course={request.subjects[0]}
+                Topic={request.topics[0]}
+                date={request.requestDate.toDate().toLocaleDateString()}
+                location={request.location}
+              />
+            </TouchableOpacity>
+          ))
+        ) : (
+          <InfoText />
+        )} 
       </DashBoardCard>
       <DashBoardCard
         showTitle={true}
