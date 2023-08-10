@@ -7,6 +7,7 @@ import { SessionContext } from "../../context/RequestContextProvider";
 import { useState } from "react";
 import { ActivityIndicator } from "react-native-paper";
 import FormInput from "../../components/atoms/FormInput";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const SubmitUpcomingSession = ({ onPresent, onClose, route }) => {
   const { updateRequestLocation, updateRequestStatusToUpcoming} = useContext(SessionContext);
@@ -41,13 +42,15 @@ const SubmitUpcomingSession = ({ onPresent, onClose, route }) => {
   };
 
   return (
+    
     <View style={styles.modalContainer}>
+      <KeyboardAwareScrollView style={{width:'100%'}}>
       <Text style={styles.title}>Complete Submisson</Text>
       <View style={{ width: "100%" }}>
         <DashBoardChip tutorName={studentName} iconIsVisible={false} />
       </View>
 
-      <View style={{ marginVertical: 8 , width:'100%'}}>
+      <View style={{ width:'100%'}}>
         <FormInput
           value={location}
           onChangeText={setLocation}
@@ -63,17 +66,19 @@ const SubmitUpcomingSession = ({ onPresent, onClose, route }) => {
         />
       ) : (
         <PrimaryButton
-          title="Sumbit your request"
+          title="Save & submit"
           onPress={() => handleSubmitSession(requestId, location)}
         />
       )}
+      </KeyboardAwareScrollView>
     </View>
+    
   );
 };
 
 const styles = StyleSheet.create({
   modalContainer: {
-    height: "60%",
+    height: "70%",
     justifyContent: "flex-end",
     alignItems: "center",
     backgroundColor: "#fff",

@@ -108,7 +108,6 @@ function SessionProvider({ children }) {
       );
       const querySnapshot = await getDocs(upcomingSessionsQuery);
       const upcomingSessionsData = querySnapshot.docs.map((doc) => doc.data());
-      console.log('This is the data: ', upcomingSessionsData);
       setTutorUpcomingSessions((prev) => {
         return [...prev, ...upcomingSessionsData];
       });

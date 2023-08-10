@@ -13,8 +13,7 @@ import FormInput from "../../components/atoms/FormInput";
 import SocialLoginButton from "../../components/atoms/SocialLoginButton";
 import { AuthContext } from "../../context/AuthContextProvider";
 import { ActivityIndicator } from "react-native-paper";
-
-
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const SignUpScreen = ({ route }) => {
   const { role } = route.params;
@@ -26,8 +25,6 @@ const SignUpScreen = ({ route }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-
-
 
   const handleSignUp = async () => {
     try {
@@ -43,7 +40,7 @@ const SignUpScreen = ({ route }) => {
 
         // Reset the input fields and loading state after successful sign-up
         setLoading(false);
-        navigation.navigate("Log In")
+        navigation.navigate("Log In");
         setName("");
         setEmail("");
         setPassword("");
@@ -59,17 +56,16 @@ const SignUpScreen = ({ route }) => {
     }
   };
 
+  const keyboardVerticalOffset = Platform.OS === "ios" ? 1 : 0;
+
   return (
     <View style={styles.loginScreen}>
-      <Text style={[styles.title, styles.titleTypo]}>
-        Let's create your account. Please fill out the following information to
-        get started.
-      </Text>
+      <KeyboardAwareScrollView>
+        <Text style={[styles.title, styles.titleTypo]}>
+          Let's create your account. Please fill out the following information
+          to get started.
+        </Text>
 
-      <KeyboardAvoidingView
-        style={styles.keyboardAvoidingView}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
         <View style={styles.textFieldParent}>
           <FormInput
             onChangeText={setName}
@@ -93,7 +89,7 @@ const SignUpScreen = ({ route }) => {
           />
         </View>
         {loading ? (
-          <ActivityIndicator animating={true} size={'large'} color="#006A6A" />
+          <ActivityIndicator animating={true} size={"large"} color="#006A6A" />
         ) : (
           <PrimaryButton
             title={"Register your account"}
@@ -109,16 +105,16 @@ const SignUpScreen = ({ route }) => {
         </Pressable>
         <Text style={styles.optionText}>OR</Text>
         <SocialLoginButton />
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   loginScreen: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     flex: 1,
-    paddingTop: 20,
+    paddingTop: 12,
     paddingHorizontal: Padding.p_6xl,
   },
 
@@ -127,7 +123,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
-    marginVertical:8
+    marginVertical: 8,
   },
   forgotPassword: {
     marginTop: 3,

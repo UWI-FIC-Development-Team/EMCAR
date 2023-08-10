@@ -6,7 +6,7 @@ const InfoText = () => {
   
   return (
       <Text style={[styles.title, styles.titleTypo]}>
-        Fill out the form to let the tutor know how they can assist you.
+        No Request yet
       </Text>
   );
 };

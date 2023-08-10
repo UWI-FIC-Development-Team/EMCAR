@@ -11,6 +11,7 @@ import { TutorContext } from "../../context/TutorContextProvider";
 import { SessionContext } from "../../context/RequestContextProvider";
 import { auth } from "../../services/firebaseConfig";
 import { TouchableOpacity } from "react-native";
+import InfoText from "../../components/atoms/InfoText";
 
 const TutorDB = () => {
   const { activeUser } = useContext(AuthContext);
@@ -41,7 +42,7 @@ const TutorDB = () => {
         title={"Pending Sessions"}
         showSeeAll={true}
       >
-        {pendingRequests.map((request) => (
+        {pendingRequests===undefined ? pendingRequests.map((request) => (
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("Confirm Request", {
@@ -60,7 +61,7 @@ const TutorDB = () => {
           >
             <SessionCard tutor={request.studentName} />
           </TouchableOpacity>
-        ))}
+        )): <InfoText/>}
       </DashBoardCard>
       <DashBoardCard
         showTitle={true}
