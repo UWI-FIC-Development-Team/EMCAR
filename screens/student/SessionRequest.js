@@ -55,7 +55,7 @@ const SessionRequest = () => {
     const userId = auth.currentUser.uid;
     // Example request data
     const requestData = {
-      requestId:requestId,
+      requestId:uuid.v4(),
       studentId: userId,
       studentName: activeUser, // Assuming the user is a student and has a UID
       tutorId: "", // The UID of the tutor to whom the request is sent

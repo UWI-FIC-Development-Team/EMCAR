@@ -11,7 +11,7 @@ function TutorProvider({ children }) {
   const [tutorId, setTutorId] = useState(""); // Set the tutor ID here
   const [pendingRequests, setPendingRequests] = useState([]);
 
-  //Todo: move this function to request context provider
+  //Todo: move this function
   const getPendingRequests = async (tutorId) => {
     try {
       const requestsRef = collection(db, "requests");

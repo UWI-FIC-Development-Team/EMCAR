@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext } from "react";
+import React, { useState, useCallback, useContext, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -22,21 +22,21 @@ import { auth } from "../../services/firebaseConfig";
 
 const StudentDB = () => {
   const { activeUser } = useContext(AuthContext);
-  const { upcomingSessions, getUpcomingSessions } = useContext(SessionContext);
+  // const { upcomingSessions, getUpcomingSessions } = useContext(SessionContext);
   const { tutors } = useContext(TutorContext);
   const navigation = useNavigation();
 
   console.log("The current user name is: ", activeUser);
 
-  useEffect(() => {
-    const studentId = auth.currentUser.uid;
-    // Fetch pending requests associated with the tutor
-    const fetchPendingRequests = async () => {
-      await getUpcomingSessions(studentId);
-    };
+  // useEffect(() => {
+  //   const studentId = auth.currentUser.uid;
+  //   // Fetch pending requests associated with the tutor
+  //   const fetchPendingRequests = async () => {
+  //     await getUpcomingSessions(studentId);
+  //   };
 
-    fetchPendingRequests();
-  }, []);
+  //   fetchPendingRequests();
+  // }, []);
 
   return (
     <ScrollView style={styles.studentDb}>
@@ -72,9 +72,9 @@ const StudentDB = () => {
         title={"Upcoming Sessions"}
         showSeeAll={true}
       >
-        {upcomingSessions.map((sessions) => {
+        {/* {upcomingSessions.map((sessions) => {
           return <SessionCard tutor={sessions.tutorName} />;
-        })}
+        })} */}
       </DashBoardCard>
       <FloatingButton />
     </ScrollView>

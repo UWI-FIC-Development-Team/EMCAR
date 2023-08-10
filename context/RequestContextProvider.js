@@ -8,6 +8,9 @@ import {
   addDoc,
   getDoc,
   getDocs,
+  updateDoc,
+  query,
+  where,
 } from "firebase/firestore";
 
 import RequestBuilder from "../builders/RequestBuilder";
@@ -74,30 +77,41 @@ function SessionProvider({ children }) {
     }
   };
 
-  // get all upcoming sessions
-  const getupcomingSessions = async (studentId) => {
-    try {
-      const requestsRef = collection(db, "requests");
-      const upcomingSessionsQuery = query(
-        requestsRef,
-        where("tutorId", "==", studentId),
-        where("status", "==", "upcoming")
-      );
-      const querySnapshot = await getDocs(upcomingSessionsQuery);
-      const upcomingSessionsData = querySnapshot.docs.map((doc) => doc.data());
-      setUpcomingRequests((prev) => {
-        return [...prev, ...upcomingSessionsData];
-      });
-    } catch (error) {
-      console.error("Error while fetching upcoming requests:", error.message);
-      console.log("No request");
-    }
-  };
-
+  // // get all upcoming sessions
+  // const getupcomingSessions = async (studentId) => {
+  //   try {
+  //     const requestsRef = collection(db, "requests");
+  //     const upcomingSessionsQuery = query(
+  //       requestsRef,
+  //       where("studentId", "==", studentId),
+  //       where("status", "==", "upcoming")
+  //     );
+  //     const querySnapshot = await getDocs(upcomingSessionsQuery);
+  //     const upcomingSessionsData = querySnapshot.docs.map((doc) => doc.data());
+  //     setUpcomingRequests((prev) => {
+  //       return [...prev, ...upcomingSessionsData];
+  //     });
+  //   } catch (error) {
+  //     console.error("Error while fetching upcoming requests:", error.message);
+  //     console.log("No request");
+  //   }
+  // };
   const updateRequestStatusToUpcoming = async (requestId) => {
     try {
-      const requestRef = doc(db, "requests", requestId);
-      await updateDoc(requestRef, {
+      const requestRef = collection(db, "requests");
+
+      const upcomingSessionsQuery = query(
+        requestRef,
+        where("requestId", "==", requestId)
+      );
+
+      const querySnapshot = await getDocs(upcomingSessionsQuery);
+      const doc = querySnapshot.docs[0]; // Assuming there's only one matching document
+      const data = doc.data();
+      console.log("this is the doc", data);
+
+      const docRef = doc.ref;
+      await updateDoc(docRef, {
         status: "upcoming",
       });
       console.log("Request status updated to upcoming");
@@ -108,11 +122,22 @@ function SessionProvider({ children }) {
 
   const updateRequestLocation = async (requestId, newLocation) => {
     try {
-      const requestRef = doc(db, "requests", requestId);
-      await updateDoc(requestRef, {
+      const requestRef = collection(db, "requests");
+      const upcomingSessionsQuery = query(
+        requestRef,
+        where("requestId", "==", requestId)
+      );
+
+      const querySnapshot = await getDocs(upcomingSessionsQuery);
+      const doc = querySnapshot.docs[0]; // Assuming there's only one matching document
+      const data = doc.data();
+      console.log("this is the doc", data);
+
+      const docRef = doc.ref;
+      await updateDoc(docRef, {
         location: newLocation,
       });
-      console.log("Request location updated");
+      console.log("Request location updated", querySnapshot);
     } catch (error) {
       console.error("Error while updating request location:", error.message);
     }
@@ -127,10 +152,10 @@ function SessionProvider({ children }) {
         sessionRequest,
         setSessionRequest,
         setDataIsSent,
-        upcomingSessions,
-        getupcomingSessions,
+        // upcomingSessions,
+        // getupcomingSessions,
         updateRequestLocation,
-        updateRequestStatusToUpcoming
+        updateRequestStatusToUpcoming,
       }}
     >
       {children}
