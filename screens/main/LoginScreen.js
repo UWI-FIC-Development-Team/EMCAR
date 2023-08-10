@@ -14,6 +14,7 @@ import { auth } from "../../services/firebaseConfig";
 import { AuthContext } from "../../context/AuthContextProvider";
 import { useState } from "react";
 import { ActivityIndicator } from "react-native-paper";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const LoginScreen = ({ route }) => {
   const { login, activeUser } = useContext(AuthContext);
@@ -49,11 +50,9 @@ const LoginScreen = ({ route }) => {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={styles.keyboardAvoidingView}
-      behavior={Platform.OS === "ios" ? "padding" : "height"} // Specify the behavior prop according to the platform
-    >
+    
       <View style={styles.loginScreen}>
+        <KeyboardAwareScrollView>
         <Text style={[styles.title, styles.titleTypo]}>
           Welcome! Please log into your account
         </Text>
@@ -91,8 +90,9 @@ const LoginScreen = ({ route }) => {
         ) : (
           <PrimaryButton title={"Login"} onPress={handleLogin} />
         )}
+        </KeyboardAwareScrollView>
       </View>
-    </KeyboardAvoidingView>
+  
   );
 };
 

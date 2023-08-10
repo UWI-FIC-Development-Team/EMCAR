@@ -3,27 +3,34 @@ import { Text, StyleSheet, View } from "react-native";
 import { Color, FontSize, FontFamily, Border, Padding } from "../../GlobalStyles";
 import { Divider } from "react-native-paper";
 
-const SessionCard = ({time, data, room, courseCode, Topic, name}) => {
+const SessionCard = ({time, date, location, course, Topic, name}) => {
+
+  // function getFirstLetter(name) {
+  //   return name.charAt(0);
+  // }
+
+  // const intial = getFirstLetter(name)
+
   return (
     <View style={[styles.sessionCard, styles.autoLayout]}>
         <View style={styles.timeDate}>
-          <Text style={[styles.pm, styles.pmClr]}>12:00 PM</Text>
+          <Text style={[styles.pm, styles.pmClr]}>{time}</Text>
           <Text style={[styles.april08, styles.april08SpaceBlock]}>
-            April, 08
+            {date}
           </Text>
-          <Text style={styles.room207}>Room 207</Text>
+          <Text style={styles.room207}>{location}</Text>
         </View>
         <Divider style={{ width: 3, height: '100%'}} />
         <View style={styles.headlineContainerWrapper}>
           <View style={styles.headlineContainer}>
             <View style={styles.iconAndHeading}>
               <Text style={[styles.comp1205, styles.initialTypo]}>
-                COMP1205
+                {course}
               </Text>
             </View>
             <View style={[styles.iconAndHeading1, styles.april08SpaceBlock]}>
               <Text style={[styles.comp1205, styles.initialTypo]}>
-                Object Oriented Programming
+                {Topic}
               </Text>
             </View>
             <View style={[styles.headline, styles.april08SpaceBlock]}>
@@ -35,7 +42,7 @@ const SessionCard = ({time, data, room, courseCode, Topic, name}) => {
                   ]}
                 >
                   <Text style={[styles.initial, styles.initialTypo]}>
-                    J
+                    {'S'}
                   </Text>
                 </View>
               </View>

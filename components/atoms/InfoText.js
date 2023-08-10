@@ -6,7 +6,7 @@ const InfoText = () => {
   
   return (
       <Text style={[styles.title, styles.titleTypo]}>
-        Fill out the form to let the tutor know how they can assist you.
+       No sessions requested at this time. 
       </Text>
   );
 };
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    color: Color.materialThemeSysLightOnSurfaceVariant,
+    color: '#BEC9C8',
   },
 
 });

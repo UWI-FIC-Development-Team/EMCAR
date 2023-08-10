@@ -15,7 +15,8 @@ import InfoText from "../../components/atoms/InfoText";
 import { SessionContext } from "../../context/RequestContextProvider";
 import { ScrollView } from "react-native";
 import { AuthContext } from "../../context/AuthContextProvider";
-import uuid from 'react-native-uuid';
+import uuid from "react-native-uuid";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const SessionRequest = () => {
   const navigation = useNavigation();
@@ -32,14 +33,13 @@ const SessionRequest = () => {
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [loading, setLoading] = useState(false);
 
-
   const handleStartTimeChange = (event, selectedDate) => {
     if (selectedDate) {
       setStartTime(selectedDate);
     }
   };
 
-  const handleEndTimeChange = (event, selectedDate) => { 
+  const handleEndTimeChange = (event, selectedDate) => {
     if (selectedDate) {
       setEndTime(selectedDate);
     }
@@ -50,12 +50,11 @@ const SessionRequest = () => {
     }
   };
 
- 
   const handleSendRequest = async () => {
     const userId = auth.currentUser.uid;
     // Example request data
     const requestData = {
-      requestId:uuid.v4(),
+      requestId: uuid.v4(),
       studentId: userId,
       studentName: activeUser, // Assuming the user is a student and has a UID
       tutorId: "", // The UID of the tutor to whom the request is sent
@@ -143,26 +142,20 @@ const SessionRequest = () => {
 
   return (
     <View style={styles.loginScreen}>
-      <InfoText />
-
       {/* Wrap the content that needs to be adjusted inside a KeyboardAvoidingView */}
-      <KeyboardAvoidingView
-        style={styles.keyboardAvoidingView}
-        behavior={Platform.OS === "ios" ? "padding" : "height"} // Specify the behavior prop according to the platform
-      >
-        <ScrollView>
-          <View style={styles.textFieldParent}>
-            {FormListComponents.map((items, index) => {
-              return items;
-            })}
-          </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
 
-      <PrimaryButton
-        title={"Save & select a tutor"}
-        onPress={handleSendRequest}
-      />
+      <KeyboardAwareScrollView>
+        <View style={styles.textFieldParent}>
+          {FormListComponents.map((items, index) => {
+            return items;
+          })}
+        </View>
+
+        <PrimaryButton
+          title={"Save & select a tutor"}
+          onPress={handleSendRequest}
+        />
+      </KeyboardAwareScrollView>
     </View>
   );
 };
@@ -176,7 +169,7 @@ const styles = StyleSheet.create({
   },
 
   inputSmall: {
-    width: "45%",
+    width: "50%",
   },
   textInput: {
     height: 140,
@@ -190,7 +183,7 @@ const styles = StyleSheet.create({
   loginScreen: {
     backgroundColor: "#fff",
     flex: 1,
-    paddingTop: 40,
+
     paddingHorizontal: Padding.p_6xl,
   },
 

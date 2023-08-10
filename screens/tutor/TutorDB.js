@@ -8,20 +8,26 @@ import TopBar2 from "../../components/atoms/TopBar2";
 import SessionCard from "../../components/atoms/SessionCard";
 import { AuthContext } from "../../context/AuthContextProvider";
 import { TutorContext } from "../../context/TutorContextProvider";
+import { SessionContext } from "../../context/RequestContextProvider";
 import { auth } from "../../services/firebaseConfig";
 import { TouchableOpacity } from "react-native";
+import InfoText from "../../components/atoms/InfoText";
 
 const TutorDB = () => {
   const { activeUser } = useContext(AuthContext);
   const { tutors, getPendingRequests, pendingRequests } =
     useContext(TutorContext);
+  const { getTutorUpcomingSessions, tutorUpcomingSessions } =
+    useContext(SessionContext);
   const navigation = useNavigation();
-  const tutorId = auth.currentUser.uid;
 
   useEffect(() => {
     // Fetch pending requests associated with the tutor
     const fetchPendingRequests = async () => {
+      const tutorId = auth.currentUser.uid;
+      console.log("Current user ID:", tutorId);
       await getPendingRequests(tutorId);
+      await getTutorUpcomingSessions(tutorId);
     };
 
     fetchPendingRequests();
@@ -37,43 +43,62 @@ const TutorDB = () => {
         title={"Pending Sessions"}
         showSeeAll={true}
       >
-        {pendingRequests.map((request) => (
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Confirm Request", {
-                requestId: request.requestId,
-                studentName: request.studentName,
-                tutorId: request.tutorId,
-                subjects: request.subjects,
-                topics: request.topics,
-                requestDate: request.requestDate,
-                startTime: request.startTime,
-                endTime: request.endTime,
-                location: request.location,
-                additionalDetails: request.additionalDetails,
-              });
-            }}
-          >
-            <SessionCard tutor={request.studentName} />
-          </TouchableOpacity>
-        ))}
+        {pendingRequests !== undefined ? (
+          pendingRequests.map((request) => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Confirm Request", {
+                  requestId: request.requestId,
+                  studentName: request.studentName,
+                  tutorId: request.tutorId,
+                  subjects: request.subjects,
+                  topics: request.topics,
+                  requestDate: request.requestDate,
+                  startTime: request.startTime,
+                  endTime: request.endTime,
+                  location: request.location,
+                  additionalDetails: request.additionalDetails,
+                });
+              }}
+            >
+              <SessionCard
+                name={request.studentName}
+                time={request.startTime.toDate().toLocaleTimeString()}
+                course={request.subjects[0]}
+                Topic={request.topics[0]}
+                date={request.requestDate.toDate().toLocaleDateString()}
+                location={request.location}
+              />
+
+            </TouchableOpacity>
+          ))
+        ) : (
+          <InfoText />
+        )}
       </DashBoardCard>
       <DashBoardCard
         showTitle={true}
         title={"Upcoming Sessions"}
         showSeeAll={true}
       >
-        <SessionCard />
-        <SessionCard />
+        {tutorUpcomingSessions.map((session) => {
+          return (
+            <SessionCard
+              name={session.studentName}
+              time={session.startTime.toDate().toLocaleTimeString()}
+              course={session.subjects[0]}
+              Topic={session.topics[0]}
+              date={session.requestDate.toDate().toLocaleDateString()}
+              location={session.location}
+            />
+          );
+        })}
       </DashBoardCard>
       <DashBoardCard
         showTitle={true}
         title={"Recent Sessions"}
         showSeeAll={true}
-      >
-        <SessionCard />
-        <SessionCard />
-      </DashBoardCard>
+      ></DashBoardCard>
     </ScrollView>
   );
 };
@@ -110,7 +135,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Padding.p_6xl,
     paddingTop: 20,
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
 });
 
