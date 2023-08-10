@@ -42,26 +42,38 @@ const TutorDB = () => {
         title={"Pending Sessions"}
         showSeeAll={true}
       >
-        {pendingRequests===undefined ? pendingRequests.map((request) => (
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Confirm Request", {
-                requestId: request.requestId,
-                studentName: request.studentName,
-                tutorId: request.tutorId,
-                subjects: request.subjects,
-                topics: request.topics,
-                requestDate: request.requestDate,
-                startTime: request.startTime,
-                endTime: request.endTime,
-                location: request.location,
-                additionalDetails: request.additionalDetails,
-              });
-            }}
-          >
-            <SessionCard tutor={request.studentName} />
-          </TouchableOpacity>
-        )): <InfoText/>}
+        {pendingRequests === undefined ? (
+          pendingRequests.map((request) => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Confirm Request", {
+                  requestId: request.requestId,
+                  studentName: request.studentName,
+                  tutorId: request.tutorId,
+                  subjects: request.subjects,
+                  topics: request.topics,
+                  requestDate: request.requestDate,
+                  startTime: request.startTime,
+                  endTime: request.endTime,
+                  location: request.location,
+                  additionalDetails: request.additionalDetails,
+                });
+              }}
+            >
+              <SessionCard
+                name={request.studentName}
+                time={request.startTime.toDate().toLocaleTimeString()}
+                course={request.subjects[0]}
+                Topic={request.topics[0]}
+                date={request.requestDate.toDate().toLocaleDateString()}
+                location={request.location}
+              />
+
+            </TouchableOpacity>
+          ))
+        ) : (
+          <InfoText />
+        )}
       </DashBoardCard>
       <DashBoardCard
         showTitle={true}
