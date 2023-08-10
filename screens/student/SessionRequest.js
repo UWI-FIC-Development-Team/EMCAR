@@ -143,26 +143,26 @@ const SessionRequest = () => {
 
   return (
     <View style={styles.loginScreen}>
-      <InfoText />
-
       {/* Wrap the content that needs to be adjusted inside a KeyboardAvoidingView */}
-      <KeyboardAvoidingView
+      {/* <KeyboardAvoidingView
         style={styles.keyboardAvoidingView}
         behavior={Platform.OS === "ios" ? "padding" : "height"} // Specify the behavior prop according to the platform
-      >
+      > */}
         <ScrollView>
           <View style={styles.textFieldParent}>
             {FormListComponents.map((items, index) => {
               return items;
             })}
           </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+        
+      {/* </KeyboardAvoidingView> */}
 
       <PrimaryButton
         title={"Save & select a tutor"}
-        onPress={handleSendRequest}
-      />
+        onPress={handleSendRequest}/>
+
+      </ScrollView>
+    
     </View>
   );
 };
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   },
 
   inputSmall: {
-    width: "45%",
+    width: "50%",
   },
   textInput: {
     height: 140,
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
   loginScreen: {
     backgroundColor: "#fff",
     flex: 1,
-    paddingTop: 40,
+
     paddingHorizontal: Padding.p_6xl,
   },
 
