@@ -22,6 +22,7 @@ function SessionProvider({ children }) {
   const [dataIsSent, setDataIsSent] = useState(false);
   const [sessionRequest, setSessionRequest] = useState({});
   const [upcomingSessions, setUpcomingSessions] = useState([]);
+  const [tutorUpcomingSessions, setTutorUpcomingSessions] = useState([]);
 
   useEffect(() => {
     // Listen for changes in the authentication state
@@ -77,25 +78,46 @@ function SessionProvider({ children }) {
     }
   };
 
-  // // get all upcoming sessions
-  // const getupcomingSessions = async (studentId) => {
-  //   try {
-  //     const requestsRef = collection(db, "requests");
-  //     const upcomingSessionsQuery = query(
-  //       requestsRef,
-  //       where("studentId", "==", studentId),
-  //       where("status", "==", "upcoming")
-  //     );
-  //     const querySnapshot = await getDocs(upcomingSessionsQuery);
-  //     const upcomingSessionsData = querySnapshot.docs.map((doc) => doc.data());
-  //     setUpcomingRequests((prev) => {
-  //       return [...prev, ...upcomingSessionsData];
-  //     });
-  //   } catch (error) {
-  //     console.error("Error while fetching upcoming requests:", error.message);
-  //     console.log("No request");
-  //   }
-  // };
+  // get all upcoming sessions
+  const getStudentUpcomingSessions = async (studentId) => {
+    try {
+      const requestsRef = collection(db, "requests");
+      const upcomingSessionsQuery = query(
+        requestsRef,
+        where("studentId", "==", studentId),
+        where("status", "==", "upcoming")
+      );
+      const querySnapshot = await getDocs(upcomingSessionsQuery);
+      const upcomingSessionsData = querySnapshot.docs.map((doc) => doc.data());
+      setUpcomingRequests((prev) => {
+        return [...prev, ...upcomingSessionsData];
+      });
+    } catch (error) {
+      console.error("Error while fetching upcoming requests:", error.message);
+      console.log("No request");
+    }
+  };
+
+  const getTutorUpcomingSessions = async (tutorId) => {
+    try {
+      const requestsRef = collection(db, "requests");
+      const upcomingSessionsQuery = query(
+        requestsRef,
+        where("tutorId", "==", tutorId),
+        where("status", "==", "upcoming")
+      );
+      const querySnapshot = await getDocs(upcomingSessionsQuery);
+      const upcomingSessionsData = querySnapshot.docs.map((doc) => doc.data());
+      console.log('This is the data: ', upcomingSessionsData);
+      setTutorUpcomingSessions((prev) => {
+        return [...prev, ...upcomingSessionsData];
+      });
+    } catch (error) {
+      console.error("Error while fetching upcoming requests:", error.message);
+      console.log("No request");
+    }
+  };
+  
   const updateRequestStatusToUpcoming = async (requestId) => {
     try {
       const requestRef = collection(db, "requests");
@@ -152,8 +174,10 @@ function SessionProvider({ children }) {
         sessionRequest,
         setSessionRequest,
         setDataIsSent,
-        // upcomingSessions,
-        // getupcomingSessions,
+        upcomingSessions,
+        tutorUpcomingSessions,
+        getStudentUpcomingSessions,
+        getTutorUpcomingSessions,
         updateRequestLocation,
         updateRequestStatusToUpcoming,
       }}

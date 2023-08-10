@@ -8,6 +8,7 @@ import TopBar2 from "../../components/atoms/TopBar2";
 import SessionCard from "../../components/atoms/SessionCard";
 import { AuthContext } from "../../context/AuthContextProvider";
 import { TutorContext } from "../../context/TutorContextProvider";
+import { SessionContext } from "../../context/RequestContextProvider";
 import { auth } from "../../services/firebaseConfig";
 import { TouchableOpacity } from "react-native";
 
@@ -15,13 +16,16 @@ const TutorDB = () => {
   const { activeUser } = useContext(AuthContext);
   const { tutors, getPendingRequests, pendingRequests } =
     useContext(TutorContext);
+  const { getTutorUpcomingSessions, tutorUpcomingSessions } =
+    useContext(SessionContext);
   const navigation = useNavigation();
-  const tutorId = auth.currentUser.uid;
 
   useEffect(() => {
     // Fetch pending requests associated with the tutor
     const fetchPendingRequests = async () => {
+      const tutorId = auth.currentUser.uid;
       await getPendingRequests(tutorId);
+      await getTutorUpcomingSessions(tutorId);
     };
 
     fetchPendingRequests();
@@ -63,17 +67,24 @@ const TutorDB = () => {
         title={"Upcoming Sessions"}
         showSeeAll={true}
       >
-        <SessionCard />
-        <SessionCard />
+        {tutorUpcomingSessions.map((session) => {
+          return (
+            <SessionCard
+              name={session.studentName}
+              time={session.startTime.toDate().toLocaleTimeString()}
+              course={session.subjects[0]}
+              Topic={session.topics[0]}
+              date={session.requestDate.toDate().toLocaleDateString()}
+              location={session.location}
+            />
+          );
+        })}
       </DashBoardCard>
       <DashBoardCard
         showTitle={true}
         title={"Recent Sessions"}
         showSeeAll={true}
-      >
-        <SessionCard />
-        <SessionCard />
-      </DashBoardCard>
+      ></DashBoardCard>
     </ScrollView>
   );
 };
@@ -110,7 +121,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Padding.p_6xl,
     paddingTop: 20,
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
 });
 
