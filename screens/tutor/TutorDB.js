@@ -25,6 +25,7 @@ const TutorDB = () => {
     // Fetch pending requests associated with the tutor
     const fetchPendingRequests = async () => {
       const tutorId = auth.currentUser.uid;
+      console.log("Current user ID:", tutorId);
       await getPendingRequests(tutorId);
       await getTutorUpcomingSessions(tutorId);
     };
@@ -42,7 +43,7 @@ const TutorDB = () => {
         title={"Pending Sessions"}
         showSeeAll={true}
       >
-        {pendingRequests === undefined ? (
+        {pendingRequests !== undefined ? (
           pendingRequests.map((request) => (
             <TouchableOpacity
               onPress={() => {

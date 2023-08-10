@@ -22,6 +22,7 @@ function TutorProvider({ children }) {
       );
       const querySnapshot = await getDocs(pendingRequestsQuery);
       const pendingRequestsData = querySnapshot.docs.map((doc) => doc.data());
+      setPendingRequests([])
       setPendingRequests((prev) => {
         return [...prev, ...pendingRequestsData];
       });

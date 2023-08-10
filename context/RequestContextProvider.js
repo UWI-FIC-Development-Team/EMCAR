@@ -89,6 +89,7 @@ function SessionProvider({ children }) {
       );
       const querySnapshot = await getDocs(upcomingSessionsQuery);
       const upcomingSessionsData = querySnapshot.docs.map((doc) => doc.data());
+      setUpcomingSessions([])
       setUpcomingSessions((prev) => {
         return [...prev, ...upcomingSessionsData];
       });
@@ -108,6 +109,7 @@ function SessionProvider({ children }) {
       );
       const querySnapshot = await getDocs(upcomingSessionsQuery);
       const upcomingSessionsData = querySnapshot.docs.map((doc) => doc.data());
+      setTutorUpcomingSessions([])
       setTutorUpcomingSessions((prev) => {
         return [...prev, ...upcomingSessionsData];
       });
