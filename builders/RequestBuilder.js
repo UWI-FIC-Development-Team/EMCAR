@@ -2,22 +2,17 @@ const createRequest = () => {
   const request = {
     requestId: "",
     studentId: "",
+    studentName: "",
     tutorId: "",
+    tutorName: "",
     subjects: [],
     topics: [],
     status: "",
     requestDate: "",
     startTime: "",
     endTime: "",
-    confirmationTime: "",
     location: "",
     additionalDetails: "",
-    cancellationReason: "",
-  };
-
-  const withRequestId = (requestId) => {
-    request.requestId = requestId;
-    return builder;
   };
 
   const withStudentId = (studentId) => {
@@ -25,8 +20,23 @@ const createRequest = () => {
     return builder;
   };
 
+  const withRequestId = (requestId) => {
+    request.requestId = requestId;
+    return builder;
+  };
+
+  const withStudentName = (studentName) => {
+    request.studentName = studentName;
+    return builder;
+  };
+
   const withTutorId = (tutorId) => {
     request.tutorId = tutorId;
+    return builder;
+  };
+
+  const withTutorName = (tutorName) => {
+    request.tutorName = tutorName;
     return builder;
   };
 
@@ -60,11 +70,6 @@ const createRequest = () => {
     return builder;
   };
 
-  const withConfirmationTime = (confirmationTime) => {
-    request.confirmationTime = confirmationTime;
-    return builder;
-  };
-
   const withLocation = (location) => {
     request.location = location;
     return builder;
@@ -75,18 +80,15 @@ const createRequest = () => {
     return builder;
   };
 
-  const withCancellationReason = (cancellationReason) => {
-    request.cancellationReason = cancellationReason;
-    return builder;
-  };
-
   const build = () => {
     return request;
   };
 
   const builder = {
     withRequestId,
-    withStudentId,
+    withTutorName, // new field
+    withStudentId, // new field
+    withStudentName,
     withTutorId,
     withSubjects,
     withTopics,
@@ -94,10 +96,8 @@ const createRequest = () => {
     withRequestDate,
     withStartTime,
     withEndTime,
-    withConfirmationTime,
     withLocation,
     withAdditionalDetails,
-    withCancellationReason,
     build,
   };
 

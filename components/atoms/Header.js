@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     marginTop: 20,
     flexDirection: "row",
-    backgroundColor: Color.materialThemeSysLightBackground,
+    backgroundColor: '#fff',
     paddingVertical: 12,
     paddingHorizontal: 16,
     alignItems: "center",
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     marginTop: 0,
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "bold",
     color: "#333",
     textAlign: "center",

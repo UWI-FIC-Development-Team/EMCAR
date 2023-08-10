@@ -1,23 +1,25 @@
 import React, { useState } from "react";
-import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
+import { Text, StyleSheet, View, TouchableOpacity, Modal, Button } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
-// TODO: modify the function so that when the date input is active...
-// TODO:...it shows the file picker in a modal
-
-const DateAndTimePicker = ({
+ export const DatePicker = ({
   label,
   style,
   mode,
   placeholder,
   date,
   handleDateChange,
-  handleOpenDatePicker,
-  showDatePicker,
-
 }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const formattedDate = date ? date.toLocaleDateString() : '';
 
-   const formattedDate = date ? date.toLocaleDateString() : '';
+  const handleOpenDatePicker = () => {
+    setModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  };
 
   return (
     <View style={styles.container}>
@@ -29,29 +31,94 @@ const DateAndTimePicker = ({
           </Text>
         </View>
       </TouchableOpacity>
-      {showDatePicker && (
-        <DateTimePicker
-          style={styles.textField}
-          mode={mode}
-          value={date}
-          onChange={handleDateChange}
-          display="inline"
-        />
-      )}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={handleCloseModal}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <DateTimePicker
+              style={styles.textField}
+              mode={mode}
+              value={date}
+              onChange={(event, selectedDate) => {
+                handleCloseModal();
+                handleDateChange(event, selectedDate);
+              }}
+              display="inline"
+            />
+            <Button title="Close" onPress={handleCloseModal} />
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
+
+
+export const TimePicker = ({
+  label,
+  style,
+  mode,
+  placeholder,
+  time,
+  handleTimeChange,
+}) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const formattedTime = time ? time.toLocaleTimeString() : '';
+
+  const handleOpenDatePicker = () => {
+    setModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.label}>{label}</Text>
+      <TouchableOpacity onPress={handleOpenDatePicker}>
+        <View style={styles.customInput}>
+          <Text style={styles.textFieldDatePickerValue}>
+            {formattedTime || placeholder}
+          </Text>
+        </View>
+      </TouchableOpacity>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={handleCloseModal}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <DateTimePicker
+              style={styles.textField}
+              mode={mode}
+              value={time}
+              onChange={(event, selectedDate) => {
+                handleCloseModal();
+                handleTimeChange(event, selectedDate);
+              }}
+              display="spinner"
+            />
+            <Button title="Close" onPress={handleCloseModal} />
+          </View>
+        </View>
+      </Modal>
+    </View>
+  );
+};
+
 
 const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: "bold",
     marginBottom: 5,
-  },
-  textFieldDatePickerPlaceHolder: {
-    fontFamily: "Roboto_regular",
-    color: "#3f4948",
-    fontSize: 16,
   },
   textFieldDatePickerValue: {
     fontFamily: "Roboto_regular",
@@ -70,6 +137,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     borderRadius: 12,
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0)",
+  },
+  modalContent: {
+    backgroundColor: "#ccc",
+    borderRadius: 12,
+    padding: 20,
+    alignItems: "center",
+  },
 });
 
-export default DateAndTimePicker;
+

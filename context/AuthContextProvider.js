@@ -193,8 +193,8 @@ function AuthProvider({ children }) {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log("User is signed in:", user.uid);
-        // Redirect or navigate to the home screen
+        // console.log("User is signed in:", user.uid);
+        // // Redirect or navigate to the home screen
       } else {
         console.log("User is signed out");
       }

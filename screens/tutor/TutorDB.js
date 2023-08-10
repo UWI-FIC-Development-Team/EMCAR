@@ -1,29 +1,31 @@
-import React, { useState, useCallback, useContext } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ScrollView,
-  StatusBar,
-} from "react-native";
+import React, { useState, useContext, useEffect } from "react";
+import { StyleSheet, ScrollView, StatusBar } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, Padding, Color } from "../../GlobalStyles";
 import DashBoardCard from "../../components/atoms/DashBoardCard";
-import DashBoardChip from "../../components/atoms/DashBoardChip";
 import TopBar2 from "../../components/atoms/TopBar2";
 import SessionCard from "../../components/atoms/SessionCard";
-import FloatingButton from "../../components/atoms/FloatingButton";
 import { AuthContext } from "../../context/AuthContextProvider";
 import { TutorContext } from "../../context/TutorContextProvider";
+import { auth } from "../../services/firebaseConfig";
+import { TouchableOpacity } from "react-native";
 
 const TutorDB = () => {
   const { activeUser } = useContext(AuthContext);
-  const { tutors } = useContext(TutorContext);
+  const { tutors, getPendingRequests, pendingRequests } =
+    useContext(TutorContext);
   const navigation = useNavigation();
+  const tutorId = auth.currentUser.uid;
 
-  console.log("The current user name is: ", activeUser);
+  useEffect(() => {
+    // Fetch pending requests associated with the tutor
+    const fetchPendingRequests = async () => {
+      await getPendingRequests(tutorId);
+    };
+
+    fetchPendingRequests();
+  }, []);
 
   return (
     <ScrollView style={styles.studentDb}>
@@ -35,8 +37,26 @@ const TutorDB = () => {
         title={"Pending Sessions"}
         showSeeAll={true}
       >
-        <SessionCard />
-        <SessionCard />
+        {pendingRequests.map((request) => (
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Confirm Request", {
+                requestId: request.requestId,
+                studentName: request.studentName,
+                tutorId: request.tutorId,
+                subjects: request.subjects,
+                topics: request.topics,
+                requestDate: request.requestDate,
+                startTime: request.startTime,
+                endTime: request.endTime,
+                location: request.location,
+                additionalDetails: request.additionalDetails,
+              });
+            }}
+          >
+            <SessionCard tutor={request.studentName} />
+          </TouchableOpacity>
+        ))}
       </DashBoardCard>
       <DashBoardCard
         showTitle={true}
@@ -90,7 +110,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Padding.p_6xl,
     paddingTop: 20,
     flex: 1,
-    backgroundColor: Color.materialThemeSysLightBackground,
+    backgroundColor: '#fff',
   },
 });
 

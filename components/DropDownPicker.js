@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Dropdown, MultiSelect } from "react-native-element-dropdown";
 import { Feather } from "@expo/vector-icons";
+import { topicsData, coursesData } from "../Data";
 
 export const CourseDropDown = ({
   style,
@@ -10,14 +11,6 @@ export const CourseDropDown = ({
   value,
   onChange,
 }) => {
-  const coursesData = [
-    { value: "COMP1205", label: "COMP1205" },
-    { value: "MATH0110", label: "MATH0110" },
-    { value: "COMP0001", label: "COMP0001" },
-  ];
-
-  const [selectedCourse, setSelectedCourse] = useState([]);
-
   return (
     <View style={style}>
       <Text style={styles.label}>{label}</Text>
@@ -59,14 +52,6 @@ export const TopicDropDown = ({
   value,
   onChange,
 }) => {
-  const topicsData = [
-    { value: "Topic 1", label: "Topic 1" },
-    { value: "Topic 2", label: "Topic 2" },
-    { value: "Topic 3", label: "Topic 3" },
-  ];
-
-  const [selectedTopic, setSelectedTopic] = useState([]);
-
   return (
     <View style={style}>
       <Text style={styles.label}>{label}</Text>
@@ -95,47 +80,6 @@ export const TopicDropDown = ({
               <Feather style={styles.icon} color="black" name="x" size={20} />
             </View>
           </TouchableOpacity>
-        )}
-      />
-    </View>
-  );
-};
-
-export const TimeDropDown = ({
-  style,
-  label,
-  placeholder,
-  value,
-  onChange,
-}) => {
-  const timeData = [
-    { value: "Morning", label: "Morning" },
-    { value: "Afternoon", label: "Afternoon" },
-    { value: "Evening", label: "Evening" },
-  ];
-
-  const [selectedTime, setSelectedTime] = useState(null);
-
-  return (
-    <View style={style}>
-      <Text style={styles.label}>{label}</Text>
-      <Dropdown
-        style={styles.dropdown}
-        placeholderStyle={styles.placeholderStyle}
-        selectedTextStyle={styles.selectedTextStyle}
-        inputSearchStyle={styles.inputSearchStyle}
-        iconStyle={styles.iconStyle}
-        data={timeData}
-        search
-        maxHeight={150}
-        labelField="label"
-        valueField="value"
-        placeholder={`Select Time (${placeholder})`}
-        searchPlaceholder="Search..."
-        value={value}
-        onChange={onChange}
-        renderLeftIcon={() => (
-          <Feather style={styles.icon} color="black" name="" size={20} />
         )}
       />
     </View>

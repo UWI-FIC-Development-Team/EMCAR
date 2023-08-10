@@ -19,6 +19,8 @@ import TutorSelection from "../screens/student/TutorSelection";
 import SuccessScreen from "../screens/student/SuccessScreen";
 import SubmitSessionScreen from "../screens/main/SubmitSessionScreen";
 import TutorSignUpScreen from "../screens/tutor/TutorRegistrationScreen";
+import RequestConfirmationScreen from "../screens/tutor/RequestConfirmationScreen";
+import SubmitUpcomingSession from "../screens/tutor/SubmitUpcomingSession";
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -34,11 +36,11 @@ const AppNavigator = () => {
     "Work Sans_bold": require("../assets/fonts/Work_Sans_bold.ttf"),
     Poppins_bold: require("../assets/fonts/Poppins_bold.ttf"),
   });
-  
+
   if (!fontsLoaded && !error) {
     return null;
   }
-  
+
   return (
     <>
       <NavigationContainer>
@@ -53,6 +55,7 @@ const AppNavigator = () => {
           <RootStack.Group
             screenOptions={{
               presentation: "modal",
+              gestureResponseDistance: 1000,
             }}
           >
             <RootStack.Screen
@@ -69,7 +72,8 @@ const AppNavigator = () => {
 
           <RootStack.Group
             screenOptions={{
-              presentation: 'modal',
+              presentation: "modal",
+              gestureResponseDistance: 1000,
             }}
           >
             <RootStack.Screen
@@ -80,6 +84,39 @@ const AppNavigator = () => {
                 cardStyle: {
                   backgroundColor: "rgba(0,0,0,0)",
                 },
+              }}
+            />
+          </RootStack.Group>
+
+          <RootStack.Group
+            screenOptions={{
+              presentation: "modal",
+              gestureResponseDistance: 1000,
+            }}
+          >
+            <RootStack.Screen
+              name="update session"
+              component={SubmitUpcomingSession}
+              options={{
+                headerMode: "none",
+                cardStyle: {
+                  backgroundColor: "rgba(0,0,0,0)",
+                },
+              }}
+            />
+          </RootStack.Group>
+
+          <RootStack.Group
+            screenOptions={{
+              presentation: "modal",
+              gestureResponseDistance: 135,
+            }}
+          >
+            <RootStack.Screen
+              name="Confirm Request"
+              component={RequestConfirmationScreen}
+              options={{
+                headerMode: "none",
               }}
             />
           </RootStack.Group>
@@ -121,12 +158,17 @@ const MainStack = () => {
         component={BottomNavigation}
         options={{ headerShown: false }}
       />
-      
+
       <Stack.Screen
         name="OnboardingScreen2"
         component={OnboardingScreen2}
         options={{ headerShown: false }}
       />
+      {/* <Stack.Screen
+        name="Confirm Request"
+        component={RequestConfirmationScreen}
+        options={{ headerShown: false , presentation:'modal',gestureResponseDistance:1000}}
+      /> */}
       <Stack.Screen
         name="Sign up"
         component={TutorSignUpScreen}
