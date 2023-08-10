@@ -19,24 +19,32 @@ import { AuthContext } from "../../context/AuthContextProvider";
 import { TutorContext } from "../../context/TutorContextProvider";
 import { SessionContext } from "../../context/RequestContextProvider";
 import { auth } from "../../services/firebaseConfig";
+import InfoText from "../../components/atoms/InfoText";
 
 const StudentDB = () => {
   const { activeUser } = useContext(AuthContext);
-  // const { upcomingSessions, getUpcomingSessions } = useContext(SessionContext);
+  const { upcomingSessions, getStudentUpcomingSessions } = useContext(SessionContext);
   const { tutors } = useContext(TutorContext);
   const navigation = useNavigation();
 
   console.log("The current user name is: ", activeUser);
 
-  // useEffect(() => {
-  //   const studentId = auth.currentUser.uid;
-  //   // Fetch pending requests associated with the tutor
-  //   const fetchPendingRequests = async () => {
-  //     await getUpcomingSessions(studentId);
-  //   };
+  useEffect(() => {
+    // Fetch pending requests associated with the tutor
+    const fetchPendingRequests = async () => {
+      try {
+        const studentId = auth.currentUser.uid;
+        await getStudentUpcomingSessions(studentId);
+        // Handle the fetched sessions here
+        // For example, update state or perform some actions
+      } catch (error) {
+        // Handle errors that occurred during fetching
+        console.error("Error fetching upcoming sessions:", error);
+      }
+    };
 
-  //   fetchPendingRequests();
-  // }, []);
+    fetchPendingRequests();
+  }, []);
 
   return (
     <ScrollView style={styles.studentDb}>
@@ -72,11 +80,11 @@ const StudentDB = () => {
         title={"Upcoming Sessions"}
         showSeeAll={true}
       >
-        {pendingRequests === undefined ? (
-          pendingRequests.map((request) => (
+        {upcomingSessions !== undefined? (
+          upcomingSessions.map((request) => (
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate("Confirm Request", {
+                navigation.navigate("Session Details", {
                   requestId: request.requestId,
                   studentName: request.studentName,
                   tutorId: request.tutorId,

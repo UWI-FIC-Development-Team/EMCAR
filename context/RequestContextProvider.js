@@ -89,7 +89,7 @@ function SessionProvider({ children }) {
       );
       const querySnapshot = await getDocs(upcomingSessionsQuery);
       const upcomingSessionsData = querySnapshot.docs.map((doc) => doc.data());
-      setUpcomingRequests((prev) => {
+      setUpcomingSessions((prev) => {
         return [...prev, ...upcomingSessionsData];
       });
     } catch (error) {
