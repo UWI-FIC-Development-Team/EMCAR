@@ -185,16 +185,22 @@ const MainStack = () => {
         component={PasswordReset}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="tutor profile"
         component={TutorProfileScreen}
         options={{ headerShown: false }}
-      />
+      /> */}
+
       <Stack.Screen
         name="All tutors"
         component={AllTutors}
         options={{ headerShown: true }}
       />
+      {/* <Stack.Screen
+        name="Edit profile"
+        component={}
+        options={{ headerShown: true }}
+      /> */}
       <Stack.Screen
         name="Select a tutor"
         component={TutorSelection}
