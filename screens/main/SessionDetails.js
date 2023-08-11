@@ -36,8 +36,7 @@ const SessionDetails = ({ route, navigation }) => {
         <View style={styles.headlineParent}>
           <Text style={styles.headline0}>Session Details</Text>
           <Text style={styles.title}>
-            This page displays the information you provided for your tutor
-            request. This helps the tutor prepare a personalized lesson for you.
+            
           </Text>
         </View>
 

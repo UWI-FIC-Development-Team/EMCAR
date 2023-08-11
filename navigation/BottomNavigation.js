@@ -11,8 +11,8 @@ import { getHeaderTitle } from "@react-navigation/elements";
 import SessionScreen from "../screens/student/SessionScreen";
 import TutorDB from "../screens/tutor/TutorDB";
 import { AuthContext } from "../context/AuthContextProvider";
-import TutorSessionScreen from "../screens/tutor/TutorSessionScreen";
 import TutorProfileScreen from "../screens/tutor/TutorProfileScreen";
+import Settings from "../screens/tutor/TutorSettingsScreen";
 import { useEffect } from "react";
 
 const BottomTabs = createBottomTabNavigator();
@@ -43,7 +43,10 @@ function BottomNavigation() {
             iconName = focused ? "home" : "home";
           } else if (route.name === "Settings") {
             iconName = focused ? "settings" : "settings";
+          } else if (route.name === "Profile") {
+            iconName = focused ? "user" : "user";
           }
+ 
 
           return <Feather name={iconName} size={size} color={color} />;
         },
@@ -65,7 +68,7 @@ function BottomNavigation() {
       })}
     >
       {isTutor ? (
-        <BottomTabs.Screen name="Session" component={TutorSessionScreen} />
+        <BottomTabs.Screen name="Profile" component={TutorProfileScreen} />
       ) : (
         <BottomTabs.Screen name="Session" component={SessionScreen} />
       )}
@@ -75,7 +78,7 @@ function BottomNavigation() {
         <BottomTabs.Screen name="Dashboard" component={StudentDB} />
       )}
       {isTutor ? (
-        <BottomTabs.Screen name="Settings" component={TutorProfileScreen} />
+        <BottomTabs.Screen name="Settings" component={Settings} />
       ) : (
         <BottomTabs.Screen name="Settings" component={StudentProfileScreen} />
       )}

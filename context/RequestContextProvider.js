@@ -14,10 +14,12 @@ import {
 } from "firebase/firestore";
 
 import RequestBuilder from "../builders/RequestBuilder";
+import { TutorContext } from "./TutorContextProvider";
 
 const SessionContext = createContext();
 
 function SessionProvider({ children }) {
+  const { setPendingRequests } = useContext(TutorContext);
   const [user, setUser] = useState(null);
   const [dataIsSent, setDataIsSent] = useState(false);
   const [sessionRequest, setSessionRequest] = useState({});
@@ -89,7 +91,7 @@ function SessionProvider({ children }) {
       );
       const querySnapshot = await getDocs(upcomingSessionsQuery);
       const upcomingSessionsData = querySnapshot.docs.map((doc) => doc.data());
-      setUpcomingSessions([])
+      setUpcomingSessions([]);
       setUpcomingSessions((prev) => {
         return [...prev, ...upcomingSessionsData];
       });
@@ -109,7 +111,7 @@ function SessionProvider({ children }) {
       );
       const querySnapshot = await getDocs(upcomingSessionsQuery);
       const upcomingSessionsData = querySnapshot.docs.map((doc) => doc.data());
-      setTutorUpcomingSessions([])
+      setTutorUpcomingSessions([]);
       setTutorUpcomingSessions((prev) => {
         return [...prev, ...upcomingSessionsData];
       });
@@ -118,7 +120,7 @@ function SessionProvider({ children }) {
       console.log("No request");
     }
   };
-  
+
   const updateRequestStatusToUpcoming = async (requestId) => {
     try {
       const requestRef = collection(db, "requests");
@@ -166,6 +168,22 @@ function SessionProvider({ children }) {
     }
   };
 
+  // const resetAllStates = () => {
+  //   if (
+  //     tutorUpcomingSessions.length === 0 &&
+  //     upcomingSessions.length === 0 &&
+  //     pendingRequests.length === 0
+  //   ) {
+  //     return "States are already empty";
+  //   }
+
+  //   setTutorUpcomingSessions([]);
+  //   setUpcomingSessions([]);
+ 
+
+  //   return "States reset successfully";
+  // };
+
   return (
     <SessionContext.Provider
       value={{
@@ -181,6 +199,7 @@ function SessionProvider({ children }) {
         getTutorUpcomingSessions,
         updateRequestLocation,
         updateRequestStatusToUpcoming,
+        // resetAllStates,
       }}
     >
       {children}

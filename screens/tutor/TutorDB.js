@@ -1,5 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
-import { StyleSheet, ScrollView, StatusBar, RefreshControl} from "react-native";
+import {
+  StyleSheet,
+  ScrollView,
+  StatusBar,
+  RefreshControl,
+} from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, Padding, Color } from "../../GlobalStyles";
@@ -23,6 +28,17 @@ const TutorDB = () => {
 
   const [refreshing, setRefreshing] = useState(false); // Step 2
 
+  useEffect(() => {
+    const fetchPendingRequests = async () => {
+      const tutorId = auth.currentUser.uid;
+      console.log("Fetching pending requests and upcoming sessions...");
+      await getPendingRequests(tutorId);
+      await getTutorUpcomingSessions(tutorId);
+    };
+
+    fetchPendingRequests();
+  }, []);
+
   const onRefresh = async () => {
     // Step 2
     setRefreshing(true);
@@ -32,25 +48,6 @@ const TutorDB = () => {
     // await fetchPendingRequests();
     setRefreshing(false);
   };
-
-  // useEffect(() => {
-  //   const fetchPendingRequests = async () => {
-  //     const tutorId = auth.currentUser.uid;
-  //     console.log("Fetching pending requests and upcoming sessions...");
-  //     await getPendingRequests(tutorId);
-  //     await getTutorUpcomingSessions(tutorId);
-  //   };
-
-  //   fetchPendingRequests();
-
-  //   const calledFunctions = [
-  //     fetchPendingRequests,
-  //     getPendingRequests,
-  //     getTutorUpcomingSessions,
-  //   ];
-  //   console.log("Functions called within useEffect:", calledFunctions); // Fetch called functions
-
-  // }, []);
 
   return (
     <ScrollView

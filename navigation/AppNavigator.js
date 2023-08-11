@@ -22,6 +22,7 @@ import TutorSignUpScreen from "../screens/tutor/TutorRegistrationScreen";
 import RequestConfirmationScreen from "../screens/tutor/RequestConfirmationScreen";
 import SubmitUpcomingSession from "../screens/tutor/SubmitUpcomingSession";
 import SessionDetails from "../screens/main/SessionDetails";
+import TutorProfileScreen from "../screens/tutor/TutorProfileScreen";
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -185,8 +186,8 @@ const MainStack = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="TutorPage"
-        component={TutorPage}
+        name="tutor profile"
+        component={TutorProfileScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
