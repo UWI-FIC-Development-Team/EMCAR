@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     marginLeft: 32,
   },
   segments: {
-    borderRadius: Border.br_3xs,
+    borderRadius: 5,
     backgroundColor: Color.white,
     borderStyle: "solid",
     borderColor: "#afb1b6",

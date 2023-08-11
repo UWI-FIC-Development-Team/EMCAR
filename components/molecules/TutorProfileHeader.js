@@ -1,13 +1,14 @@
 import * as React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { FontFamily, FontSize, Color, Padding, Border } from "../../GlobalStyles";
+import { Avatar } from 'react-native-paper';
 
 const TutorProfileHeader = () => {
   return (
     <View style={[styles.selectheaderParent, styles.selectheaderFlexBox]}>
-      
+       <Avatar.Text style={{backgroundColor:"#006A6A"}} size={100} label="LS" />
       <Text style={[styles.headline1, styles.headlineTypo]}>Linda Simon</Text>
-      <Text style={[styles.headline1, styles.headlineTypo]}>
+      <Text style={[styles.headline, styles.headlineTypo]}>
         Second year computer science student.
       </Text>
     </View>
@@ -28,22 +29,16 @@ const styles = StyleSheet.create({
  
   headline: {
     flex: 1,
-    fontSize: FontSize.materialThemeTitleLarge_size,
+    fontSize: 16,
     lineHeight: 28,
     fontFamily: FontFamily.materialThemeBodyLarge,
-    marginLeft: 6,
     textAlign: "center",
-    color: Color.materialThemeSysLightOnPrimaryContainer,
+    color: '#61646B',
   },
-  selectheader: {
-    height: 64,
-    flexDirection: "row",
-    paddingHorizontal: Padding.p_7xs,
-    paddingVertical: Padding.p_5xs,
-  },
+
  
   headline1: {
-    fontSize: FontSize.size_13xl,
+    fontSize: 32,
     fontWeight: "700",
     color: Color.materialThemeSysLightOnPrimaryContainer,
     fontFamily: FontFamily.m3LabelMediumProminent,
@@ -53,8 +48,9 @@ const styles = StyleSheet.create({
   
   selectheaderParent: {
     
-    backgroundColor: '#ccc',
+    backgroundColor: '#fff',
     padding: Padding.p_xs,
+    marginBottom:12
     // flex:1
   },
 });

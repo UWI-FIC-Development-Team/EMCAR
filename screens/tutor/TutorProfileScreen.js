@@ -30,10 +30,21 @@ const TutorPage = () => {
 
         <SessionStatusBar />
 
-        <DashBoardCard title={"Bio"}>
-        </DashBoardCard>
-        <DashBoardCard title={"Schedule"}></DashBoardCard>
-        <DashBoardCard title={"Courses"}></DashBoardCard>
+        <DashBoardCard
+          title={"Bio"}
+          showTitle={true}
+          showSeeAll={true}
+        ></DashBoardCard>
+        <DashBoardCard
+          title={"Schedule"}
+          showTitle={true}
+          showSeeAll={true}
+        ></DashBoardCard>
+        <DashBoardCard
+          title={"Courses"}
+          showTitle={true}
+          showSeeAll={true}
+        ></DashBoardCard>
         <FloatingButton />
       </ScrollView>
     </View>
