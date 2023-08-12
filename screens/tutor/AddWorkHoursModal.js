@@ -14,8 +14,7 @@ const AddWorkHours = () => {
   const { addAvailableTimesToTutor } = useContext(TutorContext);
   const navigation = useNavigation();
   const tutorId = auth.currentUser.uid;
-//   const [startTime, setStartTime] = useState(new Date(Date.now()));
-//   const [endTime, setEndTime] = useState(new Date(Date.now()));
+
 
   const [loading, setLoading] = useState(false);
   const [dailySchedule, setDailySchedule] = useState({
@@ -118,12 +117,12 @@ const AddWorkHours = () => {
 
 const styles = StyleSheet.create({
   modalContainer: {
-    height: "70%",
+    height: "100%",
     justifyContent: "flex-end",
     alignItems: "center",
     backgroundColor: "#fff",
     paddingHorizontal: 16,
-    paddingVertical: 16,
+    paddingTop: 32,
     position: "absolute",
     bottom: 0,
     width: "100%",

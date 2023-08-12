@@ -11,8 +11,16 @@ import {
 
 const TimeAndDateCard = ({ day, startWorking, finishWorking }) => {
   // Convert Firestore timestamps to human-readable format
-  const formattedStartTime = startWorking.toDate().toLocaleTimeString();
-  const formattedEndTime = finishWorking.toDate().toLocaleTimeString();
+  const formattedStartTime = startWorking.toDate().toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+  const formattedEndTime = finishWorking.toDate().toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
 
   return (
     <View style={[styles.stateLayerOverlay, styles.contentParentFlexBox]}>

@@ -1,8 +1,15 @@
 import React, { useState } from "react";
-import { Text, StyleSheet, View, TouchableOpacity, Modal, Button } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Modal,
+  Button,
+} from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
- export const DatePicker = ({
+export const DatePicker = ({
   label,
   style,
   mode,
@@ -11,7 +18,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
   handleDateChange,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const formattedDate = date ? date.toLocaleDateString() : '';
+  const formattedDate = date ? date.toLocaleDateString() : "";
 
   const handleOpenDatePicker = () => {
     setModalVisible(true);
@@ -57,7 +64,6 @@ import DateTimePicker from "@react-native-community/datetimepicker";
   );
 };
 
-
 export const TimePicker = ({
   label,
   style,
@@ -67,7 +73,13 @@ export const TimePicker = ({
   handleTimeChange,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const formattedTime = time ? time.toLocaleTimeString() : '';
+  const formattedTime = time
+    ? time.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      })
+    : "";
 
   const handleOpenDatePicker = () => {
     setModalVisible(true);
@@ -100,7 +112,6 @@ export const TimePicker = ({
               mode={mode}
               value={time}
               onChange={(event, selectedDate) => {
-                handleCloseModal();
                 handleTimeChange(event, selectedDate);
               }}
               display="spinner"
@@ -112,7 +123,6 @@ export const TimePicker = ({
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   label: {
@@ -150,5 +160,3 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
-
-
