@@ -1,51 +1,88 @@
-import * as React from "react";
-import {
-  View,
-  ScrollView,
-  StyleSheet,
-  Text,
-  Pressable,
-  TouchableOpacity,
-} from "react-native";
+import { useContext, useEffect } from "react";
+import { View, ScrollView, StyleSheet } from "react-native";
 import TutorProfileHeader from "../../components/molecules/TutorProfileHeader";
 import SessionStatusBar from "../../components/molecules/SessionStatusBar";
 import { useNavigation } from "@react-navigation/native";
 import DashBoardCard from "../../components/atoms/DashBoardCard";
 import FloatingButton from "../../components/atoms/FloatingButton";
-import {
-  Padding,
-  FontFamily,
-  Color,
-  FontSize,
-  Border,
-} from "../../GlobalStyles";
+import { TutorContext } from "../../context/TutorContextProvider";
+import { auth } from "../../services/firebaseConfig";
+import InfoText from "../../components/atoms/InfoText";
+import TimeAndDateCard from "../../components/atoms/TimeAndDateCard";
+import CourseCard from "../../components/atoms/CourseCard";
 
 const TutorPage = () => {
   const navigation = useNavigation();
 
+  const { currentTutor, getCurrentTutor } = useContext(TutorContext);
+
+  useEffect(() => {
+    const fetchCurrentTutor = async () => {
+      try {
+        const tutorId = auth.currentUser.uid;
+        await getCurrentTutor(tutorId);
+      } catch (error) {
+        console.error("Error while fetching data", error);
+      }
+    };
+
+    fetchCurrentTutor();
+  }, []);
+
+  const { bio, subjects, topics, availableTimes, name } = currentTutor;
+
+  const numberOfHoursRegistered = availableTimes ? availableTimes.length : 0;
+  const numberOfCoursesRegistered = subjects ? subjects.length : 0;
+  
+
   return (
     <View style={styles.tutorPage}>
       <ScrollView>
-        <TutorProfileHeader />
+        <TutorProfileHeader name={name}/>
 
         <SessionStatusBar />
 
         <DashBoardCard
           title={"Bio"}
           showTitle={true}
-          showSeeAll={true}
-        ></DashBoardCard>
+          showSeeAll={false}
+        >{bio}</DashBoardCard>
         <DashBoardCard
-          title={"Schedule"}
+          title={`Schedule(${numberOfHoursRegistered})`}
           showTitle={true}
-          showSeeAll={true}
-        ></DashBoardCard>
+          showIcon={false}
+        >
+          {availableTimes ? (
+            availableTimes.map((schedule) => {
+              return (
+                <TimeAndDateCard
+                  day={schedule.day}
+                  startWorking={schedule.startTime}
+                  finishWorking={schedule.endTime}
+                />
+              );
+            })
+          ) : (
+            <InfoText info={"No Woking hours added"} />
+          )}
+        </DashBoardCard>
         <DashBoardCard
-          title={"Courses"}
+          title={`Courses(${numberOfCoursesRegistered})`}
           showTitle={true}
-          showSeeAll={true}
-        ></DashBoardCard>
-        <FloatingButton title={'Edit your profile'} navigateTo={'Edit profile'} />
+          showIcon={false}
+        >
+          {subjects ? (
+            subjects.map((subject) => {
+              return <CourseCard courseName={subject} />;
+            })
+          ) : (
+            <InfoText info={"No courses added"} />
+          )}
+        </DashBoardCard>
+        <FloatingButton
+          title={"Edit your profile"}
+          navigateTo={"Edit profile"}
+        />
       </ScrollView>
     </View>
   );

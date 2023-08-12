@@ -36,13 +36,6 @@ const EditProfile = ({ route, navigation }) => {
   const { bio, subjects, topics, availableTimes } = currentTutor;
   console.log(" This is the bio of the current tutor", availableTimes);
 
-  //   console.log("This si the tutor profile info", currentTutor);
-
-  // Convert Firestore timestamps to human-readable format
-  //   const formattedRequestDate = requestDate.toDate().toLocaleDateString();
-  //   const formattedStartTime = startTime.toDate().toLocaleTimeString();
-  //   const formattedEndTime = endTime.toDate().toLocaleTimeString();
-
   return (
     <View style={styles.confirmSessionDetails}>
       <TouchableOpacity

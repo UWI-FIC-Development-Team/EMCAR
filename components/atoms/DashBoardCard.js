@@ -17,6 +17,7 @@ const DashBoardCard = ({
   showTitle,
   showSeeAll,
   showIcon,
+  count
 }) => {
   return (
     <View style={styles.container}>

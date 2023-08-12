@@ -111,7 +111,7 @@ const AppNavigator = () => {
             />
           </RootStack.Group>
 
-          <RootStack.Group
+          {/* <RootStack.Group
             screenOptions={{
               presentation: "modal",
               gestureResponseDistance: 135,
@@ -124,7 +124,7 @@ const AppNavigator = () => {
                 headerMode: "none",
               }}
             />
-          </RootStack.Group>
+          </RootStack.Group> */}
           <RootStack.Group
             screenOptions={{
               presentation: "modal",
@@ -185,6 +185,11 @@ const MainStack = () => {
         name="OnboardingScreen1a"
         component={OnboardingScreen1a}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Confirm Request"
+        component={RequestConfirmationScreen}
+        options={{ headerShown: false, presentation: "modal" }}
       />
       <Stack.Screen
         name="StudentDB"

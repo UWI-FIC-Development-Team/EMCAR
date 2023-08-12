@@ -51,16 +51,17 @@ const SuccessScreen = ({ onPresent, onClose, route }) => {
 
 const styles = StyleSheet.create({
   modalContainer: {
-    height: "70%",
-    justifyContent: "flex-end",
+    height: "100%",
+    justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#fff",
     paddingHorizontal: 16,
     paddingVertical: 16,
     position: "absolute",
-    bottom: 0,
+    bottom: 15,
     width: "100%",
-    borderRadius: 12,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius:0
   },
   titleTypo: {
     fontFamily: FontFamily.materialThemeTitleMedium,
@@ -72,6 +73,7 @@ const styles = StyleSheet.create({
 
   title: {
     color: Color.materialThemeSysLightPrimary,
+    marginBottom:12
   },
   title2: {
     color:Color.materialThemeSysLightPrimary,
