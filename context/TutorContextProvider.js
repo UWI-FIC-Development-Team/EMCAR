@@ -8,7 +8,9 @@ import {
   where,
   getDoc,
   updateDoc,
-  doc
+  doc,
+  arrayUnion,
+  arrayRemove
 } from "firebase/firestore";
 
 const TutorContext = createContext();
@@ -96,7 +98,7 @@ function TutorProvider({ children }) {
     try {
       const tutorRef = doc(db, "tutors", tutorId);
       await updateDoc(tutorRef, {
-        availableTimes: firestore.FieldValue.arrayUnion(...availableTimes),
+        availableTimes: arrayUnion(...availableTimes),
       });
       console.log("Available times added to tutor successfully");
     } catch (error) {
@@ -108,11 +110,11 @@ function TutorProvider({ children }) {
   };
 
   // Function to add new courses to the tutor
-  const addNewCoursesToTutor = async (tutorId, courses) => {
+  const addNewCoursesToTutor = async (tutorId, course) => {
     try {
       const tutorRef = doc(db, "tutors", tutorId);
       await updateDoc(tutorRef, {
-        subjects: firestore.FieldValue.arrayUnion(...courses),
+        subjects: arrayUnion(course),
       });
       console.log("New courses added to tutor successfully");
     } catch (error) {
@@ -129,6 +131,7 @@ function TutorProvider({ children }) {
         pendingRequests,
         currentTutor,
         getCurrentTutor,
+        addNewCoursesToTutor
       }}
     >
       {children}

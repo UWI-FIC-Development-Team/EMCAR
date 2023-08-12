@@ -1,19 +1,15 @@
 import * as React from "react";
 import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
 import { FontFamily, Color } from "../../GlobalStyles";
-import { Divider } from "react-native-paper";
 import { ScrollView } from "react-native-gesture-handler";
 import { Feather } from "@expo/vector-icons";
 import DashBoardCard from "../../components/atoms/DashBoardCard";
 import InfoText from "../../components/atoms/InfoText";
 import TimeAndDateCard from "../../components/atoms/TimeAndDateCard";
 import CourseCard from "../../components/atoms/CourseCard";
-import { SessionContext } from "../../context/RequestContextProvider";
-import { useContext } from "react";
-import { useEffect } from "react";
+import { useContext, useEffect, useState} from "react";
 import { TutorContext } from "../../context/TutorContextProvider";
 import { auth } from "../../services/firebaseConfig";
-import { log } from "react-native-reanimated";
 
 const EditProfile = ({ route, navigation }) => {
   const { currentTutor, getCurrentTutor } = useContext(TutorContext);
@@ -28,7 +24,6 @@ const EditProfile = ({ route, navigation }) => {
   });
 
   const [interestedTopics, setInterestedTopics] = useState([]);
-  const [selectedSubjects, setSelectedSubjects] = useState([]);
 
   useEffect(() => {
     const fetchCurrentTutor = async () => {
@@ -44,7 +39,7 @@ const EditProfile = ({ route, navigation }) => {
   }, []);
 
   const { bio, subjects, topics, availableTimes } = currentTutor;
-  //   console.log(' This is the bio of the current tutor', bio, subjects);
+    console.log(' This is the bio of the current tutor', subjects);
 
   //   console.log("This si the tutor profile info", currentTutor);
 
@@ -74,7 +69,7 @@ const EditProfile = ({ route, navigation }) => {
           <InfoText info={bio} />
         </DashBoardCard>
         <DashBoardCard title={"Create a schedule"} showTitle={true}>
-          {availableTimes.map((schedule) => {
+          {availableTimes > 0 ? availableTimes.map((schedule) => {
             return (
               <TimeAndDateCard
                 day={schedule.day}
@@ -82,12 +77,19 @@ const EditProfile = ({ route, navigation }) => {
                 finsihTime={schedule.endWorking}
               />
             );
-          })}
+          }): <InfoText info={'No Woking hours added'}/>}
         </DashBoardCard>
-        <DashBoardCard title={"Add a course"} showTitle={true}>
-          {subjects.map((subject) => {
+        <DashBoardCard
+          title={"Add a course"}
+          showTitle={true}
+          showIcon={true}
+          onPress={() => {
+            navigation.navigate("Add a course");
+          }}
+        >
+          {subjects ? subjects.map((subject) => {
             return <CourseCard courseName={subject} />;
-          })}
+          }): <InfoText info={'No courses added'}/>}
         </DashBoardCard>
       </ScrollView>
     </View>

@@ -9,6 +9,7 @@ import {
   Padding,
 } from "../../GlobalStyles";
 import { Feather } from "@expo/vector-icons";
+import { Avatar } from "react-native-paper";
 
 const CourseCard = ({ courseName }) => {
   function getFirstCharacter(str) {
@@ -20,11 +21,11 @@ const CourseCard = ({ courseName }) => {
     <View style={styles.courseCard}>
       <View style={styles.leadingElement}>
         <View style={[styles.buildingBlocksmonogram, styles.initialLayout]}>
-          <Text style={[styles.initial, styles.initialClr]}>{intital}</Text>
+          <Avatar.Text size={32} label={intital} />
         </View>
       </View>
       <View style={styles.content}>
-        <Text style={[styles.headline, styles.initialClr]}>Computing I</Text>
+        <Text style={[styles.headline, styles.initialClr]}>{courseName}</Text>
       </View>
       <Feather name="x" size={24} color="black" />
     </View>
@@ -32,30 +33,7 @@ const CourseCard = ({ courseName }) => {
 };
 
 const styles = StyleSheet.create({
-  initialLayout: {
-    height: 40,
-    width: 40,
-  },
-  initialClr: {
-    color: Color.materialThemeSysLightOnPrimaryContainer,
-    lineHeight: 24,
-    fontSize: 16,
-  },
-  initial: {
-    position: "absolute",
-    marginTop: -20,
-    marginLeft: -20,
-    top: "50%",
-    left: "50%",
-    fontWeight: "500",
-    fontFamily: FontFamily.materialThemeLabelMedium,
-    textAlign: "center",
-    display: "flex",
-    height: 40,
-    width: 40,
-    justifyContent: "center",
-    alignItems: "center",
-  },
+ 
   buildingBlocksmonogram: {
     borderRadius: Border.br_81xl,
     backgroundColor: Color.materialThemeSysLightSecondaryContainer,
@@ -82,7 +60,7 @@ const styles = StyleSheet.create({
     marginLeft: 16,
   },
   courseCard: {
-    borderRadius: Border.br_3xs,
+    borderRadius: 12,
     backgroundColor: Color.white,
     borderStyle: "solid",
     borderColor: "#8c8c8c",

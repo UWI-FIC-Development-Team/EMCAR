@@ -1,6 +1,5 @@
 import React, { memo } from "react";
 import { Text, StyleSheet, View } from "react-native";
-import DashBoardChip from "./DashBoardChip";
 import {
   Padding,
   Color,
@@ -9,24 +8,48 @@ import {
   Border,
 } from "../../GlobalStyles";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { Feather } from "@expo/vector-icons";
 
-const DashBoardCard = ({ title, children, onPress, showTitle, showSeeAll }) => {
+const DashBoardCard = ({
+  title,
+  children,
+  onPress,
+  showTitle,
+  showSeeAll,
+  showIcon,
+}) => {
   return (
-      <View style={styles.container}>
-        <View style={[styles.content, styles.listSpaceBlock]}>
-          {showTitle ? <Text style={styles.headline}>{title}</Text> : ""}
-          {showSeeAll ? 
+    <View style={styles.container}>
+      <View style={[styles.content, styles.listSpaceBlock]}>
+        {showTitle ? <Text style={styles.headline}>{title}</Text> : ""}
+        {showSeeAll ? (
           <TouchableOpacity onPress={onPress}>
-          <Text style={styles.headline2}>See all</Text> 
+            <Text style={styles.headline2}>See all</Text>
           </TouchableOpacity>
-          : ""}
-        </View>
-        <View style={[styles.list, styles.listSpaceBlock]}>{children}</View>
+        ) : null}
+        {showIcon ? (
+          <TouchableOpacity onPress={onPress}>
+            <View style={styles.icon}>
+              <Feather name="plus" size={24} color="#006A6A" />
+            </View>
+          </TouchableOpacity>
+        ) : null}
       </View>
+      <View style={[styles.list, styles.listSpaceBlock]}>{children}</View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  icon: {
+    height: 32,
+    width: 32,
+    backgroundColor: "#ECFDF5",
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
   listSpaceBlock: {
     paddingHorizontal: 8,
     alignSelf: "stretch",
@@ -43,13 +66,13 @@ const styles = StyleSheet.create({
   },
   headline2: {
     textAlign: "left",
-    color: '#006A6A',
+    color: "#006A6A",
     lineHeight: 24,
     fontSize: FontSize.m3TitleMedium_size,
     fontFamily: FontFamily.m3TitleMedium,
     fontWeight: "500",
     alignSelf: "stretch",
-    textDecorationLine:'underline'
+    textDecorationLine: "underline",
   },
   content: {
     paddingVertical: Padding.p_mini,
@@ -60,7 +83,6 @@ const styles = StyleSheet.create({
 
   list: {
     flex: 1,
-  
   },
   container: {
     shadowColor: "rgba(0, 0, 0, 0.25)",

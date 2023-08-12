@@ -17,13 +17,14 @@ import Header from "../components/atoms/Header";
 import AllTutors from "../screens/student/AllTutorsScreen";
 import TutorSelection from "../screens/student/TutorSelection";
 import SuccessScreen from "../screens/student/SuccessScreen";
-import SubmitSessionScreen from "../screens/main/SubmitSessionScreen";
+import SubmitSessionScreen from "../screens/main/SubmitSessionModal";
 import TutorSignUpScreen from "../screens/tutor/TutorRegistrationScreen";
 import RequestConfirmationScreen from "../screens/tutor/RequestConfirmationScreen";
-import SubmitUpcomingSession from "../screens/tutor/SubmitUpcomingSession";
+import SubmitUpcomingSession from "../screens/tutor/SubmitUpcomingSessionModal";
 import SessionDetails from "../screens/main/SessionDetails";
 import TutorProfileScreen from "../screens/tutor/TutorProfileScreen";
 import EditProfile from "../screens/tutor/EditProfile";
+import AddCourseModal from "../screens/tutor/AddCourseModal";
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -118,6 +119,20 @@ const AppNavigator = () => {
             <RootStack.Screen
               name="Confirm Request"
               component={RequestConfirmationScreen}
+              options={{
+                headerMode: "none",
+              }}
+            />
+          </RootStack.Group>
+          <RootStack.Group
+            screenOptions={{
+              presentation: "modal",
+              gestureResponseDistance: 1000,
+            }}
+          >
+            <RootStack.Screen
+              name="Add a course"
+              component={AddCourseModal}
               options={{
                 headerMode: "none",
               }}
