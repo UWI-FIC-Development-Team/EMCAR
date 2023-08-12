@@ -128,7 +128,7 @@ function TutorProvider({ children }) {
   };
 
   // Function to add new courses to the tutor
-  const DeleteCourseFromTutor = async (tutorId, course) => {
+  const deleteCourseFromTutor = async (tutorId, course) => {
     try {
       const tutorRef = doc(db, "tutors", tutorId);
       await updateDoc(tutorRef, {
@@ -154,7 +154,7 @@ function TutorProvider({ children }) {
         getCurrentTutor,
         addNewCoursesToTutor,
         addAvailableTimesToTutor,
-        DeleteCourseFromTutor,
+        deleteCourseFromTutor,
         updateUI,
       }}
     >

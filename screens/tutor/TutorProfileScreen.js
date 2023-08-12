@@ -33,20 +33,17 @@ const TutorPage = () => {
 
   const numberOfHoursRegistered = availableTimes ? availableTimes.length : 0;
   const numberOfCoursesRegistered = subjects ? subjects.length : 0;
-  
 
   return (
     <View style={styles.tutorPage}>
       <ScrollView>
-        <TutorProfileHeader name={name}/>
+        <TutorProfileHeader name={name} />
 
         <SessionStatusBar />
 
-        <DashBoardCard
-          title={"Bio"}
-          showTitle={true}
-          showSeeAll={false}
-        >{bio}</DashBoardCard>
+        <DashBoardCard title={"Bio"} showTitle={true} showSeeAll={false}>
+          {bio}
+        </DashBoardCard>
         <DashBoardCard
           title={`Schedule(${numberOfHoursRegistered})`}
           showTitle={true}
@@ -73,7 +70,7 @@ const TutorPage = () => {
         >
           {subjects ? (
             subjects.map((subject) => {
-              return <CourseCard courseName={subject} />;
+              return <CourseCard showIcon={false} courseName={subject} />;
             })
           ) : (
             <InfoText info={"No courses added"} />

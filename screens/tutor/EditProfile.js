@@ -12,17 +12,37 @@ import { TutorContext } from "../../context/TutorContextProvider";
 import { auth } from "../../services/firebaseConfig";
 
 const EditProfile = ({ route, navigation }) => {
-  const { getCurrentTutor, updateUI } = useContext(TutorContext);
+  const { getCurrentTutor, updateUI, deleteCourseFromTutor } = useContext(TutorContext);
+
+  const tutorId = auth.currentUser.uid;
   //   const [biography, setBiography] = useState("");
   //   const [interestedTopics, setInterestedTopics] = useState([]);
   const [currentTutor, setCurrentTutor] = useState({});
+  const [loading, setLoading] = useState(false)
+
+
+  const handleDeleteCourse = async (tutorId, courseName) => {
+    try {
+      setLoading(true);
+
+      // Add a new course to the tutor object
+      await deleteCourseFromTutor(tutorId, courseName);
+
+      // Set loading state to false after successful update
+      setLoading(false);
+
+      console.log("course deleted successfully");
+    } catch (error) {
+      setLoading(false); // Set loading state to false in case of error
+      console.error("Error while adding courses:", error.message);
+    }
+  };
 
   useEffect(() => {
     const fetchCurrentTutor = async () => {
       try {
-        const tutorId = auth.currentUser.uid;
         const data = await getCurrentTutor(tutorId);
-        setCurrentTutor(data); // Assuming you have a state variable named setCurrentTutor
+        setCurrentTutor((prev)=>{return({...prev, ...data})}); // Assuming you have a state variable named setCurrentTutor
       } catch (error) {
         console.error("Error while fetching data", error);
       }
@@ -86,7 +106,13 @@ const EditProfile = ({ route, navigation }) => {
         >
           {subjects ? (
             subjects.map((subject) => {
-              return <CourseCard courseName={subject} />;
+              return (
+                <CourseCard
+                showIcon={true}
+                  courseName={subject}
+                  onPress={() => handleDeleteCourse(tutorId, subject)}
+                />
+              );
             })
           ) : (
             <InfoText info={"No courses added"} />
