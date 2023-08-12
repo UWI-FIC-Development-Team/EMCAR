@@ -73,7 +73,7 @@ const AddCourseModal = () => {
 
 const styles = StyleSheet.create({
   modalContainer: {
-    height: "70%",
+    height: "100%",
     justifyContent: "flex-end",
     alignItems: "center",
     backgroundColor: "#fff",

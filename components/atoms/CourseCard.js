@@ -10,13 +10,36 @@ import {
 } from "../../GlobalStyles";
 import { Feather } from "@expo/vector-icons";
 import { Avatar } from "react-native-paper";
+import { TutorContext } from "../../context/TutorContextProvider";
+import { useContext } from "react";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const CourseCard = ({ courseName }) => {
+  const { DeleteCourseFromTutor } = useContext(TutorContext);
+
+  const handleDeleteCourse = async (tutorId, course) => {
+    try {
+      setLoading(true);
+
+      // Add a new course to the tutor object
+      await DeleteCourseFromTutor(tutorId, course);
+
+      // Set loading state to false after successful update
+      setLoading(false);
+      navigation.navigate("Edit profile");
+
+      console.log("course added successfully");
+    } catch (error) {
+      setLoading(false); // Set loading state to false in case of error
+      console.error("Error while adding courses:", error.message);
+    }
+  };
   function getFirstCharacter(str) {
     return str.substring(0, 1);
   }
 
   const intital = getFirstCharacter(courseName);
+
   return (
     <View style={styles.courseCard}>
       <View style={styles.leadingElement}>
@@ -27,13 +50,14 @@ const CourseCard = ({ courseName }) => {
       <View style={styles.content}>
         <Text style={[styles.headline, styles.initialClr]}>{courseName}</Text>
       </View>
+      <TouchableOpacity onPress={(course)=>{handleDeleteCourse(tutorId, course)}}>
       <Feather name="x" size={24} color="black" />
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
- 
   buildingBlocksmonogram: {
     borderRadius: Border.br_81xl,
     backgroundColor: Color.materialThemeSysLightSecondaryContainer,

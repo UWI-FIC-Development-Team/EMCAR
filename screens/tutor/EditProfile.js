@@ -7,31 +7,29 @@ import DashBoardCard from "../../components/atoms/DashBoardCard";
 import InfoText from "../../components/atoms/InfoText";
 import TimeAndDateCard from "../../components/atoms/TimeAndDateCard";
 import CourseCard from "../../components/atoms/CourseCard";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 import { TutorContext } from "../../context/TutorContextProvider";
 import { auth } from "../../services/firebaseConfig";
 
 const EditProfile = ({ route, navigation }) => {
-  const { currentTutor, getCurrentTutor } = useContext(TutorContext);
-
-  // These are the states to be updated
-  // todo: create a three new screens, edit bio, edit Createschedule, createCourse
-  const [biography, setBiography] = useState("");
-  
-  const [interestedTopics, setInterestedTopics] = useState([]);
+  const { getCurrentTutor, updateUI } = useContext(TutorContext);
+  //   const [biography, setBiography] = useState("");
+  //   const [interestedTopics, setInterestedTopics] = useState([]);
+  const [currentTutor, setCurrentTutor] = useState({});
 
   useEffect(() => {
     const fetchCurrentTutor = async () => {
       try {
         const tutorId = auth.currentUser.uid;
         const data = await getCurrentTutor(tutorId);
+        setCurrentTutor(data); // Assuming you have a state variable named setCurrentTutor
       } catch (error) {
         console.error("Error while fetching data", error);
       }
     };
 
     fetchCurrentTutor();
-  }, []);
+  }, [updateUI]);
 
   const { bio, subjects, topics, availableTimes } = currentTutor;
   console.log(" This is the bio of the current tutor", availableTimes);
@@ -60,7 +58,9 @@ const EditProfile = ({ route, navigation }) => {
           title={"Create a schedule"}
           showTitle={true}
           showIcon={true}
-          onPress={()=>{navigation.navigate('Add work hours')}}
+          onPress={() => {
+            navigation.navigate("Add work hours");
+          }}
         >
           {availableTimes ? (
             availableTimes.map((schedule) => {

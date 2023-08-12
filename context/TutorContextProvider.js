@@ -21,6 +21,8 @@ function TutorProvider({ children }) {
   const [tutorId, setTutorId] = useState(""); // Set the tutor ID here
   const [pendingRequests, setPendingRequests] = useState([]);
   const [currentTutor, setCurrentTutor] = useState({});
+  const [updateUI, setUpdateUI] = useState(0);
+
 
   //Todo: move this function
   const getPendingRequests = async (tutorId) => {
@@ -71,6 +73,7 @@ function TutorProvider({ children }) {
         setCurrentTutor((prev) => {
           return { ...prev, ...tutorDoc.data() };
         });
+        return tutorDoc.data()
       } else {
         throw new Error("Tutor not found");
       }
@@ -116,6 +119,24 @@ function TutorProvider({ children }) {
       await updateDoc(tutorRef, {
         subjects: arrayUnion(course),
       });
+      setUpdateUI(0)
+      setUpdateUI(updateUI + 1)
+      console.log("New courses added to tutor successfully");
+    } catch (error) {
+      console.error("Error while adding new courses to tutor:", error.message);
+    }
+  };
+
+  // Function to add new courses to the tutor
+  const DeleteCourseFromTutor = async (tutorId, course) => {
+    try {
+      const tutorRef = doc(db, "tutors", tutorId);
+      await updateDoc(tutorRef, {
+        subjects: arrayRemove(course),
+      });
+      // This function is used to notify the app when a changed it been made.
+      setUpdateUI(0)
+      setUpdateUI(updateUI + 1)
       console.log("New courses added to tutor successfully");
     } catch (error) {
       console.error("Error while adding new courses to tutor:", error.message);
@@ -132,7 +153,9 @@ function TutorProvider({ children }) {
         currentTutor,
         getCurrentTutor,
         addNewCoursesToTutor,
-        addAvailableTimesToTutor
+        addAvailableTimesToTutor,
+        DeleteCourseFromTutor,
+        updateUI,
       }}
     >
       {children}
