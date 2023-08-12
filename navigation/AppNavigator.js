@@ -200,8 +200,7 @@ const MainStack = () => {
       <Stack.Screen
         name="Edit profile"
         component={EditProfile}
-        options={{ headerShown: true , presentation:'modal'}
-      }
+        options={{ headerShown: false, presentation: "modal" }}
       />
       <Stack.Screen
         name="Select a tutor"

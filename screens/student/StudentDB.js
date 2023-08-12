@@ -23,7 +23,8 @@ import InfoText from "../../components/atoms/InfoText";
 
 const StudentDB = () => {
   const { activeUser } = useContext(AuthContext);
-  const { upcomingSessions, getStudentUpcomingSessions } = useContext(SessionContext);
+  const { upcomingSessions, getStudentUpcomingSessions } =
+    useContext(SessionContext);
   const { tutors } = useContext(TutorContext);
   const navigation = useNavigation();
 
@@ -112,7 +113,10 @@ const StudentDB = () => {
           <InfoText />
         )}
       </DashBoardCard>
-      <FloatingButton />
+      <FloatingButton
+        title={"Request a session"}
+        navigateTo={"Request a session"}
+      />
     </ScrollView>
   );
 };

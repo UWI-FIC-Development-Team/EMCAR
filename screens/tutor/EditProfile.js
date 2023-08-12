@@ -11,21 +11,26 @@ import CourseCard from "../../components/atoms/CourseCard";
 import { SessionContext } from "../../context/RequestContextProvider";
 import { useContext } from "react";
 import { useEffect } from "react";
+import { TutorContext } from "../../context/TutorContextProvider";
 import { auth } from "../../services/firebaseConfig";
 
 const EditProfile = ({ route, navigation }) => {
-  const { currentTutor, getCurrentTutor } = useContext(SessionContext);
+  const { currentTutor, getCurrentTutor } = useContext(TutorContext);
 
   useEffect(() => {
     const fetchCurrentTutor = async () => {
-      const tutorId = auth.currentUser.uid;
-      await getCurrentTutor(tutorId);
-
-      const { bio, subjects, availableTime, topics } = currentTutor;
+      try {
+        const tutorId = auth.currentUser.uid;
+        const data = await getCurrentTutor(tutorId);
+      } catch (error) {
+        console.error("Error while fetching data", error);
+      }
     };
 
-    fetchCurrentTutor()
+    fetchCurrentTutor();
   }, []);
+
+  console.log("This si the tutor profile info", currentTutor);
 
   // Convert Firestore timestamps to human-readable format
   //   const formattedRequestDate = requestDate.toDate().toLocaleDateString();

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Text, StyleSheet, View } from "react-native";
 import { Image } from "expo-image";
-import { Color, FontFamily, FontSize, Border, Padding } from "../GlobalStyles";
+import { Color, FontFamily, FontSize, Border, Padding } from "../../GlobalStyles";
 
 const TimeAndDateCard = ({day, beginTime, finsihTime}) => {
   return (

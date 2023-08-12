@@ -8,6 +8,7 @@ import {
   where,
   getDoc,
   updateDoc,
+  doc
 } from "firebase/firestore";
 
 const TutorContext = createContext();
@@ -59,6 +60,7 @@ function TutorProvider({ children }) {
   // Function to get the current tutor
   const getCurrentTutor = async (tutorId) => {
     try {
+      console.log('This is tutor Id', tutorId );
       const tutorRef = doc(db, "tutors", tutorId);
       const tutorDoc = await getDoc(tutorRef);
 
