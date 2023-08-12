@@ -13,9 +13,22 @@ import { useContext } from "react";
 import { useEffect } from "react";
 import { TutorContext } from "../../context/TutorContextProvider";
 import { auth } from "../../services/firebaseConfig";
+import { log } from "react-native-reanimated";
 
 const EditProfile = ({ route, navigation }) => {
   const { currentTutor, getCurrentTutor } = useContext(TutorContext);
+
+  // These are the states to be updated
+  // todo: create a three new screens, edit bio, edit Createschedule, createCourse
+  const [biography, setBiography] = useState("");
+  const [dailySchedule, setDailySchedule] = useState({
+    dayOfWeek: "",
+    startTime: "",
+    endTime: "",
+  });
+
+  const [interestedTopics, setInterestedTopics] = useState([]);
+  const [selectedSubjects, setSelectedSubjects] = useState([]);
 
   useEffect(() => {
     const fetchCurrentTutor = async () => {
@@ -30,7 +43,10 @@ const EditProfile = ({ route, navigation }) => {
     fetchCurrentTutor();
   }, []);
 
-  console.log("This si the tutor profile info", currentTutor);
+  const { bio, subjects, topics, availableTimes } = currentTutor;
+  //   console.log(' This is the bio of the current tutor', bio, subjects);
+
+  //   console.log("This si the tutor profile info", currentTutor);
 
   // Convert Firestore timestamps to human-readable format
   //   const formattedRequestDate = requestDate.toDate().toLocaleDateString();
@@ -55,13 +71,24 @@ const EditProfile = ({ route, navigation }) => {
         </View>
 
         <DashBoardCard title={"Edit your Bio"} showTitle={true}>
-          <InfoText info={""} />
+          <InfoText info={bio} />
         </DashBoardCard>
-        <DashBoardCard
-          title={"Create a schedule"}
-          showTitle={true}
-        ></DashBoardCard>
-        <DashBoardCard title={"Add a course"} showTitle={true}></DashBoardCard>
+        <DashBoardCard title={"Create a schedule"} showTitle={true}>
+          {availableTimes.map((schedule) => {
+            return (
+              <TimeAndDateCard
+                day={schedule.day}
+                beginTime={schedule.startWorking}
+                finsihTime={schedule.endWorking}
+              />
+            );
+          })}
+        </DashBoardCard>
+        <DashBoardCard title={"Add a course"} showTitle={true}>
+          {subjects.map((subject) => {
+            return <CourseCard courseName={subject} />;
+          })}
+        </DashBoardCard>
       </ScrollView>
     </View>
   );

@@ -1,23 +1,32 @@
 import * as React from "react";
 import { Text, StyleSheet, View } from "react-native";
 import { Image } from "expo-image";
-import { Color, FontSize, FontFamily, Border, Padding } from "../../GlobalStyles";
-import { Feather } from '@expo/vector-icons';
+import {
+  Color,
+  FontSize,
+  FontFamily,
+  Border,
+  Padding,
+} from "../../GlobalStyles";
+import { Feather } from "@expo/vector-icons";
 
-const CourseCard = ({courseName}) => {
+const CourseCard = ({ courseName }) => {
+  function getFirstCharacter(str) {
+    return str.substring(0, 1);
+  }
 
-
+  const intital = getFirstCharacter(courseName);
   return (
     <View style={styles.courseCard}>
       <View style={styles.leadingElement}>
         <View style={[styles.buildingBlocksmonogram, styles.initialLayout]}>
-          <Text style={[styles.initial, styles.initialClr]}>C</Text>
+          <Text style={[styles.initial, styles.initialClr]}>{intital}</Text>
         </View>
       </View>
       <View style={styles.content}>
         <Text style={[styles.headline, styles.initialClr]}>Computing I</Text>
       </View>
-    <Feather name="x" size={24} color="black" /> 
+      <Feather name="x" size={24} color="black" />
     </View>
   );
 };
