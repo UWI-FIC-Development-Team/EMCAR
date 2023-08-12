@@ -25,6 +25,7 @@ import SessionDetails from "../screens/main/SessionDetails";
 import TutorProfileScreen from "../screens/tutor/TutorProfileScreen";
 import EditProfile from "../screens/tutor/EditProfile";
 import AddCourseModal from "../screens/tutor/AddCourseModal";
+import AddWorkHours from "../screens/tutor/AddWorkHoursModal";
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -133,6 +134,20 @@ const AppNavigator = () => {
             <RootStack.Screen
               name="Add a course"
               component={AddCourseModal}
+              options={{
+                headerMode: "none",
+              }}
+            />
+          </RootStack.Group>
+          <RootStack.Group
+            screenOptions={{
+              presentation: "modal",
+              gestureResponseDistance: 1000,
+            }}
+          >
+            <RootStack.Screen
+              name="Add work hours"
+              component={AddWorkHours}
               options={{
                 headerMode: "none",
               }}

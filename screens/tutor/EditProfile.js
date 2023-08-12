@@ -7,7 +7,7 @@ import DashBoardCard from "../../components/atoms/DashBoardCard";
 import InfoText from "../../components/atoms/InfoText";
 import TimeAndDateCard from "../../components/atoms/TimeAndDateCard";
 import CourseCard from "../../components/atoms/CourseCard";
-import { useContext, useEffect, useState} from "react";
+import { useContext, useEffect, useState } from "react";
 import { TutorContext } from "../../context/TutorContextProvider";
 import { auth } from "../../services/firebaseConfig";
 
@@ -17,12 +17,7 @@ const EditProfile = ({ route, navigation }) => {
   // These are the states to be updated
   // todo: create a three new screens, edit bio, edit Createschedule, createCourse
   const [biography, setBiography] = useState("");
-  const [dailySchedule, setDailySchedule] = useState({
-    dayOfWeek: "",
-    startTime: "",
-    endTime: "",
-  });
-
+  
   const [interestedTopics, setInterestedTopics] = useState([]);
 
   useEffect(() => {
@@ -39,7 +34,7 @@ const EditProfile = ({ route, navigation }) => {
   }, []);
 
   const { bio, subjects, topics, availableTimes } = currentTutor;
-    console.log(' This is the bio of the current tutor', subjects);
+  console.log(" This is the bio of the current tutor", availableTimes);
 
   //   console.log("This si the tutor profile info", currentTutor);
 
@@ -68,16 +63,25 @@ const EditProfile = ({ route, navigation }) => {
         <DashBoardCard title={"Edit your Bio"} showTitle={true}>
           <InfoText info={bio} />
         </DashBoardCard>
-        <DashBoardCard title={"Create a schedule"} showTitle={true}>
-          {availableTimes > 0 ? availableTimes.map((schedule) => {
-            return (
-              <TimeAndDateCard
-                day={schedule.day}
-                beginTime={schedule.startWorking}
-                finsihTime={schedule.endWorking}
-              />
-            );
-          }): <InfoText info={'No Woking hours added'}/>}
+        <DashBoardCard
+          title={"Create a schedule"}
+          showTitle={true}
+          showIcon={true}
+          onPress={()=>{navigation.navigate('Add work hours')}}
+        >
+          {availableTimes ? (
+            availableTimes.map((schedule) => {
+              return (
+                <TimeAndDateCard
+                  day={schedule.day}
+                  startWorking={schedule.startTime}
+                  finishWorking={schedule.endTime}
+                />
+              );
+            })
+          ) : (
+            <InfoText info={"No Woking hours added"} />
+          )}
         </DashBoardCard>
         <DashBoardCard
           title={"Add a course"}
@@ -87,9 +91,13 @@ const EditProfile = ({ route, navigation }) => {
             navigation.navigate("Add a course");
           }}
         >
-          {subjects ? subjects.map((subject) => {
-            return <CourseCard courseName={subject} />;
-          }): <InfoText info={'No courses added'}/>}
+          {subjects ? (
+            subjects.map((subject) => {
+              return <CourseCard courseName={subject} />;
+            })
+          ) : (
+            <InfoText info={"No courses added"} />
+          )}
         </DashBoardCard>
       </ScrollView>
     </View>

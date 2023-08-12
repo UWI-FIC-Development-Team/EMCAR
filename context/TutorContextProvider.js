@@ -98,7 +98,7 @@ function TutorProvider({ children }) {
     try {
       const tutorRef = doc(db, "tutors", tutorId);
       await updateDoc(tutorRef, {
-        availableTimes: arrayUnion(...availableTimes),
+        availableTimes: arrayUnion(availableTimes),
       });
       console.log("Available times added to tutor successfully");
     } catch (error) {
@@ -131,7 +131,8 @@ function TutorProvider({ children }) {
         pendingRequests,
         currentTutor,
         getCurrentTutor,
-        addNewCoursesToTutor
+        addNewCoursesToTutor,
+        addAvailableTimesToTutor
       }}
     >
       {children}

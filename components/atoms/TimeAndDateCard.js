@@ -1,24 +1,33 @@
 import * as React from "react";
 import { Text, StyleSheet, View } from "react-native";
 import { Image } from "expo-image";
-import { Color, FontFamily, FontSize, Border, Padding } from "../../GlobalStyles";
+import {
+  Color,
+  FontFamily,
+  FontSize,
+  Border,
+  Padding,
+} from "../../GlobalStyles";
 
-const TimeAndDateCard = ({day, beginTime, finsihTime}) => {
+const TimeAndDateCard = ({ day, startWorking, finishWorking }) => {
+  // Convert Firestore timestamps to human-readable format
+  const formattedStartTime = startWorking.toDate().toLocaleTimeString();
+  const formattedEndTime = finishWorking.toDate().toLocaleTimeString();
+
   return (
     <View style={[styles.stateLayerOverlay, styles.contentParentFlexBox]}>
       <View style={styles.content}>
-        <Text style={styles.headline}>Monday</Text>
-        
+        <Text style={styles.headline}>{day}</Text>
       </View>
       <View style={[styles.contentParent, styles.contentParentFlexBox]}>
         <View style={styles.content}>
           <Text style={[styles.headline1, styles.headlineTypo]}>
-            From: 11:00 am
+            {formattedStartTime}
           </Text>
         </View>
         <View style={styles.content}>
           <Text style={[styles.headline2, styles.headlineTypo]}>
-            To: 5:00 pm
+            {formattedEndTime}
           </Text>
         </View>
       </View>
@@ -73,20 +82,13 @@ const styles = StyleSheet.create({
   },
   stateLayerOverlay: {
     alignSelf: "stretch",
-    borderRadius: Border.br_8xs,
+    borderWidth: 2,
+    borderBottomColor: "#E6E6E6",
+    borderTopColor: "transparent",
+    borderLeftColor: "transparent",
+    borderRightColor: "transparent",
     backgroundColor: Color.white,
-    shadowColor: "rgba(0, 0, 0, 0.3)",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowRadius: 4,
-    elevation: 4,
-    shadowOpacity: 1,
-    paddingHorizontal: Padding.p_xs,
-    paddingVertical: Padding.p_5xs,
-    marginTop: 12,
-    overflow: "hidden",
+    padding: 12,
   },
 });
 
