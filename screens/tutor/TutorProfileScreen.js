@@ -45,7 +45,7 @@ const TutorPage = () => {
           showTitle={true}
           showSeeAll={true}
         ></DashBoardCard>
-        <FloatingButton />
+        <FloatingButton title={'Edit your profile'} navigateTo={'Edit profile'} />
       </ScrollView>
     </View>
   );

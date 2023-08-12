@@ -3,16 +3,12 @@ import { Text, StyleSheet, View } from "react-native";
 import { Image } from "expo-image";
 import { Color, FontFamily, FontSize, Border, Padding } from "../GlobalStyles";
 
-const TimeAndDateCard = () => {
+const TimeAndDateCard = ({day, beginTime, finsihTime}) => {
   return (
     <View style={[styles.stateLayerOverlay, styles.contentParentFlexBox]}>
       <View style={styles.content}>
         <Text style={styles.headline}>Monday</Text>
-        <Image
-          style={styles.mdiArrowDropDownIcon}
-          contentFit="cover"
-          source={require("../assets/mdi-arrow-drop-down.png")}
-        />
+        
       </View>
       <View style={[styles.contentParent, styles.contentParentFlexBox]}>
         <View style={styles.content}>

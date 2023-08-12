@@ -23,6 +23,7 @@ import RequestConfirmationScreen from "../screens/tutor/RequestConfirmationScree
 import SubmitUpcomingSession from "../screens/tutor/SubmitUpcomingSession";
 import SessionDetails from "../screens/main/SessionDetails";
 import TutorProfileScreen from "../screens/tutor/TutorProfileScreen";
+import EditProfile from "../screens/tutor/EditProfile";
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -196,11 +197,12 @@ const MainStack = () => {
         component={AllTutors}
         options={{ headerShown: true }}
       />
-      {/* <Stack.Screen
+      <Stack.Screen
         name="Edit profile"
-        component={}
-        options={{ headerShown: true }}
-      /> */}
+        component={EditProfile}
+        options={{ headerShown: true , presentation:'modal'}
+      }
+      />
       <Stack.Screen
         name="Select a tutor"
         component={TutorSelection}

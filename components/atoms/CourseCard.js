@@ -1,9 +1,12 @@
 import * as React from "react";
 import { Text, StyleSheet, View } from "react-native";
 import { Image } from "expo-image";
-import { Color, FontSize, FontFamily, Border, Padding } from "../GlobalStyles";
+import { Color, FontSize, FontFamily, Border, Padding } from "../../GlobalStyles";
+import { Feather } from '@expo/vector-icons';
 
-const CourseCard = () => {
+const CourseCard = ({courseName}) => {
+
+
   return (
     <View style={styles.courseCard}>
       <View style={styles.leadingElement}>
@@ -14,11 +17,7 @@ const CourseCard = () => {
       <View style={styles.content}>
         <Text style={[styles.headline, styles.initialClr]}>Computing I</Text>
       </View>
-      <Image
-        style={styles.iconsclose24px}
-        contentFit="cover"
-        source={require("../assets/iconsclose-24px1.png")}
-      />
+    <Feather name="x" size={24} color="black" /> 
     </View>
   );
 };
@@ -31,7 +30,7 @@ const styles = StyleSheet.create({
   initialClr: {
     color: Color.materialThemeSysLightOnPrimaryContainer,
     lineHeight: 24,
-    fontSize: FontSize.paragraphIBMPlexSansRegular_size,
+    fontSize: 16,
   },
   initial: {
     position: "absolute",
