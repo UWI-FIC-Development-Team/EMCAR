@@ -36,9 +36,10 @@ const TutorPage = () => {
           showTitle={true}
           showIcon={false}
         >
-          {availableTimes ? (
-            availableTimes.map((schedule) => {
+          {
+            availableTimes?.map((schedule) => {
               return (
+               
                 <TimeAndDateCard
                   showIcon={false}
                   day={schedule.day}
@@ -46,10 +47,7 @@ const TutorPage = () => {
                   finishWorking={schedule.endTime}
                 />
               );
-            })
-          ) : (
-            <InfoText info={"No Woking hours added"} />
-          )}
+            })}
         </DashBoardCard>
         <DashBoardCard
           title={`Courses(${numberOfCoursesRegistered})`}

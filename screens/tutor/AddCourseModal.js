@@ -9,9 +9,9 @@ import FormInput from "../../components/atoms/FormInput";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { TutorContext } from "../../context/TutorContextProvider";
 import { auth } from "../../services/firebaseConfig";
-
+import { produce } from "immer";
 const AddCourseModal = () => {
-  const { addNewCoursesToTutor, setCurrentTutor} = useContext(TutorContext);
+  const { addNewCoursesToTutor, setCurrentTutor, currentTutor} = useContext(TutorContext);
   const navigation = useNavigation();
   const tutorId = auth.currentUser.uid;
 
@@ -23,10 +23,15 @@ const AddCourseModal = () => {
       setLoading(true);
 
       // Optimistic update: Add the new course to the local state
-      setCurrentTutor((prevTutor) => ({
-        ...prevTutor,
-        subjects: [...prevTutor.subjects, courseName],
-      }));
+
+      // Use Immer's produce function to update the state
+      setCurrentTutor(
+        produce(currentTutor, (draft) => {
+          draft.subjects.push(courseName);
+        })
+      );
+       
+
 
       // Add the new course to the tutor object in Firestore
       await addNewCoursesToTutor(tutorId, courseName);

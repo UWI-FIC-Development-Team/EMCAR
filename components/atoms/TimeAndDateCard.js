@@ -18,31 +18,19 @@ const TimeAndDateCard = ({
   showIcon,
   onPress,
 }) => {
-  // Convert Firestore timestamps to human-readable format
-  const formattedStartTime = startWorking.toDate().toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-  });
-  const formattedEndTime = finishWorking.toDate().toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-  });
-
-  return (
+   return (
     <View style={[styles.stateLayerOverlay, styles.contentParentFlexBox]}>
       <Text style={styles.headline}>{day}</Text>
 
       <View style={[styles.contentParent, styles.contentParentFlexBox]}>
         <View style={styles.content}>
           <Text style={[styles.headline1, styles.headlineTypo]}>
-            {formattedStartTime}
+            {startWorking}
           </Text>
         </View>
         <View style={styles.content}>
           <Text style={[styles.headline2, styles.headlineTypo]}>
-            {formattedEndTime}
+            {finishWorking}
           </Text>
         </View>
         {showIcon ? (

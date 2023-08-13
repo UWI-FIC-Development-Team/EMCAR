@@ -58,14 +58,13 @@ const EditProfile = ({ route, navigation }) => {
 
   const handleDeleteWorkHours = async (tutorId, daytoDelete) => {
     try {
-
-    //  Update local state to remove the deleted course
-        setCurrentTutor((prevTutor) => {
-          const updatedTimes = prevTutor.availableTimes.filter(
-            (day) => day.day !== daytoDelete
-          );
-          return { ...prevTutor, availableTimes: updatedTimes };
-        });
+      //  Update local state to remove the deleted course
+      setCurrentTutor((prevTutor) => {
+        const updatedTimes = prevTutor.availableTimes.filter(
+          (day) => day.day !== daytoDelete
+        );
+        return { ...prevTutor, availableTimes: updatedTimes };
+      });
       setLoading(true);
 
       console.log("deleting course...");
@@ -113,7 +112,8 @@ const EditProfile = ({ route, navigation }) => {
             navigation.navigate("Add work hours");
           }}
         >
-          {availableTimes ? (
+          {availableTimes.length > 0 &&
+          
             availableTimes.map((schedule) => {
               return (
                 <TimeAndDateCard
@@ -126,10 +126,7 @@ const EditProfile = ({ route, navigation }) => {
                   }}
                 />
               );
-            })
-          ) : (
-            <InfoText info={"No Woking hours added"} />
-          )}
+            })}
         </DashBoardCard>
         <DashBoardCard
           title={"Add a course"}

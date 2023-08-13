@@ -42,17 +42,38 @@ const AddWorkHours = () => {
   // updates location of the current request object
   const handleAddWorkingHours = async (tutorId, workingHours) => {
     try {
-      // Use Immer's produce function to update the state
-      setCurrentTutor(
-        produce(currentTutor, (draft) => {
-          draft.availableTime.push(workingHours);
-        })
+      const options = { hour: "numeric", minute: "2-digit", hour12: true };
+      const formattedStartTime = workingHours.startTime.toLocaleTimeString(
+        [],
+        options
+      );
+      const formattedEndTime = workingHours.endTime.toLocaleTimeString(
+        [],
+        options
       );
 
+      console.log(
+        "Start time and end time: ",
+        formattedStartTime,
+        formattedEndTime
+      );
+      const workingHoursData = {
+        day: workingHours.day,
+        startTime: formattedStartTime,
+        endTime: formattedEndTime,
+      };
+
+      console.log("more data", workingHours);
+      // Use Immer's produce function to update the state
       setLoading(true);
 
       // Add a new course to the tutor object(firestore)
-      await addAvailableTimesToTutor(tutorId, workingHours);
+      await addAvailableTimesToTutor(tutorId, workingHoursData);
+      setCurrentTutor(
+        produce(currentTutor, (draft) => {
+          draft.availableTimes.push(workingHoursData);
+        })
+      );
 
       // Set loading state to false after successful update
       setLoading(false);
