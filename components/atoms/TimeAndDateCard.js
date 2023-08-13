@@ -8,8 +8,16 @@ import {
   Border,
   Padding,
 } from "../../GlobalStyles";
+import { Feather } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-const TimeAndDateCard = ({ day, startWorking, finishWorking }) => {
+const TimeAndDateCard = ({
+  day,
+  startWorking,
+  finishWorking,
+  showIcon,
+  onPress,
+}) => {
   // Convert Firestore timestamps to human-readable format
   const formattedStartTime = startWorking.toDate().toLocaleTimeString("en-US", {
     hour: "numeric",
@@ -24,9 +32,8 @@ const TimeAndDateCard = ({ day, startWorking, finishWorking }) => {
 
   return (
     <View style={[styles.stateLayerOverlay, styles.contentParentFlexBox]}>
-      <View style={styles.content}>
-        <Text style={styles.headline}>{day}</Text>
-      </View>
+      <Text style={styles.headline}>{day}</Text>
+
       <View style={[styles.contentParent, styles.contentParentFlexBox]}>
         <View style={styles.content}>
           <Text style={[styles.headline1, styles.headlineTypo]}>
@@ -38,6 +45,11 @@ const TimeAndDateCard = ({ day, startWorking, finishWorking }) => {
             {formattedEndTime}
           </Text>
         </View>
+        {showIcon ? (
+          <TouchableOpacity style={{ marginLeft: 8 }} onPress={onPress}>
+            <Feather name="trash-2" size={24} color="black" />
+          </TouchableOpacity>
+        ) : null}
       </View>
     </View>
   );
@@ -59,26 +71,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   headline: {
-    fontSize: FontSize.materialThemeTitleSmall_size,
+    fontSize: 14,
     fontWeight: "500",
-    fontFamily: FontFamily.materialThemeLabelMedium,
+    fontFamily: FontFamily.materialThemeTitleMedium,
     color: Color.materialThemeSysLightOnPrimaryContainer,
-    textAlign: "left",
-    width: 60,
-    display: "flex",
     lineHeight: 24,
-    alignItems: "center",
   },
   mdiArrowDropDownIcon: {
     width: 24,
     height: 24,
     overflow: "hidden",
   },
-  content: {
-    alignItems: "center",
-    flexDirection: "row",
-    overflow: "hidden",
-  },
+
   headline1: {
     width: 89,
   },

@@ -9,17 +9,19 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { TutorContext } from "../../context/TutorContextProvider";
 import { auth } from "../../services/firebaseConfig";
 import { TimePicker } from "../../components/atoms/DateAndTimePicker";
+import uuid from "react-native-uuid";
 
 const AddWorkHours = () => {
-  const { addAvailableTimesToTutor } = useContext(TutorContext);
+  const { addAvailableTimesToTutor, setCurrentTutor } =
+    useContext(TutorContext);
   const navigation = useNavigation();
   const tutorId = auth.currentUser.uid;
 
-
   const [loading, setLoading] = useState(false);
   const [dailySchedule, setDailySchedule] = useState({
+    id: uuid.v4(),
     day: "",
-    startTime:new Date(Date.now()) ,
+    startTime: new Date(Date.now()),
     endTime: new Date(Date.now()),
   });
 
@@ -40,11 +42,15 @@ const AddWorkHours = () => {
   };
 
   // updates location of the current request object
-  const handleSubmitSession = async (tutorId, workingHours) => {
+  const handleAddWorkingHours = async (tutorId, workingHours) => {
     try {
       setLoading(true);
+      // added to the current tutor object(local state)
+      setCurrentTutor((prev) => {
+        return { ...prev, ...workingHours };
+      });
 
-      // Add a new course to the tutor object
+      // Add a new course to the tutor object(firestore)
       await addAvailableTimesToTutor(tutorId, workingHours);
 
       // Set loading state to false after successful update
@@ -107,7 +113,7 @@ const AddWorkHours = () => {
         ) : (
           <PrimaryButton
             title="Save & submit"
-            onPress={() => handleSubmitSession(tutorId, dailySchedule)}
+            onPress={() => handleAddWorkingHours(tutorId, dailySchedule)}
           />
         )}
       </KeyboardAwareScrollView>

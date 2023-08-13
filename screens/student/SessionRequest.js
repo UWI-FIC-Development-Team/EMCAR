@@ -13,7 +13,6 @@ import {
 import FormInput from "../../components/atoms/FormInput";
 import InfoText from "../../components/atoms/InfoText";
 import { SessionContext } from "../../context/RequestContextProvider";
-import { ScrollView } from "react-native";
 import { AuthContext } from "../../context/AuthContextProvider";
 import uuid from "react-native-uuid";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";

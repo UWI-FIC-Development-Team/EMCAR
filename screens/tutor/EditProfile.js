@@ -12,8 +12,14 @@ import { TutorContext } from "../../context/TutorContextProvider";
 import { auth } from "../../services/firebaseConfig";
 
 const EditProfile = ({ route, navigation }) => {
-  const { currentTutor, setCurrentTutor, getCurrentTutor, updateUI, deleteCourseFromTutor } =
-    useContext(TutorContext);
+  const {
+    currentTutor,
+    setCurrentTutor,
+    getCurrentTutor,
+    updateUI,
+    deleteCourseFromTutor,
+    deleteAvailableTimesFromTutor,
+  } = useContext(TutorContext);
   const { bio, subjects, topics, availableTimes } = currentTutor;
   console.log(" This is the bio of the current tutor", availableTimes);
 
@@ -33,7 +39,7 @@ const EditProfile = ({ route, navigation }) => {
       });
       setLoading(true);
 
-      console.log("deleting course...")
+      console.log("deleting course...");
 
       // delete new course to the tutor object from firestore
       await deleteCourseFromTutor(tutorId, courseName);
@@ -50,18 +56,35 @@ const EditProfile = ({ route, navigation }) => {
     }
   };
 
-  //   const fetchCurrentTutor = useCallback(async () => {
-  //     try {
-  //       const data = await getCurrentTutor(tutorId);
-  //       setCurrentTutor(data); // Assuming you have a state variable named setCurrentTutor
-  //     } catch (error) {
-  //       console.error("Error while fetching data", error);
-  //     }
-  //   }, []);
+  const handleDeleteWorkHours = async (tutorId, daytoDelete, courseId) => {
+    try {
+      console.log("hours are: ", daytoDelete);
 
-  //   useEffect(() => {
-  //     fetchCurrentTutor();
-  //   }, [updateUI]);
+    //  Update local state to remove the deleted course
+        setCurrentTutor((prevTutor) => {
+          const updatedTimes = prevTutor.availableTimes.filter(
+            (time) => time.id !== courseId
+          );
+          return { ...prevTutor, availableTimes: updatedTimes };
+        });
+      setLoading(true);
+
+      console.log("deleting course...");
+
+      // delete new course to the tutor object from firestore
+      await deleteAvailableTimesFromTutor(tutorId, daytoDelete);
+      // This function delete course from the current state
+
+      setLoading(false);
+
+      // Set loading state to false after successful update
+
+      console.log("course deleted successfully");
+    } catch (error) {
+      setLoading(false); // Set loading state to false in case of error
+      console.error("Error while adding courses:", error.message);
+    }
+  };
 
   return (
     <View style={styles.confirmSessionDetails}>
@@ -95,9 +118,13 @@ const EditProfile = ({ route, navigation }) => {
             availableTimes.map((schedule) => {
               return (
                 <TimeAndDateCard
+                  showIcon={true}
                   day={schedule.day}
                   startWorking={schedule.startTime}
                   finishWorking={schedule.endTime}
+                  onPress={() => {
+                    handleDeleteWorkHours(tutorId, schedule.day, schedule.id);
+                  }}
                 />
               );
             })

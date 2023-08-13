@@ -10,7 +10,7 @@ import {
   updateDoc,
   doc,
   arrayUnion,
-  arrayRemove
+  arrayRemove,
 } from "firebase/firestore";
 
 const TutorContext = createContext();
@@ -22,7 +22,6 @@ function TutorProvider({ children }) {
   const [pendingRequests, setPendingRequests] = useState([]);
   const [currentTutor, setCurrentTutor] = useState({});
   const [updateUI, setUpdateUI] = useState(0);
-
 
   //Todo: move this function
   const getPendingRequests = async (tutorId) => {
@@ -64,7 +63,7 @@ function TutorProvider({ children }) {
   // Function to get the current tutor
   const getCurrentTutor = async (tutorId) => {
     try {
-      console.log('This is tutor Id', tutorId );
+      console.log("This is tutor Id", tutorId);
       const tutorRef = doc(db, "tutors", tutorId);
       const tutorDoc = await getDoc(tutorRef);
 
@@ -73,10 +72,9 @@ function TutorProvider({ children }) {
         setCurrentTutor((prev) => {
           return { ...prev, ...tutorDoc.data() };
         });
-        return tutorDoc.data()
+        return tutorDoc.data();
       } else {
         throw new Error("Tutor not found");
-        
       }
     } catch (error) {
       console.error("Error while fetching tutor:", error.message);
@@ -104,7 +102,7 @@ function TutorProvider({ children }) {
       await updateDoc(tutorRef, {
         availableTimes: arrayUnion(availableTimes),
       });
-      setUpdateUI(updateUI + 1)
+      setUpdateUI(updateUI + 1);
       console.log("Available times added to tutor successfully");
     } catch (error) {
       console.error(
@@ -126,6 +124,36 @@ function TutorProvider({ children }) {
       console.error("Error while adding new courses to tutor:", error.message);
     }
   };
+
+  const deleteAvailableTimesFromTutor = async (tutorId, dayToDelete) => {
+  try {
+    const tutorRef = doc(db, "tutors", tutorId);
+    
+    // Get the tutor document data
+    const tutorDoc = await getDoc(tutorRef);
+    if (!tutorDoc.exists()) {
+      throw new Error("Tutor not found");
+    }
+
+    // Extract the existing availableTimes array from the document data
+    const existingAvailableTimes = tutorDoc.data().availableTimes;
+
+    // Filter out the object with the specified day to delete
+    const updatedAvailableTimes = existingAvailableTimes > 0 ? existingAvailableTimes.filter(
+      (time) => time.day !== dayToDelete
+    ): []
+
+    // Update the tutor's availableTimes in Firestore
+    await updateDoc(tutorRef, {
+      availableTimes: updatedAvailableTimes,
+    });
+
+    console.log("Available times deleted from tutor successfully");
+  } catch (error) {
+    console.error("Error while deleting available times from tutor:", error.message);
+  }
+};
+// 
 
   // Function to add new courses to the tutor
   const deleteCourseFromTutor = async (tutorId, course) => {
@@ -153,7 +181,8 @@ function TutorProvider({ children }) {
         addAvailableTimesToTutor,
         deleteCourseFromTutor,
         updateUI,
-        setCurrentTutor
+        setCurrentTutor,
+        deleteAvailableTimesFromTutor,
       }}
     >
       {children}

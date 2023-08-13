@@ -16,19 +16,6 @@ const TutorPage = () => {
 
   const { currentTutor, getCurrentTutor } = useContext(TutorContext);
 
-  // useEffect(() => {
-  //   const fetchCurrentTutor = async () => {
-  //     try {
-  //       const tutorId = auth.currentUser.uid;
-  //       await getCurrentTutor(tutorId);
-  //     } catch (error) {
-  //       console.error("Error while fetching data", error);
-  //     }
-  //   };
-
-  //   fetchCurrentTutor();
-  // }, []);
-
   const { bio, subjects, topics, availableTimes, name } = currentTutor;
 
   const numberOfHoursRegistered = availableTimes ? availableTimes.length : 0;
@@ -53,6 +40,7 @@ const TutorPage = () => {
             availableTimes.map((schedule) => {
               return (
                 <TimeAndDateCard
+                  showIcon={false}
                   day={schedule.day}
                   startWorking={schedule.startTime}
                   finishWorking={schedule.endTime}
