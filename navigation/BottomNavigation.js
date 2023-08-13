@@ -52,7 +52,7 @@ function BottomNavigation() {
         },
         tabBarStyle: {
           height: 70,
-          backgroundColor: Color.materialThemeSysLightBackground,
+          backgroundColor: "#fff",
           borderTopWidth: 0,
           width: "100%",
         },

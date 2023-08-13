@@ -143,7 +143,7 @@ const SessionRequest = () => {
     <View style={styles.loginScreen}>
       {/* Wrap the content that needs to be adjusted inside a KeyboardAvoidingView */}
 
-      <KeyboardAwareScrollView>
+      <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.textFieldParent}>
           {FormListComponents.map((items, index) => {
             return items;

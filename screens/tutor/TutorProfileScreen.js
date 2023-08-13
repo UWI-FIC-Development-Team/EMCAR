@@ -23,7 +23,7 @@ const TutorPage = () => {
 
   return (
     <View style={styles.tutorPage}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <TutorProfileHeader name={name} />
 
         <SessionStatusBar />
@@ -36,18 +36,16 @@ const TutorPage = () => {
           showTitle={true}
           showIcon={false}
         >
-          {
-            availableTimes?.map((schedule) => {
-              return (
-               
-                <TimeAndDateCard
-                  showIcon={false}
-                  day={schedule.day}
-                  startWorking={schedule.startTime}
-                  finishWorking={schedule.endTime}
-                />
-              );
-            })}
+          {availableTimes?.map((schedule) => {
+            return (
+              <TimeAndDateCard
+                showIcon={false}
+                day={schedule.day}
+                startWorking={schedule.startTime}
+                finishWorking={schedule.endTime}
+              />
+            );
+          })}
         </DashBoardCard>
         <DashBoardCard
           title={`Courses(${numberOfCoursesRegistered})`}

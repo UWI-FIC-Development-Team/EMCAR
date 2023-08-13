@@ -63,21 +63,19 @@ const AddWorkHours = () => {
         endTime: formattedEndTime,
       };
 
-      console.log("more data", workingHours);
       // Use Immer's produce function to update the state
-      setLoading(true);
-
-      // Add a new course to the tutor object(firestore)
-      await addAvailableTimesToTutor(tutorId, workingHoursData);
       setCurrentTutor(
         produce(currentTutor, (draft) => {
           draft.availableTimes.push(workingHoursData);
         })
       );
 
-      // Set loading state to false after successful update
-      setLoading(false);
       navigation.navigate("Edit profile");
+
+      // Add a new course to the tutor object(firestore)
+      await addAvailableTimesToTutor(tutorId, workingHoursData);
+      // Set loading state to false after successful update
+
 
       console.log("course added successfully");
     } catch (error) {
