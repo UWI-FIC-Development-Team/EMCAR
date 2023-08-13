@@ -9,17 +9,15 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { TutorContext } from "../../context/TutorContextProvider";
 import { auth } from "../../services/firebaseConfig";
 import { TimePicker } from "../../components/atoms/DateAndTimePicker";
-import uuid from "react-native-uuid";
-
+import { produce } from "immer";
 const AddWorkHours = () => {
-  const { addAvailableTimesToTutor, setCurrentTutor } =
+  const { addAvailableTimesToTutor, setCurrentTutor, currentTutor } =
     useContext(TutorContext);
   const navigation = useNavigation();
   const tutorId = auth.currentUser.uid;
 
   const [loading, setLoading] = useState(false);
   const [dailySchedule, setDailySchedule] = useState({
-    id: uuid.v4(),
     day: "",
     startTime: new Date(Date.now()),
     endTime: new Date(Date.now()),
@@ -44,11 +42,14 @@ const AddWorkHours = () => {
   // updates location of the current request object
   const handleAddWorkingHours = async (tutorId, workingHours) => {
     try {
+      // Use Immer's produce function to update the state
+      setCurrentTutor(
+        produce(currentTutor, (draft) => {
+          draft.availableTime.push(workingHours);
+        })
+      );
+
       setLoading(true);
-      // added to the current tutor object(local state)
-      setCurrentTutor((prev) => {
-        return { ...prev, ...workingHours };
-      });
 
       // Add a new course to the tutor object(firestore)
       await addAvailableTimesToTutor(tutorId, workingHours);

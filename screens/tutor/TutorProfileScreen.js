@@ -14,7 +14,7 @@ import CourseCard from "../../components/atoms/CourseCard";
 const TutorPage = () => {
   const navigation = useNavigation();
 
-  const { currentTutor, getCurrentTutor } = useContext(TutorContext);
+  const { currentTutor } = useContext(TutorContext);
 
   const { bio, subjects, topics, availableTimes, name } = currentTutor;
 

@@ -56,14 +56,13 @@ const EditProfile = ({ route, navigation }) => {
     }
   };
 
-  const handleDeleteWorkHours = async (tutorId, daytoDelete, courseId) => {
+  const handleDeleteWorkHours = async (tutorId, daytoDelete) => {
     try {
-      console.log("hours are: ", daytoDelete);
 
     //  Update local state to remove the deleted course
         setCurrentTutor((prevTutor) => {
           const updatedTimes = prevTutor.availableTimes.filter(
-            (time) => time.id !== courseId
+            (day) => day.day !== daytoDelete
           );
           return { ...prevTutor, availableTimes: updatedTimes };
         });
@@ -123,7 +122,7 @@ const EditProfile = ({ route, navigation }) => {
                   startWorking={schedule.startTime}
                   finishWorking={schedule.endTime}
                   onPress={() => {
-                    handleDeleteWorkHours(tutorId, schedule.day, schedule.id);
+                    handleDeleteWorkHours(tutorId, schedule.day);
                   }}
                 />
               );
