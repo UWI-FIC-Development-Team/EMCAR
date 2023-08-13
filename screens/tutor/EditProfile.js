@@ -12,24 +12,36 @@ import { TutorContext } from "../../context/TutorContextProvider";
 import { auth } from "../../services/firebaseConfig";
 
 const EditProfile = ({ route, navigation }) => {
-  const { getCurrentTutor, updateUI, deleteCourseFromTutor } = useContext(TutorContext);
+  const { currentTutor, setCurrentTutor, getCurrentTutor, updateUI, deleteCourseFromTutor } =
+    useContext(TutorContext);
+  const { bio, subjects, topics, availableTimes } = currentTutor;
+  console.log(" This is the bio of the current tutor", availableTimes);
 
   const tutorId = auth.currentUser.uid;
   //   const [biography, setBiography] = useState("");
   //   const [interestedTopics, setInterestedTopics] = useState([]);
-  const [currentTutor, setCurrentTutor] = useState({});
-  const [loading, setLoading] = useState(false)
-
+  const [loading, setLoading] = useState(false);
 
   const handleDeleteCourse = async (tutorId, courseName) => {
     try {
+      // Update local state to remove the deleted course
+      setCurrentTutor((prevTutor) => {
+        const updatedSubjects = prevTutor.subjects.filter(
+          (subject) => subject !== courseName
+        );
+        return { ...prevTutor, subjects: updatedSubjects };
+      });
       setLoading(true);
 
-      // Add a new course to the tutor object
+      console.log("deleting course...")
+
+      // delete new course to the tutor object from firestore
       await deleteCourseFromTutor(tutorId, courseName);
+      // This function delete course from the current state
+
+      setLoading(false);
 
       // Set loading state to false after successful update
-      setLoading(false);
 
       console.log("course deleted successfully");
     } catch (error) {
@@ -38,21 +50,18 @@ const EditProfile = ({ route, navigation }) => {
     }
   };
 
-  useEffect(() => {
-    const fetchCurrentTutor = async () => {
-      try {
-        const data = await getCurrentTutor(tutorId);
-        setCurrentTutor((prev)=>{return({...prev, ...data})}); // Assuming you have a state variable named setCurrentTutor
-      } catch (error) {
-        console.error("Error while fetching data", error);
-      }
-    };
+  //   const fetchCurrentTutor = useCallback(async () => {
+  //     try {
+  //       const data = await getCurrentTutor(tutorId);
+  //       setCurrentTutor(data); // Assuming you have a state variable named setCurrentTutor
+  //     } catch (error) {
+  //       console.error("Error while fetching data", error);
+  //     }
+  //   }, []);
 
-    fetchCurrentTutor();
-  }, [updateUI]);
-
-  const { bio, subjects, topics, availableTimes } = currentTutor;
-  console.log(" This is the bio of the current tutor", availableTimes);
+  //   useEffect(() => {
+  //     fetchCurrentTutor();
+  //   }, [updateUI]);
 
   return (
     <View style={styles.confirmSessionDetails}>
@@ -108,7 +117,7 @@ const EditProfile = ({ route, navigation }) => {
             subjects.map((subject) => {
               return (
                 <CourseCard
-                showIcon={true}
+                  showIcon={true}
                   courseName={subject}
                   onPress={() => handleDeleteCourse(tutorId, subject)}
                 />

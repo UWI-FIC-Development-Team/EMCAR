@@ -76,6 +76,7 @@ function TutorProvider({ children }) {
         return tutorDoc.data()
       } else {
         throw new Error("Tutor not found");
+        
       }
     } catch (error) {
       console.error("Error while fetching tutor:", error.message);
@@ -103,6 +104,7 @@ function TutorProvider({ children }) {
       await updateDoc(tutorRef, {
         availableTimes: arrayUnion(availableTimes),
       });
+      setUpdateUI(updateUI + 1)
       console.log("Available times added to tutor successfully");
     } catch (error) {
       console.error(
@@ -119,8 +121,6 @@ function TutorProvider({ children }) {
       await updateDoc(tutorRef, {
         subjects: arrayUnion(course),
       });
-      setUpdateUI(0)
-      setUpdateUI(updateUI + 1)
       console.log("New courses added to tutor successfully");
     } catch (error) {
       console.error("Error while adding new courses to tutor:", error.message);
@@ -134,10 +134,7 @@ function TutorProvider({ children }) {
       await updateDoc(tutorRef, {
         subjects: arrayRemove(course),
       });
-      // This function is used to notify the app when a changed it been made.
-      setUpdateUI(0)
-      setUpdateUI(updateUI + 1)
-      console.log("New courses added to tutor successfully");
+      console.log("courses deleted to tutor successfully");
     } catch (error) {
       console.error("Error while adding new courses to tutor:", error.message);
     }
@@ -156,6 +153,7 @@ function TutorProvider({ children }) {
         addAvailableTimesToTutor,
         deleteCourseFromTutor,
         updateUI,
+        setCurrentTutor
       }}
     >
       {children}

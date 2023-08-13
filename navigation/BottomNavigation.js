@@ -21,9 +21,9 @@ function BottomNavigation() {
   const { isTutor } = useContext(AuthContext);
   // let isTutor = true
 
-  useEffect(() => {
-    console.log("Is the current user a tutor? ", isTutor);
-  }, []);
+  // useEffect(() => {
+  //   console.log("Is the current user a tutor? ", isTutor);
+  // }, []);
 
   return (
     <BottomTabs.Navigator

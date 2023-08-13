@@ -16,18 +16,18 @@ const TutorPage = () => {
 
   const { currentTutor, getCurrentTutor } = useContext(TutorContext);
 
-  useEffect(() => {
-    const fetchCurrentTutor = async () => {
-      try {
-        const tutorId = auth.currentUser.uid;
-        await getCurrentTutor(tutorId);
-      } catch (error) {
-        console.error("Error while fetching data", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchCurrentTutor = async () => {
+  //     try {
+  //       const tutorId = auth.currentUser.uid;
+  //       await getCurrentTutor(tutorId);
+  //     } catch (error) {
+  //       console.error("Error while fetching data", error);
+  //     }
+  //   };
 
-    fetchCurrentTutor();
-  }, []);
+  //   fetchCurrentTutor();
+  // }, []);
 
   const { bio, subjects, topics, availableTimes, name } = currentTutor;
 
