@@ -1,30 +1,26 @@
 import * as React from "react";
-import {
-  Text,
-  StyleSheet,
-  View,
-} from "react-native";
+import { Text, StyleSheet, View } from "react-native";
 
-import { Padding, Color, FontFamily, FontSize, Border } from "../../GlobalStyles";
+import { Padding, Color, FontFamily, FontSize } from "../../GlobalStyles";
 
-const AppLogo = () =>{
-    return(
+const AppLogo = () => {
+  return (
     <View style={[styles.topAppBar, styles.topAppBarFlexBox]}>
-        <Text style={styles.headline}>
-          <Text style={styles.emcar}>{`EMCAR | `}</Text>
-          <Text style={styles.toLearn}>to learn</Text>
-        </Text>
+      <Text style={styles.headline}>
+        <Text style={styles.emcar}>{`EMCAR | `}</Text>
+        <Text style={styles.toLearn}>to learn</Text>
+      </Text>
     </View>
-    )
-}
+  );
+};
 
 const styles = StyleSheet.create({
-    topAppBarFlexBox: {
+  topAppBarFlexBox: {
     flexDirection: "row",
     alignSelf: "stretch",
     alignItems: "center",
   },
-    emcar: {
+  emcar: {
     color: Color.gray_100,
   },
   toLearn: {
@@ -44,6 +40,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingHorizontal: Padding.p_6xl,
   },
-})
+});
 
 export default AppLogo;
