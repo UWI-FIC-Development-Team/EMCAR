@@ -26,6 +26,7 @@ import TutorProfileScreen from "../screens/tutor/TutorProfileScreen";
 import EditProfile from "../screens/tutor/EditProfile";
 import AddCourseModal from "../screens/tutor/AddCourseModal";
 import AddWorkHours from "../screens/tutor/AddWorkHoursModal";
+import UpdateBioModal from "../screens/tutor/AddBioModal";
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -189,6 +190,11 @@ const MainStack = () => {
       <Stack.Screen
         name="Confirm Request"
         component={RequestConfirmationScreen}
+        options={{ headerShown: false, presentation: "modal" }}
+      />
+      <Stack.Screen
+        name="update bio"
+        component={UpdateBioModal}
         options={{ headerShown: false, presentation: "modal" }}
       />
       <Stack.Screen

@@ -38,9 +38,9 @@ const { firstNameInitial, lastNameInitial } = extractInitials(name);
         label={`${firstNameInitial}${lastNameInitial}`}
       />
       <Text style={[styles.headline1, styles.headlineTypo]}>{name}</Text>
-      <Text style={[styles.headline, styles.headlineTypo]}>
+      {/* <Text style={[styles.headline, styles.headlineTypo]}>
         Second year computer science student.
-      </Text>
+      </Text> */}
     </View>
   );
 };

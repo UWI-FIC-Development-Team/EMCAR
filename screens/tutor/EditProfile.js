@@ -7,24 +7,21 @@ import DashBoardCard from "../../components/atoms/DashBoardCard";
 import InfoText from "../../components/atoms/InfoText";
 import TimeAndDateCard from "../../components/atoms/TimeAndDateCard";
 import CourseCard from "../../components/atoms/CourseCard";
-import { useContext, useEffect, useState, useCallback } from "react";
+import { useContext, useState } from "react";
 import { TutorContext } from "../../context/TutorContextProvider";
 import { auth } from "../../services/firebaseConfig";
 
-const EditProfile = ({ route, navigation }) => {
+const EditProfile = ({ navigation }) => {
   const {
     currentTutor,
     setCurrentTutor,
-    getCurrentTutor,
-    updateUI,
     deleteCourseFromTutor,
     deleteAvailableTimesFromTutor,
   } = useContext(TutorContext);
-  const { bio, subjects, topics, availableTimes } = currentTutor;
-  console.log(" This is the bio of the current tutor", availableTimes);
+  const { Bio, subjects, topics, availableTimes } = currentTutor;
+  // console.log(" This is the bio of the current tutor", availableTimes);
 
   const tutorId = auth.currentUser.uid;
-  //   const [biography, setBiography] = useState("");
   //   const [interestedTopics, setInterestedTopics] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -92,19 +89,26 @@ const EditProfile = ({ route, navigation }) => {
       >
         <Feather name="x" size={24} color="black" />
       </TouchableOpacity>
-      <ScrollView style={{ flex: 1, width: "100%" }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ flex: 1, width: "100%" }}
+      >
         <View style={styles.headlineParent}>
           <Text style={styles.headline0}>Edit Profile</Text>
-          {/* Add body text here */}
-          {/* <Text style={styles.title}>
-            
-          </Text> */}
         </View>
-
-        <DashBoardCard title={"Edit your Bio"} showTitle={true}>
-          <InfoText info={bio} />
+        <DashBoardCard
+          onPress={() => {
+            navigation.navigate("update bio");
+          }}
+          title={"Edit your Bio"}
+          showTitle={true}
+          iconName={"edit"}
+          showIcon={true}
+        >
+          <Text style={styles.bioText}>{Bio}</Text>
         </DashBoardCard>
         <DashBoardCard
+          iconName={"plus"}
           title={"Create a schedule"}
           showTitle={true}
           showIcon={true}
@@ -113,7 +117,6 @@ const EditProfile = ({ route, navigation }) => {
           }}
         >
           {availableTimes.length > 0 &&
-          
             availableTimes.map((schedule) => {
               return (
                 <TimeAndDateCard
@@ -129,6 +132,7 @@ const EditProfile = ({ route, navigation }) => {
             })}
         </DashBoardCard>
         <DashBoardCard
+          iconName={"plus"}
           title={"Add a course"}
           showTitle={true}
           showIcon={true}
@@ -156,6 +160,14 @@ const EditProfile = ({ route, navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  bioText: {
+    color: "#000",
+    fontSize: 14,
+    padding: 8,
+    width: "100%",
+    height:100,
+    fontWeight:'500'
+  },
   bottomSheetHead: {
     flexDirection: "row",
     width: "100%",

@@ -17,12 +17,13 @@ const DashBoardCard = ({
   showTitle,
   showSeeAll,
   showIcon,
+  iconName,
   count
 }) => {
   return (
     <View style={styles.container}>
       <View style={[styles.content, styles.listSpaceBlock]}>
-        {showTitle ? <Text style={styles.headline}>{title}</Text> : ""}
+        {showTitle ? <Text style={styles.headline}>{title}</Text> : null}
         {showSeeAll ? (
           <TouchableOpacity onPress={onPress}>
             <Text style={styles.headline2}>See all</Text>
@@ -31,7 +32,7 @@ const DashBoardCard = ({
         {showIcon ? (
           <TouchableOpacity onPress={onPress}>
             <View style={styles.icon}>
-              <Feather name="plus" size={24} color="#006A6A" />
+              <Feather name={iconName} size={24} color="#006A6A" />
             </View>
           </TouchableOpacity>
         ) : null}
@@ -86,20 +87,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-    shadowColor: "rgba(0, 0, 0, 0.25)",
-    shadowRadius: 4,
-    elevation: 4,
-
-    overflow: "hidden",
-    shadowOpacity: 1,
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
     borderRadius: Border.br_xs,
     alignSelf: "stretch",
     backgroundColor: "#fff",
-    marginTop: 12,
+    marginTop: 8,
     paddingVertical: 8,
   },
 });

@@ -102,7 +102,6 @@ function TutorProvider({ children }) {
       await updateDoc(tutorRef, {
         availableTimes: arrayUnion(availableTimes),
       });
-      setUpdateUI(updateUI + 1);
       console.log("Available times added to tutor successfully");
     } catch (error) {
       console.error(
@@ -183,6 +182,7 @@ function TutorProvider({ children }) {
         updateUI,
         setCurrentTutor,
         deleteAvailableTimesFromTutor,
+        updateTutorBio
       }}
     >
       {children}

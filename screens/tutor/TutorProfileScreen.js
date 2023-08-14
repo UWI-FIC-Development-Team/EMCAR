@@ -1,22 +1,22 @@
-import { useContext, useEffect } from "react";
-import { View, ScrollView, StyleSheet } from "react-native";
+import { useContext } from "react";
+import { View, ScrollView, StyleSheet, Text } from "react-native";
 import TutorProfileHeader from "../../components/molecules/TutorProfileHeader";
 import SessionStatusBar from "../../components/molecules/SessionStatusBar";
 import { useNavigation } from "@react-navigation/native";
 import DashBoardCard from "../../components/atoms/DashBoardCard";
 import FloatingButton from "../../components/atoms/FloatingButton";
 import { TutorContext } from "../../context/TutorContextProvider";
-import { auth } from "../../services/firebaseConfig";
 import InfoText from "../../components/atoms/InfoText";
 import TimeAndDateCard from "../../components/atoms/TimeAndDateCard";
 import CourseCard from "../../components/atoms/CourseCard";
+import { FontFamily } from "../../GlobalStyles";
 
 const TutorPage = () => {
   const navigation = useNavigation();
 
   const { currentTutor } = useContext(TutorContext);
 
-  const { bio, subjects, topics, availableTimes, name } = currentTutor;
+  const { Bio, subjects, topics, availableTimes, name } = currentTutor;
 
   const numberOfHoursRegistered = availableTimes ? availableTimes.length : 0;
   const numberOfCoursesRegistered = subjects ? subjects.length : 0;
@@ -29,7 +29,7 @@ const TutorPage = () => {
         <SessionStatusBar />
 
         <DashBoardCard title={"Bio"} showTitle={true} showSeeAll={false}>
-          {bio}
+          <Text style={styles.bioText}>{Bio}</Text>
         </DashBoardCard>
         <DashBoardCard
           title={`Schedule(${numberOfHoursRegistered})`}
@@ -70,6 +70,14 @@ const TutorPage = () => {
 };
 
 const styles = StyleSheet.create({
+  bioText: {
+    color: "#000",
+    fontSize: 14,
+    padding: 8,
+    width: "100%",
+    height: 100,
+    fontWeight: "500",
+  },
   tutorPage: {
     paddingHorizontal: 16,
     backgroundColor: "#fff",
