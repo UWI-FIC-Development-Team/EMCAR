@@ -78,12 +78,12 @@ const SubmitUpcomingSession = ({ onPresent, onClose, route }) => {
 
 const styles = StyleSheet.create({
   modalContainer: {
-    height: "70%",
+    height: "80%",
     justifyContent: "flex-end",
     alignItems: "center",
     backgroundColor: "#fff",
     paddingHorizontal: 16,
-    paddingVertical: 16,
+    paddingVertical: 55,
     position: "absolute",
     bottom: 0,
     width: "100%",

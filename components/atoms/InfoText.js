@@ -2,11 +2,11 @@ import {Text, StyleSheet} from "react-native";
 import { FontFamily, FontSize, Color } from "../../GlobalStyles";
 
 
-const InfoText = () => {
+const InfoText = ({info}) => {
   
   return (
       <Text style={[styles.title, styles.titleTypo]}>
-       No sessions requested at this time. 
+       {}
       </Text>
   );
 };

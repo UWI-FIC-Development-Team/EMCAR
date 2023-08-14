@@ -5,8 +5,8 @@ const createTutor = () => {
     email: "",
     subjects: [],
     topics: [],
-    availableTimes: {},
-    bio: {},
+    availableTimes: [],
+    bio: "",
   };
 
   const withTutorId = (tutorId) => {

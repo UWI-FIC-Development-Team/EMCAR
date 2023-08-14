@@ -27,7 +27,7 @@ const AuthContext = createContext();
 // }
 
 function AuthProvider({ children }) {
-  const { getTutors } = useContext(TutorContext);
+  const { getTutors, getCurrentTutor } = useContext(TutorContext);
 
   const [activeUser, setActiveUser] = useState("");
   const [loading, setLoading] = useState(false);
@@ -41,12 +41,14 @@ function AuthProvider({ children }) {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        // setLoading(true)
-        console.log("start");
         getUserName(user.uid);
         getUserRole(user.uid);
+
         getTutors();
-        console.log("end");
+
+        console.log("this user is a tutor", isTutor);
+        getCurrentTutor(user.uid);
+
         return true;
       })
       .catch((error) => {
@@ -153,7 +155,6 @@ function AuthProvider({ children }) {
         role: "tutor",
       };
 
-
       // Add the tutor data to the "tutors" collection in Firestore with the user ID as the document ID
       const tutorToTutorRef = doc(db, "tutors", userId);
       await setDoc(tutorToTutorRef, tutorToTutorCollection);
@@ -193,8 +194,6 @@ function AuthProvider({ children }) {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        // console.log("User is signed in:", user.uid);
-        // // Redirect or navigate to the home screen
       } else {
         console.log("User is signed out");
       }

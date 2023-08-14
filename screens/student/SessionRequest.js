@@ -13,7 +13,6 @@ import {
 import FormInput from "../../components/atoms/FormInput";
 import InfoText from "../../components/atoms/InfoText";
 import { SessionContext } from "../../context/RequestContextProvider";
-import { ScrollView } from "react-native";
 import { AuthContext } from "../../context/AuthContextProvider";
 import uuid from "react-native-uuid";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -144,7 +143,7 @@ const SessionRequest = () => {
     <View style={styles.loginScreen}>
       {/* Wrap the content that needs to be adjusted inside a KeyboardAvoidingView */}
 
-      <KeyboardAwareScrollView>
+      <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.textFieldParent}>
           {FormListComponents.map((items, index) => {
             return items;

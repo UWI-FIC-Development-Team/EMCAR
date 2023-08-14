@@ -17,11 +17,16 @@ import Header from "../components/atoms/Header";
 import AllTutors from "../screens/student/AllTutorsScreen";
 import TutorSelection from "../screens/student/TutorSelection";
 import SuccessScreen from "../screens/student/SuccessScreen";
-import SubmitSessionScreen from "../screens/main/SubmitSessionScreen";
+import SubmitSessionScreen from "../screens/main/SubmitSessionModal";
 import TutorSignUpScreen from "../screens/tutor/TutorRegistrationScreen";
 import RequestConfirmationScreen from "../screens/tutor/RequestConfirmationScreen";
-import SubmitUpcomingSession from "../screens/tutor/SubmitUpcomingSession";
+import SubmitUpcomingSession from "../screens/tutor/SubmitUpcomingSessionModal";
 import SessionDetails from "../screens/main/SessionDetails";
+import TutorProfileScreen from "../screens/tutor/TutorProfileScreen";
+import EditProfile from "../screens/tutor/EditProfile";
+import AddCourseModal from "../screens/tutor/AddCourseModal";
+import AddWorkHours from "../screens/tutor/AddWorkHoursModal";
+import UpdateBioModal from "../screens/tutor/AddBioModal";
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -107,7 +112,7 @@ const AppNavigator = () => {
             />
           </RootStack.Group>
 
-          <RootStack.Group
+          {/* <RootStack.Group
             screenOptions={{
               presentation: "modal",
               gestureResponseDistance: 135,
@@ -116,6 +121,34 @@ const AppNavigator = () => {
             <RootStack.Screen
               name="Confirm Request"
               component={RequestConfirmationScreen}
+              options={{
+                headerMode: "none",
+              }}
+            />
+          </RootStack.Group> */}
+          <RootStack.Group
+            screenOptions={{
+              presentation: "modal",
+              gestureResponseDistance: 1000,
+            }}
+          >
+            <RootStack.Screen
+              name="Add a course"
+              component={AddCourseModal}
+              options={{
+                headerMode: "none",
+              }}
+            />
+          </RootStack.Group>
+          <RootStack.Group
+            screenOptions={{
+              presentation: "modal",
+              gestureResponseDistance: 1000,
+            }}
+          >
+            <RootStack.Screen
+              name="Add work hours"
+              component={AddWorkHours}
               options={{
                 headerMode: "none",
               }}
@@ -155,6 +188,16 @@ const MainStack = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
+        name="Confirm Request"
+        component={RequestConfirmationScreen}
+        options={{ headerShown: false, presentation: "modal" }}
+      />
+      <Stack.Screen
+        name="update bio"
+        component={UpdateBioModal}
+        options={{ headerShown: false, presentation: "modal" }}
+      />
+      <Stack.Screen
         name="StudentDB"
         component={BottomNavigation}
         options={{ headerShown: false }}
@@ -184,15 +227,21 @@ const MainStack = () => {
         component={PasswordReset}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
-        name="TutorPage"
-        component={TutorPage}
+      {/* <Stack.Screen
+        name="tutor profile"
+        component={TutorProfileScreen}
         options={{ headerShown: false }}
-      />
+      /> */}
+
       <Stack.Screen
         name="All tutors"
         component={AllTutors}
         options={{ headerShown: true }}
+      />
+      <Stack.Screen
+        name="Edit profile"
+        component={EditProfile}
+        options={{ headerShown: false, presentation: "modal" }}
       />
       <Stack.Screen
         name="Select a tutor"

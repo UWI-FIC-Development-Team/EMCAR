@@ -11,7 +11,8 @@ const FormInput = ({
   value, 
   onChangeText, 
   keyboardType,
-  multiline = false
+  multiline = false,
+  autoFocus
 }) => {
   return (
     <View style={styles.container}>
@@ -24,9 +25,10 @@ const FormInput = ({
         placeholderTextColor="#191c1c"
         placeholder={placeholder}
         secureTextEntry={secureTextEntry}
-        autoCapitalize='words'
+        autoCapitalize='sentences'
         multiline={multiline} // Use the multiline prop directly
         numberOfLines={multiline ? 5 : 1} // Set the numberOfLines conditionally
+        autoFocus={autoFocus}
       />
   </View>
   );

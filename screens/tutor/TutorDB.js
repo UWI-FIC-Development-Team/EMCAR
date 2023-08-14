@@ -1,5 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
-import { StyleSheet, ScrollView, StatusBar } from "react-native";
+import {
+  StyleSheet,
+  ScrollView,
+  StatusBar,
+  RefreshControl,
+} from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, Padding, Color } from "../../GlobalStyles";
@@ -21,11 +26,12 @@ const TutorDB = () => {
     useContext(SessionContext);
   const navigation = useNavigation();
 
+  const [refreshing, setRefreshing] = useState(false); // Step 2
+
   useEffect(() => {
-    // Fetch pending requests associated with the tutor
     const fetchPendingRequests = async () => {
       const tutorId = auth.currentUser.uid;
-      console.log("Current user ID:", tutorUpcomingSessions);
+      console.log("Fetching pending requests and upcoming sessions...");
       await getPendingRequests(tutorId);
       await getTutorUpcomingSessions(tutorId);
     };
@@ -33,8 +39,24 @@ const TutorDB = () => {
     fetchPendingRequests();
   }, []);
 
+  const onRefresh = async () => {
+    // Step 2
+    setRefreshing(true);
+    const tutorId = auth.currentUser.uid;
+    await getPendingRequests(tutorId);
+    await getTutorUpcomingSessions(tutorId);
+    // await fetchPendingRequests();
+    setRefreshing(false);
+  };
+
   return (
-    <ScrollView style={styles.studentDb}>
+    <ScrollView
+      style={styles.studentDb}
+      refreshControl={
+        // Step 3
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
       <StatusBar barStyle={"dark-content"} />
 
       <TopBar2 userName={activeUser} />
@@ -69,7 +91,6 @@ const TutorDB = () => {
                 date={request.requestDate.toDate().toLocaleDateString()}
                 location={request.location}
               />
-
             </TouchableOpacity>
           ))
         ) : (
@@ -81,7 +102,7 @@ const TutorDB = () => {
         title={"Upcoming Sessions"}
         showSeeAll={true}
       >
-       {tutorUpcomingSessions ? (
+        {tutorUpcomingSessions ? (
           tutorUpcomingSessions.map((request) => (
             <TouchableOpacity
               onPress={() => {
@@ -111,7 +132,7 @@ const TutorDB = () => {
           ))
         ) : (
           <InfoText />
-        )} 
+        )}
       </DashBoardCard>
       <DashBoardCard
         showTitle={true}

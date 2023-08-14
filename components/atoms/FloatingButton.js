@@ -11,18 +11,18 @@ import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 
 
-const FloatingButton = () => {
+const FloatingButton = ({navigateTo, title}) => {
   const navigation = useNavigation()
   return (
     <View style={styles.extendedFabWrapper}>
       <TouchableOpacity
         style={[styles.extendedFab, styles.extendedFabFlexBox]}
         activeOpacity={0.2}
-        onPress={() => navigation.navigate("Request a session")}
+        onPress={() => navigation.navigate(navigateTo)}
       >
         <View style={styles.floatingbutton}>
           <Feather name="edit-2" size={24} color="#fff" />
-          <Text style={styles.labelText}>Request a Session</Text>
+          <Text style={styles.labelText}>{title}</Text>
         </View>
       </TouchableOpacity>
     </View>
