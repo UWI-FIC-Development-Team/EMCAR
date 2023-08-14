@@ -10,11 +10,13 @@ import InfoText from "../../components/atoms/InfoText";
 import TimeAndDateCard from "../../components/atoms/TimeAndDateCard";
 import CourseCard from "../../components/atoms/CourseCard";
 import { FontFamily } from "../../GlobalStyles";
+import { SessionContext } from "../../context/RequestContextProvider";
 
 const TutorPage = () => {
   const navigation = useNavigation();
 
-  const { currentTutor } = useContext(TutorContext);
+  const { currentTutor, pendingRequests } = useContext(TutorContext);
+  const { tutorUpcomingSessions } = useContext(SessionContext);
 
   const { Bio, subjects, topics, availableTimes, name } = currentTutor;
 
@@ -26,7 +28,12 @@ const TutorPage = () => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <TutorProfileHeader name={name} />
 
-        <SessionStatusBar />
+        <SessionStatusBar
+          courses={subjects.length}
+          notStarted={pendingRequests.length}
+          onGoing={tutorUpcomingSessions.length}
+          completed={'0'}
+        />
 
         <DashBoardCard title={"Bio"} showTitle={true} showSeeAll={false}>
           <Text style={styles.bioText}>{Bio}</Text>

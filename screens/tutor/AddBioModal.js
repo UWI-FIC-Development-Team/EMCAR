@@ -22,7 +22,7 @@ const UpdateBioModal = () => {
 
   const handleUpdateBio = async (tutorId, bio) => {
     try {
-      setLoading(true);
+      // setLoading(true);
 
       // Use Immer's produce function to update the state
       setCurrentTutor(
@@ -34,7 +34,7 @@ const UpdateBioModal = () => {
       // Add the new course to the tutor object in Firestore
       await updateTutorBio(tutorId, bio);
 
-      setLoading(false); // Set loading state to false after successful update
+      // setLoading(false); // Set loading state to false after successful update
       navigation.navigate("Edit profile");
 
       console.log("Bio updated successfully");

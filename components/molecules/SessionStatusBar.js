@@ -2,23 +2,23 @@ import * as React from "react";
 import { Text, StyleSheet, View } from "react-native";
 import { FontFamily, FontSize, Color, Border, Padding } from "../../GlobalStyles";
 
-const SessionStatusBar = () => {
+const SessionStatusBar = ({courses, completed, onGoing, notStarted}) => {
   return (
     <View style={styles.segments}>
       <View style={styles.logoFlexBox}>
-        <Text style={[styles.part1, styles.part1Typo]}>3</Text>
+        <Text style={[styles.part1, styles.part1Typo]}>{courses}</Text>
         <Text style={[styles.text1, styles.part1Typo]}>courses</Text>
       </View>
       <View style={[styles.logoAndName1, styles.logoFlexBox]}>
-        <Text style={[styles.part1, styles.part1Typo]}>4</Text>
+        <Text style={[styles.part1, styles.part1Typo]}>{onGoing}</Text>
         <Text style={[styles.text1, styles.part1Typo]}>on going</Text>
       </View>
       <View style={[styles.logoAndName1, styles.logoFlexBox]}>
-        <Text style={[styles.part1, styles.part1Typo]}>2</Text>
+        <Text style={[styles.part1, styles.part1Typo]}>{completed}</Text>
         <Text style={[styles.text1, styles.part1Typo]}>completed</Text>
       </View>
       <View style={[styles.logoAndName1, styles.logoFlexBox]}>
-        <Text style={[styles.part1, styles.part1Typo]}>1</Text>
+        <Text style={[styles.part1, styles.part1Typo]}>{notStarted}</Text>
         <Text style={[styles.text1, styles.part1Typo]}>not started</Text>
       </View>
     </View>
