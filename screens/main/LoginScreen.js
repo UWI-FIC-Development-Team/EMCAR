@@ -9,6 +9,8 @@ import { AuthContext } from "../../context/AuthContextProvider";
 import { ActivityIndicator } from "react-native-paper";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
+import LoginForm from "../../components/organisms/LoginForm";
+
 const LoginScreen = ({ route }) => {
   const { login, activeUser } = useContext(AuthContext);
   const navigation = useNavigation();
@@ -31,12 +33,12 @@ const LoginScreen = ({ route }) => {
     });
   }, [navigation, loading]);
 
-  const handleLogin = async () => {
+  const handleLogin = async (values) => {
     try {
-      if (password && email) {
+      if (values.password && values.email) {
         // Set the loading state to true before fetching user data
         setLoading(true);
-        await login(auth, email, password);
+        await login(auth, values.email, values.password);
         setEmail("");
         setPassword("");
       } else {
@@ -63,32 +65,7 @@ const LoginScreen = ({ route }) => {
               </Text>
 
               {/* Wrap the content that needs to be adjusted inside a KeyboardAvoidingView */}
-
-              <View style={styles.textFieldParent}>
-                <FormInput
-                  value={email}
-                  keyboardType="email-address"
-                  onChangeText={setEmail}
-                  placeholder="Enter your email"
-                  label="Email"
-                />
-                <FormInput
-                  value={password}
-                  onChangeText={setPassword}
-                  placeholder="Enter your password"
-                  label="Password"
-                  secureTextEntry
-                />
-                <Pressable
-                  style={styles.forgotPassword}
-                  onPress={() => navigation.navigate("PasswordReset")}
-                >
-                  <Text style={styles.forgotPasswordText}>
-                    Forgot Password?
-                  </Text>
-                </Pressable>
-              </View>
-              <PrimaryButton title="Login" onPress={handleLogin} />
+              <LoginForm onSubmit={handleLogin} />
             </KeyboardAwareScrollView>
           </View>
         </>

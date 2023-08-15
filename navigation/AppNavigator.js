@@ -3,7 +3,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import OnboardingScreen1a from "../screens/main/OnboardingScreen1a";
 import OnboardingScreen2 from "../screens/main/OnboardingScreen2";
-import PasswordReset from "../screens/main/PasswordReset";
 import SessionRequest from "../screens/student/SessionRequest";
 import SignUpScreen from "../screens/main/SignUpScreen";
 import LoginScreen from "../screens/main/LoginScreen";
@@ -213,11 +212,11 @@ const MainStack = () => {
         component={TutorSignUpScreen}
         options={{ headerShown: true }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="PasswordReset"
         component={PasswordReset}
         options={{ headerShown: false }}
-      />
+      /> */}
       {/* <Stack.Screen
         name="tutor profile"
         component={TutorProfileScreen}

@@ -15,7 +15,9 @@ const LoginForm = ({ navigation, onSubmit }) => {
     <Formik
       initialValues={{ email: "", password: "" }}
       validationSchema={validationSchema}
-      onSubmit={() => {}}
+      onSubmit={(values) => {
+        onSubmit(values);
+      }}
     >
       {({
         handleChange,
@@ -36,7 +38,9 @@ const LoginForm = ({ navigation, onSubmit }) => {
               placeholder="Enter your email"
               label="Email"
             />
-            {touched.email && errors.email && <Text>{errors.email}</Text>}
+            {touched.email && errors.email && (
+              <Text style={styles.errorText}>{errors.email}</Text>
+            )}
             <FormInput
               value={values.password}
               onChangeText={handleChange("password")}
@@ -46,7 +50,7 @@ const LoginForm = ({ navigation, onSubmit }) => {
               secureTextEntry
             />
             {touched.password && errors.password && (
-              <Text>{errors.password}</Text>
+              <Text style={styles.errorText}>{errors.password}</Text>
             )}
             <Pressable
               style={styles.forgotPassword}
@@ -67,7 +71,29 @@ const LoginForm = ({ navigation, onSubmit }) => {
 };
 
 const styles = StyleSheet.create({
-  // Your style definitions here
+  errorText: {
+    marginBottom: 8,
+    marginTop: -12,
+    color: "red", // Set the color to red for visibility
+  },
+  forgotPassword: {
+    marginBottom: 16,
+    alignSelf: "stretch",
+    justifyContent: "center",
+    alignItems: "flex-end",
+  },
+  forgotPasswordText: {
+    color: "#006a6a",
+    fontSize: 14,
+    fontWeight: "500",
+    fontFamily: "Roboto_medium",
+    textDecorationLine: "underline",
+  },
+  textFieldParent: {
+    marginTop: 64,
+    justifyContent: "flex-end",
+    alignSelf: "stretch",
+  },
 });
 
 export default LoginForm;
