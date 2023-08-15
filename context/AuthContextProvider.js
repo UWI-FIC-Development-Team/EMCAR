@@ -58,7 +58,7 @@ function AuthProvider({ children }) {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
-        password
+        password,
       );
       const user = userCredential.user;
       const userId = user.uid;
@@ -79,7 +79,7 @@ function AuthProvider({ children }) {
       console.log(
         "This is the student object: ",
         studentToStudentCollection,
-        studentToUserCollection
+        studentToUserCollection,
       );
 
       // Add the student student to the student collection
@@ -116,7 +116,7 @@ function AuthProvider({ children }) {
     } catch (error) {
       console.error(
         "Error while checking if the user is a tutor:",
-        error.message
+        error.message,
       );
       return false;
     }

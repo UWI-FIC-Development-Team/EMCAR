@@ -85,7 +85,7 @@ function SessionProvider({ children }) {
       const pendingRequestsQuery = query(
         requestsRef,
         where("tutorId", "==", tutorId),
-        where("status", "==", "pending")
+        where("status", "==", "pending"),
       );
       const querySnapshot = await getDocs(pendingRequestsQuery);
       const pendingRequestsData = querySnapshot.docs.map((doc) => doc.data());
@@ -117,7 +117,7 @@ function SessionProvider({ children }) {
       const upcomingSessionsQuery = query(
         requestsRef,
         where("studentId", "==", studentId),
-        where("status", "==", "upcoming")
+        where("status", "==", "upcoming"),
       );
       const querySnapshot = await getDocs(upcomingSessionsQuery);
       const upcomingSessionsData = querySnapshot.docs.map((doc) => doc.data());
@@ -137,7 +137,7 @@ function SessionProvider({ children }) {
       const upcomingSessionsQuery = query(
         requestsRef,
         where("tutorId", "==", tutorId),
-        where("status", "==", "upcoming")
+        where("status", "==", "upcoming"),
       );
       const querySnapshot = await getDocs(upcomingSessionsQuery);
       const upcomingSessionsData = querySnapshot.docs.map((doc) => doc.data());
@@ -157,7 +157,7 @@ function SessionProvider({ children }) {
 
       const upcomingSessionsQuery = query(
         requestRef,
-        where("requestId", "==", requestId)
+        where("requestId", "==", requestId),
       );
 
       const querySnapshot = await getDocs(upcomingSessionsQuery);
@@ -180,7 +180,7 @@ function SessionProvider({ children }) {
       const requestRef = collection(db, "requests");
       const upcomingSessionsQuery = query(
         requestRef,
-        where("requestId", "==", requestId)
+        where("requestId", "==", requestId),
       );
 
       const querySnapshot = await getDocs(upcomingSessionsQuery);

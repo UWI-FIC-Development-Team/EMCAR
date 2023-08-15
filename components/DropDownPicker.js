@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Dropdown, MultiSelect } from "react-native-element-dropdown";
 import { Feather } from "@expo/vector-icons";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { MultiSelect } from "react-native-element-dropdown";
+
 import { topicsData, coursesData } from "../Data";
 
 export const CourseDropDown = ({
