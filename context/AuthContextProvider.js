@@ -1,60 +1,50 @@
-import { createContext, useContext, useEffect, useState } from "react";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  onAuthStateChanged,
 } from "firebase/auth";
-
-import { onAuthStateChanged } from "firebase/auth";
-import { auth, db } from "../services/firebaseConfig";
-import {
-  doc,
-  setDoc,
-  collection,
-  addDoc,
-  getDoc,
-  getDocs,
-} from "firebase/firestore";
-
-import createStudent from "../builders/StudentBuilder";
-import createTutor from "../builders/TutorBuilder";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { createContext, useContext, useEffect, useState } from "react";
 
 import { TutorContext } from "./TutorContextProvider";
+import createStudent from "../builders/StudentBuilder";
+import createTutor from "../builders/TutorBuilder";
+import { auth, db } from "../services/firebaseConfig";
+import reactotron from "reactotron-react-native";
 
 const AuthContext = createContext();
-
-// export function useAuth() {
-//   return useContext(AuthContext)
-// }
 
 function AuthProvider({ children }) {
   const { getTutors, getCurrentTutor } = useContext(TutorContext);
 
   const [activeUser, setActiveUser] = useState("");
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [isTutor, setIsTutor] = useState(false);
-  const [dataSent, setDataSent] = useState(false);
 
   // This function is used to login the current user into there account
 
-  function login(auth_, email, password) {
-    signInWithEmailAndPassword(auth_, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        getUserName(user.uid);
-        getUserRole(user.uid);
+  async function login(auth_, email, password) {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth_,
+        email,
+        password,
+      );
+      const user = userCredential.user;
 
-        getTutors();
+      // Fetching user data, role, tutors, and current tutor in parallel
+      await getUserName(user.uid);
+      await getUserRole(user.uid);
+      await getTutors();
+      const tutor = await getCurrentTutor(user.uid);
+      reactotron.log("tutor data: ", tutor);
 
-        console.log("this user is a tutor", isTutor);
-        getCurrentTutor(user.uid);
-
-        return true;
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        console.error("Login error:", errorMessage);
-      });
+      return true;
+    } catch (error) {
+      const errorMessage = error.message;
+      console.error("Login error:", errorMessage);
+      return false;
+    }
   }
 
   // sign user out of their account
@@ -216,7 +206,7 @@ function AuthProvider({ children }) {
         isTutor,
         activeUser,
         setActiveUser,
-        loading,
+        // loading,
       }}
     >
       {children}

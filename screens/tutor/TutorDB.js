@@ -1,12 +1,14 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useState, useContext, useEffect } from "react";
 import {
   StyleSheet,
   ScrollView,
   StatusBar,
   RefreshControl,
+  Text,
+  TouchableOpacity,
 } from "react-native";
 
-import { useNavigation } from "@react-navigation/native";
 import { FontFamily, Padding, Color } from "../../GlobalStyles";
 import DashBoardCard from "../../components/atoms/DashBoardCard";
 import TopBar2 from "../../components/atoms/TopBar2";
@@ -15,27 +17,23 @@ import { AuthContext } from "../../context/AuthContextProvider";
 import { TutorContext } from "../../context/TutorContextProvider";
 import { SessionContext } from "../../context/RequestContextProvider";
 import { auth } from "../../services/firebaseConfig";
-import { TouchableOpacity } from "react-native";
 import InfoText from "../../components/atoms/InfoText";
 
 const TutorDB = () => {
   const { activeUser } = useContext(AuthContext);
-  const { tutors, getPendingRequests, pendingRequests } =
-    useContext(TutorContext);
-  const { getTutorUpcomingSessions, tutorUpcomingSessions } =
-    useContext(SessionContext);
+  const {
+    getTutorUpcomingSessions,
+    tutorUpcomingSessions,
+    getPendingRequests,
+    pendingRequests,
+    fetchPendingRequests,
+  } = useContext(SessionContext);
+
   const navigation = useNavigation();
 
   const [refreshing, setRefreshing] = useState(false); // Step 2
 
   useEffect(() => {
-    const fetchPendingRequests = async () => {
-      const tutorId = auth.currentUser.uid;
-      console.log("Fetching pending requests and upcoming sessions...");
-      await getPendingRequests(tutorId);
-      await getTutorUpcomingSessions(tutorId);
-    };
-
     fetchPendingRequests();
   }, []);
 
@@ -60,11 +58,7 @@ const TutorDB = () => {
       <StatusBar barStyle={"dark-content"} />
 
       <TopBar2 userName={activeUser} />
-      <DashBoardCard
-        showTitle={true}
-        title={"Pending Sessions"}
-        showSeeAll={true}
-      >
+      <DashBoardCard showTitle title="Pending Sessions" showSeeAll>
         {pendingRequests ? (
           pendingRequests.map((request) => (
             <TouchableOpacity
@@ -97,11 +91,7 @@ const TutorDB = () => {
           <InfoText />
         )}
       </DashBoardCard>
-      <DashBoardCard
-        showTitle={true}
-        title={"Upcoming Sessions"}
-        showSeeAll={true}
-      >
+      <DashBoardCard showTitle title="Upcoming Sessions" showSeeAll>
         {tutorUpcomingSessions ? (
           tutorUpcomingSessions.map((request) => (
             <TouchableOpacity
@@ -134,11 +124,9 @@ const TutorDB = () => {
           <InfoText />
         )}
       </DashBoardCard>
-      <DashBoardCard
-        showTitle={true}
-        title={"Recent Sessions"}
-        showSeeAll={true}
-      ></DashBoardCard>
+      <DashBoardCard showTitle title="Recent Sessions" showSeeAll>
+        <Text>No sessions completed</Text>
+      </DashBoardCard>
     </ScrollView>
   );
 };

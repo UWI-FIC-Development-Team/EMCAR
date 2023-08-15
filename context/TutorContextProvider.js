@@ -1,5 +1,4 @@
-import { createContext, useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
+import { createContext, useState } from "react";
 import { auth, db } from "../services/firebaseConfig";
 import {
   collection,
@@ -16,33 +15,8 @@ import {
 const TutorContext = createContext();
 
 function TutorProvider({ children }) {
-  const [user, setUser] = useState(null);
   const [tutors, setTutors] = useState([]);
-  const [tutorId, setTutorId] = useState(""); // Set the tutor ID here
-  const [pendingRequests, setPendingRequests] = useState([]);
   const [currentTutor, setCurrentTutor] = useState({});
-  const [updateUI, setUpdateUI] = useState(0);
-
-  //Todo: move this function
-  const getPendingRequests = async (tutorId) => {
-    try {
-      const requestsRef = collection(db, "requests");
-      const pendingRequestsQuery = query(
-        requestsRef,
-        where("tutorId", "==", tutorId),
-        where("status", "==", "pending")
-      );
-      const querySnapshot = await getDocs(pendingRequestsQuery);
-      const pendingRequestsData = querySnapshot.docs.map((doc) => doc.data());
-      setPendingRequests([]);
-      setPendingRequests((prev) => {
-        return [...prev, ...pendingRequestsData];
-      });
-    } catch (error) {
-      console.error("Error while fetching pending requests:", error.message);
-      console.log("No request");
-    }
-  };
 
   // TODO: add custom claims to both tutor and student.
   // having custom claims for user will allow us
@@ -125,34 +99,38 @@ function TutorProvider({ children }) {
   };
 
   const deleteAvailableTimesFromTutor = async (tutorId, dayToDelete) => {
-  try {
-    const tutorRef = doc(db, "tutors", tutorId);
-    
-    // Get the tutor document data
-    const tutorDoc = await getDoc(tutorRef);
-    if (!tutorDoc.exists()) {
-      throw new Error("Tutor not found");
+    try {
+      const tutorRef = doc(db, "tutors", tutorId);
+
+      // Get the tutor document data
+      const tutorDoc = await getDoc(tutorRef);
+      if (!tutorDoc.exists()) {
+        throw new Error("Tutor not found");
+      }
+
+      // Extract the existing availableTimes array from the document data
+      const existingAvailableTimes = tutorDoc.data().availableTimes;
+
+      // Filter out the object with the specified day to delete
+      const updatedAvailableTimes =
+        existingAvailableTimes > 0
+          ? existingAvailableTimes.filter((time) => time.day !== dayToDelete)
+          : [];
+
+      // Update the tutor's availableTimes in Firestore
+      await updateDoc(tutorRef, {
+        availableTimes: updatedAvailableTimes,
+      });
+
+      console.log("Available times deleted from tutor successfully");
+    } catch (error) {
+      console.error(
+        "Error while deleting available times from tutor:",
+        error.message
+      );
     }
-
-    // Extract the existing availableTimes array from the document data
-    const existingAvailableTimes = tutorDoc.data().availableTimes;
-
-    // Filter out the object with the specified day to delete
-    const updatedAvailableTimes = existingAvailableTimes > 0 ? existingAvailableTimes.filter(
-      (time) => time.day !== dayToDelete
-    ): []
-
-    // Update the tutor's availableTimes in Firestore
-    await updateDoc(tutorRef, {
-      availableTimes: updatedAvailableTimes,
-    });
-
-    console.log("Available times deleted from tutor successfully");
-  } catch (error) {
-    console.error("Error while deleting available times from tutor:", error.message);
-  }
-};
-// 
+  };
+  //
 
   // Function to add new courses to the tutor
   const deleteCourseFromTutor = async (tutorId, course) => {
@@ -172,17 +150,14 @@ function TutorProvider({ children }) {
       value={{
         tutors,
         getTutors,
-        getPendingRequests,
-        pendingRequests,
         currentTutor,
         getCurrentTutor,
         addNewCoursesToTutor,
         addAvailableTimesToTutor,
         deleteCourseFromTutor,
-        updateUI,
         setCurrentTutor,
         deleteAvailableTimesFromTutor,
-        updateTutorBio
+        updateTutorBio,
       }}
     >
       {children}

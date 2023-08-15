@@ -14,17 +14,16 @@ import {
 } from "firebase/firestore";
 
 import RequestBuilder from "../builders/RequestBuilder";
-import { TutorContext } from "./TutorContextProvider";
 
 const SessionContext = createContext();
 
 function SessionProvider({ children }) {
-  const { setPendingRequests } = useContext(TutorContext);
   const [user, setUser] = useState(null);
   const [dataIsSent, setDataIsSent] = useState(false);
   const [sessionRequest, setSessionRequest] = useState({});
   const [upcomingSessions, setUpcomingSessions] = useState([]);
   const [tutorUpcomingSessions, setTutorUpcomingSessions] = useState([]);
+  const [pendingRequests, setPendingRequests] = useState([]);
 
   useEffect(() => {
     // Listen for changes in the authentication state
@@ -77,6 +76,37 @@ function SessionProvider({ children }) {
       setDataIsSent(true);
     } catch (error) {
       console.error("Error while sending a request:", error.message);
+    }
+  };
+  //Todo: move this function
+  const getPendingRequests = async (tutorId) => {
+    try {
+      const requestsRef = collection(db, "requests");
+      const pendingRequestsQuery = query(
+        requestsRef,
+        where("tutorId", "==", tutorId),
+        where("status", "==", "pending")
+      );
+      const querySnapshot = await getDocs(pendingRequestsQuery);
+      const pendingRequestsData = querySnapshot.docs.map((doc) => doc.data());
+      setPendingRequests([]);
+      setPendingRequests((prev) => {
+        return [...prev, ...pendingRequestsData];
+      });
+    } catch (error) {
+      console.error("Error while fetching pending requests:", error.message);
+      console.log("No request");
+    }
+  };
+
+  const fetchPendingRequests = async () => {
+    try {
+      const tutorId = auth.currentUser.uid;
+      console.log("Fetching pending requests and upcoming sessions...");
+      await getPendingRequests(tutorId);
+      await getTutorUpcomingSessions(tutorId);
+    } catch (error) {
+      console.error("Error while fetching data:", error.message);
     }
   };
 
@@ -179,7 +209,6 @@ function SessionProvider({ children }) {
 
   //   setTutorUpcomingSessions([]);
   //   setUpcomingSessions([]);
- 
 
   //   return "States reset successfully";
   // };
@@ -199,6 +228,9 @@ function SessionProvider({ children }) {
         getTutorUpcomingSessions,
         updateRequestLocation,
         updateRequestStatusToUpcoming,
+        pendingRequests,
+        setPendingRequests,
+        fetchPendingRequests,
         // resetAllStates,
       }}
     >

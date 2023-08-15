@@ -1,5 +1,4 @@
-import * as React from "react";
-import { useMemo } from "react";
+import { useMemo, useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import OnboardingScreen1a from "../screens/main/OnboardingScreen1a";

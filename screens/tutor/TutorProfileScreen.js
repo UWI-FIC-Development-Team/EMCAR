@@ -11,6 +11,7 @@ import TimeAndDateCard from "../../components/atoms/TimeAndDateCard";
 import CourseCard from "../../components/atoms/CourseCard";
 import { FontFamily } from "../../GlobalStyles";
 import { SessionContext } from "../../context/RequestContextProvider";
+import reactotron from "reactotron-react-native";
 
 const TutorPage = () => {
   const navigation = useNavigation();
@@ -18,10 +19,12 @@ const TutorPage = () => {
   const { currentTutor, pendingRequests } = useContext(TutorContext);
   const { tutorUpcomingSessions } = useContext(SessionContext);
 
-  const { Bio, subjects, topics, availableTimes, name } = currentTutor;
+  const { Bio, subjects, availableTimes, name } = currentTutor;
 
+  reactotron.log(`pay attention: ${availableTimes}`);
   const numberOfHoursRegistered = availableTimes ? availableTimes.length : 0;
   const numberOfCoursesRegistered = subjects ? subjects.length : 0;
+  const numberOfPendingReuqest = pendingRequests ? pendingRequests.length : 0;
 
   return (
     <View style={styles.tutorPage}>
@@ -30,9 +33,9 @@ const TutorPage = () => {
 
         <SessionStatusBar
           courses={subjects.length}
-          notStarted={pendingRequests.length}
+          notStarted={numberOfPendingReuqest}
           onGoing={tutorUpcomingSessions.length}
-          completed={'0'}
+          completed="0"
         />
 
         <DashBoardCard title={"Bio"} showTitle={true} showSeeAll={false}>
