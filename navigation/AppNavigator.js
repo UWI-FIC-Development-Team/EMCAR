@@ -1,15 +1,11 @@
-import * as React from "react";
-import { useMemo } from "react";
+import { useMemo, useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import OnboardingScreen1a from "../screens/main/OnboardingScreen1a";
 import OnboardingScreen2 from "../screens/main/OnboardingScreen2";
-import PasswordReset from "../screens/main/PasswordReset";
-import TutorPage from "../screens/student/TutorPage";
 import SessionRequest from "../screens/student/SessionRequest";
 import SignUpScreen from "../screens/main/SignUpScreen";
 import LoginScreen from "../screens/main/LoginScreen";
-
 import { createStackNavigator } from "@react-navigation/stack";
 import BottomNavigation from "./BottomNavigation";
 import { getHeaderTitle } from "@react-navigation/elements";
@@ -22,17 +18,16 @@ import TutorSignUpScreen from "../screens/tutor/TutorRegistrationScreen";
 import RequestConfirmationScreen from "../screens/tutor/RequestConfirmationScreen";
 import SubmitUpcomingSession from "../screens/tutor/SubmitUpcomingSessionModal";
 import SessionDetails from "../screens/main/SessionDetails";
-import TutorProfileScreen from "../screens/tutor/TutorProfileScreen";
 import EditProfile from "../screens/tutor/EditProfile";
 import AddCourseModal from "../screens/tutor/AddCourseModal";
 import AddWorkHours from "../screens/tutor/AddWorkHoursModal";
 import UpdateBioModal from "../screens/tutor/AddBioModal";
+import ListScreen from "../components/organisms/ListScreen";
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
 
 const AppNavigator = () => {
-  const [hideSplashScreen, setHideSplashScreen] = React.useState(true);
   const [fontsLoaded, error] = useFonts({
     Roboto_regular: require("../assets/fonts/Roboto_regular.ttf"),
     Roboto_medium: require("../assets/fonts/Roboto_medium.ttf"),
@@ -166,15 +161,11 @@ const MainStack = () => {
       header: ({ navigation, route, options }) => {
         const title = getHeaderTitle(options, route.name);
         return (
-          <Header
-            title={title}
-            backButtomShown={true}
-            NotificationIconShown={false}
-          />
+          <Header title={title} backButtomShown NotificationIconShown={false} />
         );
       },
     }),
-    []
+    [],
   );
 
   return (
@@ -223,8 +214,8 @@ const MainStack = () => {
         options={{ headerShown: true }}
       />
       <Stack.Screen
-        name="PasswordReset"
-        component={PasswordReset}
+        name="render list"
+        component={ListScreen}
         options={{ headerShown: false }}
       />
       {/* <Stack.Screen

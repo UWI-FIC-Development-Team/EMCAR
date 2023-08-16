@@ -1,5 +1,7 @@
-import React, { memo } from "react";
+import { Feather } from "@expo/vector-icons";
 import { Text, StyleSheet, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+
 import {
   Padding,
   Color,
@@ -7,8 +9,6 @@ import {
   FontFamily,
   Border,
 } from "../../GlobalStyles";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { Feather } from "@expo/vector-icons";
 
 const DashBoardCard = ({
   title,
@@ -18,7 +18,7 @@ const DashBoardCard = ({
   showSeeAll,
   showIcon,
   iconName,
-  count
+  count,
 }) => {
   return (
     <View style={styles.container}>

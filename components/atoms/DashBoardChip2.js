@@ -1,6 +1,13 @@
 import React, { memo } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { FontFamily, FontSize, Color, Border, Padding } from "../../GlobalStyles";
+
+import {
+  FontFamily,
+  FontSize,
+  Color,
+  Border,
+  Padding,
+} from "../../GlobalStyles";
 
 const DashboardChip2 = memo(() => {
   return (

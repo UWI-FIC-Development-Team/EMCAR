@@ -1,56 +1,57 @@
 import * as React from "react";
 import { Text, StyleSheet, View } from "react-native";
-import { Color, FontSize, FontFamily, Border, Padding } from "../../GlobalStyles";
+import { Color, FontSize, FontFamily, Border } from "../../GlobalStyles";
 import { Divider } from "react-native-paper";
+import reactotron from "reactotron-react-native";
 
-const SessionCard = ({time, date, location, course, Topic, name}) => {
-
+const SessionCard = ({ time, date, location, course, Topic, name }) => {
   // function getFirstLetter(name) {
   //   return name.charAt(0);
   // }
 
   // const intial = getFirstLetter(name)
 
+  // reactotron.log(
+  //   "This is the data from the List route pramas: ",
+  //   time,
+  //   date,
+  //   location,
+  //   course,
+  //   Topic,
+  //   name,
+  // );
+
   return (
     <View style={[styles.sessionCard, styles.autoLayout]}>
-        <View style={styles.timeDate}>
-          <Text style={[styles.pm, styles.pmClr]}>{time}</Text>
-          <Text style={[styles.april08, styles.april08SpaceBlock]}>
-            {date}
-          </Text>
-          <Text style={styles.room207}>{location}</Text>
-        </View>
-        <Divider style={{ width: 3, height: '100%'}} />
-        <View style={styles.headlineContainerWrapper}>
-          <View style={styles.headlineContainer}>
-            <View style={styles.iconAndHeading}>
-              <Text style={[styles.comp1205, styles.initialTypo]}>
-                {course}
-              </Text>
-            </View>
-            <View style={[styles.iconAndHeading1, styles.april08SpaceBlock]}>
-              <Text style={[styles.comp1205, styles.initialTypo]}>
-                {Topic}
-              </Text>
-            </View>
-            <View style={[styles.headline, styles.april08SpaceBlock]}>
-              <View style={styles.initialiconLayout}>
-                <View
-                  style={[
-                    styles.buildingBlocksmonogram,
-                    styles.initialiconLayout,
-                  ]}
-                >
-                  <Text style={[styles.initial, styles.initialTypo]}>
-                    {'S'}
-                  </Text>
-                </View>
+      <View style={styles.timeDate}>
+        <Text style={[styles.pm, styles.pmClr]}>{time}</Text>
+        <Text style={[styles.april08, styles.april08SpaceBlock]}>{date}</Text>
+        <Text style={styles.room207}>{location}</Text>
+      </View>
+      <Divider style={{ width: 3, height: "100%" }} />
+      <View style={styles.headlineContainerWrapper}>
+        <View style={styles.headlineContainer}>
+          <View style={styles.iconAndHeading}>
+            <Text style={[styles.comp1205, styles.initialTypo]}>{course}</Text>
+          </View>
+          <View style={[styles.iconAndHeading1, styles.april08SpaceBlock]}>
+            <Text style={[styles.comp1205, styles.initialTypo]}>{Topic}</Text>
+          </View>
+          <View style={[styles.headline, styles.april08SpaceBlock]}>
+            <View style={styles.initialiconLayout}>
+              <View
+                style={[
+                  styles.buildingBlocksmonogram,
+                  styles.initialiconLayout,
+                ]}
+              >
+                <Text style={[styles.initial, styles.initialTypo]}>{"S"}</Text>
               </View>
-              <Text style={styles.joelBlenman}>{name}</Text>
             </View>
+            <Text style={styles.joelBlenman}>{name}</Text>
           </View>
         </View>
-
+      </View>
     </View>
   );
 };
@@ -67,7 +68,6 @@ const styles = StyleSheet.create({
   initialTypo: {
     fontWeight: "500",
     fontSize: FontSize.m3LabelMedium_size,
-
   },
   initialiconLayout: {
     height: 24,
@@ -97,12 +97,11 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
   },
   timeDate: {
-    justifyContent: 'center',
+    justifyContent: "center",
     alignItems: "flex-start",
-    marginRight:8
+    marginRight: 8,
   },
 
- 
   comp1205: {
     fontFamily: FontFamily.interMedium,
     textAlign: "left",
@@ -128,7 +127,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     borderRadius: Border.br_81xl,
-    backgroundColor: 'lightblue',
+    backgroundColor: "lightblue",
     position: "absolute",
     overflow: "hidden",
   },
@@ -153,7 +152,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
-    paddingHorizontal:16
+    paddingHorizontal: 16,
   },
   sessionCard: {
     borderRadius: Border.br_xs,
@@ -168,8 +167,8 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 1,
     elevation: 1,
-    shadowOpacity: 1, 
-  }
+    shadowOpacity: 1,
+  },
 });
 
 export default SessionCard;

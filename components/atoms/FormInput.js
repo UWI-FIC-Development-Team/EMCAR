@@ -1,18 +1,16 @@
 import React from "react";
-import { TextInput, StyleSheet, View, Text} from "react-native";
-import { Color, Border, Padding} from "../../GlobalStyles";
+import { TextInput, StyleSheet, View, Text } from "react-native";
 
-
-const FormInput = ({ 
-  placeholder, 
+const FormInput = ({
+  placeholder,
   style,
-  secureTextEntry, 
-  label , 
-  value, 
-  onChangeText, 
+  secureTextEntry,
+  label,
+  value,
+  onChangeText,
   keyboardType,
   multiline = false,
-  autoFocus
+  autoFocus,
 }) => {
   return (
     <View style={styles.container}>
@@ -21,39 +19,37 @@ const FormInput = ({
         keyboardType={keyboardType}
         onChangeText={onChangeText}
         value={value}
-        style={[styles.textField,style]}
+        style={[styles.textField, style]}
         placeholderTextColor="#191c1c"
         placeholder={placeholder}
         secureTextEntry={secureTextEntry}
-        autoCapitalize='sentences'
+        autoCapitalize="sentences"
         multiline={multiline} // Use the multiline prop directly
         numberOfLines={multiline ? 5 : 1} // Set the numberOfLines conditionally
         autoFocus={autoFocus}
       />
-  </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container:{
-    flexDirection:'column',
-    marginBottom:8,
-    
+  container: {
+    flexDirection: "column",
+    marginBottom: 8,
   },
   textField: {
-    alignItems:'flex-start',
+    alignItems: "flex-start",
     borderWidth: 1,
     borderColor: "#000",
     marginBottom: 12,
     height: 56,
-    borderRadius:10,
-    paddingHorizontal:8,
-    borderWidth:1,
+    borderRadius: 10,
+    paddingHorizontal: 8,
   },
 
   label: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 5,
   },
 });

@@ -1,3 +1,4 @@
+import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { useState } from "react";
 import {
   Text,
@@ -7,7 +8,6 @@ import {
   Modal,
   Button,
 } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
 
 export const DatePicker = ({
   label,
@@ -40,7 +40,7 @@ export const DatePicker = ({
       </TouchableOpacity>
       <Modal
         animationType="slide"
-        transparent={true}
+        transparent
         visible={modalVisible}
         onRequestClose={handleCloseModal}
       >
@@ -101,7 +101,7 @@ export const TimePicker = ({
       </TouchableOpacity>
       <Modal
         animationType="slide"
-        transparent={true}
+        transparent
         visible={modalVisible}
         onRequestClose={handleCloseModal}
       >

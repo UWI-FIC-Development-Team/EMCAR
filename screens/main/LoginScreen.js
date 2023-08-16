@@ -1,20 +1,15 @@
-import { useContext, useEffect } from "react";
-import {
-  View,
-  Text,
-  Pressable,
-  StyleSheet,
-  KeyboardAvoidingView,
-} from "react-native";
+import { useContext, useEffect, useState, useLayoutEffect } from "react";
+import { View, Text, Pressable, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, FontSize, Color, Padding } from "../../GlobalStyles";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import FormInput from "../../components/atoms/FormInput";
 import { auth } from "../../services/firebaseConfig";
 import { AuthContext } from "../../context/AuthContextProvider";
-import { useState } from "react";
 import { ActivityIndicator } from "react-native-paper";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
+import LoginForm from "../../components/organisms/LoginForm";
 
 const LoginScreen = ({ route }) => {
   const { login, activeUser } = useContext(AuthContext);
@@ -32,12 +27,18 @@ const LoginScreen = ({ route }) => {
     }
   }, [activeUser]);
 
-  const handleLogin = async () => {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: !loading,
+    });
+  }, [navigation, loading]);
+
+  const handleLogin = async (values) => {
     try {
-      if (password && email) {
+      if (values.password && values.email) {
         // Set the loading state to true before fetching user data
         setLoading(true);
-        await login(auth, email, password);
+        await login(auth, values.email, values.password);
         setEmail("");
         setPassword("");
       } else {
@@ -50,55 +51,37 @@ const LoginScreen = ({ route }) => {
   };
 
   return (
-    
-      <View style={styles.loginScreen}>
-        <KeyboardAwareScrollView>
-        <Text style={[styles.title, styles.titleTypo]}>
-          Welcome! Please log into your account
-        </Text>
-
-        {/* Wrap the content that needs to be adjusted inside a KeyboardAvoidingView */}
-
-        <View style={styles.textFieldParent}>
-          <FormInput
-            value={email}
-            keyboardType={"email-address"}
-            onChangeText={setEmail}
-            placeholder="Enter your email"
-            label={"Email"}
-          />
-          <FormInput
-            value={password}
-            onChangeText={setPassword}
-            placeholder="Enter your password"
-            label={"Password"}
-            secureTextEntry
-          />
-          <Pressable
-            style={styles.forgotPassword}
-            onPress={() => navigation.navigate("PasswordReset")}
-          >
-            <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-          </Pressable>
+    <View style={{ flex: 1 }}>
+      {loading ? (
+        <View style={styles.activityIndicatorContainer}>
+          <ActivityIndicator animating color="#006A6A" />
         </View>
-        {loading ? (
-          <ActivityIndicator
-            style={{ marginVertical: 16 }}
-            animating={true}
-            color="#006A6A"
-          />
-        ) : (
-          <PrimaryButton title={"Login"} onPress={handleLogin} />
-        )}
-        </KeyboardAwareScrollView>
-      </View>
-  
+      ) : (
+        <>
+          <View style={styles.loginScreen}>
+            <KeyboardAwareScrollView>
+              <Text style={[styles.title, styles.titleTypo]}>
+                Welcome! Please log into your account
+              </Text>
+
+              {/* Wrap the content that needs to be adjusted inside a KeyboardAvoidingView */}
+              <LoginForm onSubmit={handleLogin} />
+            </KeyboardAwareScrollView>
+          </View>
+        </>
+      )}
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  activityIndicatorContainer: {
+    flex: 1, // Center the content both vertically and horizontally
+    justifyContent: "center",
+    alignItems: "center",
+  },
   loginScreen: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     flex: 1,
     paddingTop: 40,
     paddingHorizontal: Padding.p_6xl,

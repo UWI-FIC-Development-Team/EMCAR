@@ -1,27 +1,31 @@
-import { useContext, useEffect } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { useContext, useState, useEffect } from "react";
+import { View, Text, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import DashBoardChip from "../../components/atoms/DashBoardChip";
 import { SessionContext } from "../../context/RequestContextProvider";
-import { useState } from "react";
 import { ActivityIndicator } from "react-native-paper";
 import FormInput from "../../components/atoms/FormInput";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const SubmitUpcomingSession = ({ onPresent, onClose, route }) => {
-  const { updateRequestLocation, updateRequestStatusToUpcoming} = useContext(SessionContext);
+  const {
+    updateRequestLocation,
+    updateRequestStatusToUpcoming,
+    getPendingRequests,
+    pendingRequests,
+    fetchPendingRequests,
+  } = useContext(SessionContext);
   const navigation = useNavigation();
   const { requestId, studentName } = route.params;
 
   const [loading, setLoading] = useState(false);
   const [location, setLocation] = useState("");
 
+
   // updates location of the current request object
   const handleSubmitSession = async (requestId, location) => {
-
     try {
-     
       setLoading(true);
 
       // Update the request status to "upcoming"
@@ -29,10 +33,11 @@ const SubmitUpcomingSession = ({ onPresent, onClose, route }) => {
 
       // Update the request location
       await updateRequestLocation(requestId, location);
+      await fetchPendingRequests();
 
       // Set loading state to false after successful update
-      setLoading(false)
-      navigation.navigate('Dashboard')
+      setLoading(false);
+      navigation.navigate("Dashboard");
 
       console.log("Session details updated successfully");
     } catch (error) {
@@ -42,37 +47,35 @@ const SubmitUpcomingSession = ({ onPresent, onClose, route }) => {
   };
 
   return (
-    
     <View style={styles.modalContainer}>
-      <KeyboardAwareScrollView style={{width:'100%'}}>
-      <Text style={styles.title}>Complete Submisson</Text>
-      <View style={{ width: "100%" }}>
-        <DashBoardChip tutorName={studentName} iconIsVisible={false} />
-      </View>
+      <KeyboardAwareScrollView style={{ width: "100%" }}>
+        <Text style={styles.title}>Complete Submisson</Text>
+        <View style={{ width: "100%" }}>
+          <DashBoardChip tutorName={studentName} iconIsVisible={false} />
+        </View>
 
-      <View style={{ width:'100%'}}>
-        <FormInput
-          value={location}
-          onChangeText={setLocation}
-          placeholder="Enter location"
-        />
-      </View>
+        <View style={{ width: "100%" }}>
+          <FormInput
+            value={location}
+            onChangeText={setLocation}
+            placeholder="Enter location"
+          />
+        </View>
 
-      {loading ? (
-        <ActivityIndicator
-          style={{ marginVertical: 16 }}
-          animating={true}
-          color="#006A6A"
-        />
-      ) : (
-        <PrimaryButton
-          title="Save & submit"
-          onPress={() => handleSubmitSession(requestId, location)}
-        />
-      )}
+        {loading ? (
+          <ActivityIndicator
+            style={{ marginVertical: 16 }}
+            animating={true}
+            color="#006A6A"
+          />
+        ) : (
+          <PrimaryButton
+            title="Save & submit"
+            onPress={() => handleSubmitSession(requestId, location)}
+          />
+        )}
       </KeyboardAwareScrollView>
     </View>
-    
   );
 };
 
