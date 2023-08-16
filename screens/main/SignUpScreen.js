@@ -45,8 +45,6 @@ const SignUpScreen = ({ route }) => {
         values.password("");
 
         // The navigation to "StudentDB" will happen automatically when useEffect is triggered
-      } else {
-        alert("Please fill in all the required fields");
       }
     } catch (error) {
       console.error("Sign up error:", error.message);

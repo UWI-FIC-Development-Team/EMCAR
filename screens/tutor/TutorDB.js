@@ -36,6 +36,9 @@ const TutorDB = () => {
   const isPendingRequestsEmpty = pendingRequests.length === 0;
   const isTutorUpcomingSessionsEmpty = tutorUpcomingSessions.length === 0;
 
+  const firstItemInTutorUpcomingSessions = tutorUpcomingSessions.slice(0, 1);
+  const firstItemInPendingRequest = pendingRequests.slice(0, 1);
+
   const navigation = useNavigation();
 
   const [refreshing, setRefreshing] = useState(false); // Step 2
@@ -76,7 +79,7 @@ const TutorDB = () => {
         {isPendingRequestsEmpty ? (
           <InfoText info="No sessions pending" />
         ) : (
-          pendingRequests.map((request) => (
+          firstItemInPendingRequest.map((request) => (
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate("Confirm Request", {
@@ -94,6 +97,7 @@ const TutorDB = () => {
               }}
             >
               <SessionCard
+                key={request.requestId}
                 name={request.studentName}
                 time={request.startTime.toDate().toLocaleTimeString()}
                 course={request.subjects[0]}
@@ -116,7 +120,7 @@ const TutorDB = () => {
         {isTutorUpcomingSessionsEmpty ? (
           <InfoText info="No upcoming sessions" />
         ) : (
-          tutorUpcomingSessions.map((request) => (
+          firstItemInTutorUpcomingSessions.map((request) => (
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate("Session Details", {
@@ -134,6 +138,7 @@ const TutorDB = () => {
               }}
             >
               <SessionCard
+                key={request.requestId}
                 name={request.studentName}
                 time={request.startTime.toDate().toLocaleTimeString()}
                 course={request.subjects[0]}
