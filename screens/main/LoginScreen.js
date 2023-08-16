@@ -1,9 +1,8 @@
 import { useContext, useEffect, useState, useLayoutEffect } from "react";
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, FontSize, Color, Padding } from "../../GlobalStyles";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
-import FormInput from "../../components/atoms/FormInput";
+
 import { auth } from "../../services/firebaseConfig";
 import { AuthContext } from "../../context/AuthContextProvider";
 import { ActivityIndicator } from "react-native-paper";
@@ -15,8 +14,6 @@ const LoginScreen = ({ route }) => {
   const { login, activeUser } = useContext(AuthContext);
   const navigation = useNavigation();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -39,8 +36,6 @@ const LoginScreen = ({ route }) => {
         // Set the loading state to true before fetching user data
         setLoading(true);
         await login(auth, values.email, values.password);
-        setEmail("");
-        setPassword("");
       } else {
         alert("Please enter login information");
       }
@@ -54,6 +49,9 @@ const LoginScreen = ({ route }) => {
     <View style={{ flex: 1 }}>
       {loading ? (
         <View style={styles.activityIndicatorContainer}>
+          <Text style={styles.activityIndicatorGroupText}>
+            Logging you in! Please wait
+          </Text>
           <ActivityIndicator animating color="#006A6A" />
         </View>
       ) : (
@@ -75,10 +73,18 @@ const LoginScreen = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
+  activityIndicatorGroupText: {
+    color: "#006a6a",
+    fontSize: 14,
+    fontWeight: "500",
+    fontFamily: "Roboto_medium",
+    marginBottom: 12,
+  },
   activityIndicatorContainer: {
     flex: 1, // Center the content both vertically and horizontally
     justifyContent: "center",
     alignItems: "center",
+    height: 25,
   },
   loginScreen: {
     backgroundColor: "#fff",

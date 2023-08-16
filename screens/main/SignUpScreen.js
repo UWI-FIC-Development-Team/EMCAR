@@ -1,49 +1,48 @@
-import React, { useState, useContext } from "react";
-import {
-  View,
-  Text,
-  Pressable,
-  StyleSheet,
-  KeyboardAvoidingView,
-} from "react-native";
+import React, { useState, useContext, useLayoutEffect } from "react";
+import { View, Text, Pressable, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, FontSize, Color, Padding } from "../../GlobalStyles";
-import PrimaryButton from "../../components/atoms/PrimaryButton";
-import FormInput from "../../components/atoms/FormInput";
 import SocialLoginButton from "../../components/atoms/SocialLoginButton";
 import { AuthContext } from "../../context/AuthContextProvider";
 import { ActivityIndicator } from "react-native-paper";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import SignUpForm from "../../components/organisms/SignUpFrom";
 
 const SignUpScreen = ({ route }) => {
   const { role } = route.params;
-  const { createStudentAccount, activeUser, createTutorAccount } =
-    useContext(AuthContext);
+  const { createStudentAccount, createTutorAccount } = useContext(AuthContext);
   const navigation = useNavigation();
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSignUp = async () => {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: !loading,
+    });
+  }, [navigation, loading]);
+
+  const handleSignUp = async (values) => {
     try {
-      if (name && email && password) {
+      if (values.name && values.email && values.password) {
         setLoading(true);
         if (role === "tutor") {
           // Call the signUp function and await its completion
-          await createTutorAccount(email, password, name);
+          await createTutorAccount(values.email, values.password, values.name);
         } else {
           // Call the signUp function and await its completion
-          await createStudentAccount(email, password, name);
+          await createStudentAccount(
+            values.email,
+            values.password,
+            values.name,
+          );
         }
 
         // Reset the input fields and loading state after successful sign-up
         setLoading(false);
         navigation.navigate("Log In");
-        setName("");
-        setEmail("");
-        setPassword("");
+        values.name("");
+        values.email("");
+        values.password("");
 
         // The navigation to "StudentDB" will happen automatically when useEffect is triggered
       } else {
@@ -56,61 +55,53 @@ const SignUpScreen = ({ route }) => {
     }
   };
 
-  const keyboardVerticalOffset = Platform.OS === "ios" ? 1 : 0;
-
   return (
-    <View style={styles.loginScreen}>
-      <KeyboardAwareScrollView>
-        <Text style={[styles.title, styles.titleTypo]}>
-          Let's create your account. Please fill out the following information
-          to get started.
-        </Text>
-
-        <View style={styles.textFieldParent}>
-          <FormInput
-            onChangeText={setName}
-            value={name}
-            placeholder="Enter your full name"
-            label={"Full name"}
-          />
-          <FormInput
-            onChangeText={setEmail}
-            value={email}
-            placeholder="Enter your email"
-            label={"Email"}
-            keyboardType={"email-address"}
-          />
-          <FormInput
-            onChangeText={setPassword}
-            value={password}
-            placeholder="Enter your password"
-            label={"Password"}
-            secureTextEntry
-          />
+    <View style={{ flex: 1 }}>
+      {loading ? (
+        <View style={styles.activityIndicatorContainer}>
+          <Text style={styles.activityIndicatorGroupText}>
+            Signing you up! Please wait
+          </Text>
+          <ActivityIndicator animating color="#006A6A" />
         </View>
-        {loading ? (
-          <ActivityIndicator animating={true} size={"large"} color="#006A6A" />
-        ) : (
-          <PrimaryButton
-            title={"Register your account"}
-            onPress={handleSignUp}
-          />
-        )}
-        <Pressable
-          style={styles.signUpButton}
-          onPress={() => navigation.navigate("Log In")}
-        >
-          <Text style={styles.signUpText}>Already have an account? </Text>
-          <Text style={styles.signUpButtonText}>Log In</Text>
-        </Pressable>
-        <Text style={styles.optionText}>OR</Text>
-        <SocialLoginButton />
-      </KeyboardAwareScrollView>
+      ) : (
+        <View style={styles.loginScreen}>
+          <KeyboardAwareScrollView>
+            <Text style={[styles.title, styles.titleTypo]}>
+              Let's create your account. Please fill out the following
+              information to get started.
+            </Text>
+
+            <SignUpForm onSubmit={handleSignUp} />
+            <Pressable
+              style={styles.signUpButton}
+              onPress={() => navigation.navigate("Log In")}
+            >
+              <Text style={styles.signUpText}>Already have an account? </Text>
+              <Text style={styles.signUpButtonText}>Log In</Text>
+            </Pressable>
+            <Text style={styles.optionText}>OR</Text>
+            <SocialLoginButton />
+          </KeyboardAwareScrollView>
+        </View>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  activityIndicatorGroupText: {
+    color: "#006a6a",
+    fontSize: 14,
+    fontWeight: "500",
+    fontFamily: "Roboto_medium",
+    marginBottom: 12,
+  },
+  activityIndicatorContainer: {
+    flex: 1, // Center the content both vertically and horizontally
+    justifyContent: "center",
+    alignItems: "center",
+  },
   loginScreen: {
     backgroundColor: "#fff",
     flex: 1,
