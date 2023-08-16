@@ -14,6 +14,7 @@ import {
 } from "firebase/firestore";
 
 import RequestBuilder from "../builders/RequestBuilder";
+import reactotron from "reactotron-react-native";
 
 const SessionContext = createContext();
 
@@ -117,7 +118,7 @@ function SessionProvider({ children }) {
       const upcomingSessionsQuery = query(
         requestsRef,
         where("studentId", "==", studentId),
-        where("status", "==", "upcoming"),
+        where("status", "==", "upcoming")
       );
       const querySnapshot = await getDocs(upcomingSessionsQuery);
       const upcomingSessionsData = querySnapshot.docs.map((doc) => doc.data());
@@ -137,7 +138,7 @@ function SessionProvider({ children }) {
       const upcomingSessionsQuery = query(
         requestsRef,
         where("tutorId", "==", tutorId),
-        where("status", "==", "upcoming"),
+        where("status", "==", "upcoming")
       );
       const querySnapshot = await getDocs(upcomingSessionsQuery);
       const upcomingSessionsData = querySnapshot.docs.map((doc) => doc.data());
@@ -157,7 +158,7 @@ function SessionProvider({ children }) {
 
       const upcomingSessionsQuery = query(
         requestRef,
-        where("requestId", "==", requestId),
+        where("requestId", "==", requestId)
       );
 
       const querySnapshot = await getDocs(upcomingSessionsQuery);
@@ -180,7 +181,7 @@ function SessionProvider({ children }) {
       const requestRef = collection(db, "requests");
       const upcomingSessionsQuery = query(
         requestRef,
-        where("requestId", "==", requestId),
+        where("requestId", "==", requestId)
       );
 
       const querySnapshot = await getDocs(upcomingSessionsQuery);

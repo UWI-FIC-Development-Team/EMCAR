@@ -22,6 +22,7 @@ import EditProfile from "../screens/tutor/EditProfile";
 import AddCourseModal from "../screens/tutor/AddCourseModal";
 import AddWorkHours from "../screens/tutor/AddWorkHoursModal";
 import UpdateBioModal from "../screens/tutor/AddBioModal";
+import ListScreen from "../components/organisms/ListScreen";
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -212,11 +213,11 @@ const MainStack = () => {
         component={TutorSignUpScreen}
         options={{ headerShown: true }}
       />
-      {/* <Stack.Screen
-        name="PasswordReset"
-        component={PasswordReset}
+      <Stack.Screen
+        name="render list"
+        component={ListScreen}
         options={{ headerShown: false }}
-      /> */}
+      />
       {/* <Stack.Screen
         name="tutor profile"
         component={TutorProfileScreen}

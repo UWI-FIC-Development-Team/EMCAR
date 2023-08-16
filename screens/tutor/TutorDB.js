@@ -14,10 +14,10 @@ import DashBoardCard from "../../components/atoms/DashBoardCard";
 import TopBar2 from "../../components/atoms/TopBar2";
 import SessionCard from "../../components/atoms/SessionCard";
 import { AuthContext } from "../../context/AuthContextProvider";
-import { TutorContext } from "../../context/TutorContextProvider";
 import { SessionContext } from "../../context/RequestContextProvider";
 import { auth } from "../../services/firebaseConfig";
 import InfoText from "../../components/atoms/InfoText";
+import reactotron from "reactotron-react-native";
 
 const TutorDB = () => {
   const { activeUser } = useContext(AuthContext);
@@ -28,6 +28,13 @@ const TutorDB = () => {
     pendingRequests,
     fetchPendingRequests,
   } = useContext(SessionContext);
+
+  //Todo: modify the arrays above to check of the list is empty. if yes. do something
+
+  reactotron.log("This is the data: ", pendingRequests);
+
+  const isPendingRequestsEmpty = pendingRequests.length === 0;
+  const isTutorUpcomingSessionsEmpty = tutorUpcomingSessions.length === 0;
 
   const navigation = useNavigation();
 
@@ -55,11 +62,20 @@ const TutorDB = () => {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
     >
-      <StatusBar barStyle={"dark-content"} />
+      <StatusBar barStyle="dark-content" />
 
       <TopBar2 userName={activeUser} />
-      <DashBoardCard showTitle title="Pending Sessions" showSeeAll>
-        {pendingRequests ? (
+      <DashBoardCard
+        showTitle
+        title="Pending Sessions"
+        showSeeAll
+        onPress={() => {
+          navigation.navigate("render list", { List: pendingRequests });
+        }}
+      >
+        {isPendingRequestsEmpty ? (
+          <InfoText info="No sessions pending" />
+        ) : (
           pendingRequests.map((request) => (
             <TouchableOpacity
               onPress={() => {
@@ -87,12 +103,19 @@ const TutorDB = () => {
               />
             </TouchableOpacity>
           ))
-        ) : (
-          <InfoText />
         )}
       </DashBoardCard>
-      <DashBoardCard showTitle title="Upcoming Sessions" showSeeAll>
-        {tutorUpcomingSessions ? (
+      <DashBoardCard
+        showTitle
+        title="Upcoming Sessions"
+        showSeeAll
+        onPress={() => {
+          navigation.navigate("render list", { List: pendingRequests });
+        }}
+      >
+        {isTutorUpcomingSessionsEmpty ? (
+          <InfoText info="No upcoming sessions" />
+        ) : (
           tutorUpcomingSessions.map((request) => (
             <TouchableOpacity
               onPress={() => {
@@ -120,8 +143,6 @@ const TutorDB = () => {
               />
             </TouchableOpacity>
           ))
-        ) : (
-          <InfoText />
         )}
       </DashBoardCard>
       <DashBoardCard showTitle title="Recent Sessions" showSeeAll>
