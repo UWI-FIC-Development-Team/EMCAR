@@ -110,7 +110,7 @@ const TutorDB = () => {
         title="Upcoming Sessions"
         showSeeAll
         onPress={() => {
-          navigation.navigate("render list", { List: pendingRequests });
+          navigation.navigate("render list", { List: tutorUpcomingSessions });
         }}
       >
         {isTutorUpcomingSessionsEmpty ? (

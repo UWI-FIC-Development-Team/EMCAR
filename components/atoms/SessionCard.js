@@ -2,6 +2,7 @@ import * as React from "react";
 import { Text, StyleSheet, View } from "react-native";
 import { Color, FontSize, FontFamily, Border } from "../../GlobalStyles";
 import { Divider } from "react-native-paper";
+import reactotron from "reactotron-react-native";
 
 const SessionCard = ({ time, date, location, course, Topic, name }) => {
   // function getFirstLetter(name) {
@@ -9,6 +10,16 @@ const SessionCard = ({ time, date, location, course, Topic, name }) => {
   // }
 
   // const intial = getFirstLetter(name)
+
+  // reactotron.log(
+  //   "This is the data from the List route pramas: ",
+  //   time,
+  //   date,
+  //   location,
+  //   course,
+  //   Topic,
+  //   name,
+  // );
 
   return (
     <View style={[styles.sessionCard, styles.autoLayout]}>

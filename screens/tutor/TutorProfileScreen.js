@@ -21,7 +21,6 @@ const TutorPage = () => {
 
   const { Bio, subjects, availableTimes, name } = currentTutor;
 
-  reactotron.log(`pay attention: ${availableTimes}`);
   const numberOfHoursRegistered = availableTimes ? availableTimes.length : 0;
   const numberOfCoursesRegistered = subjects ? subjects.length : 0;
   const numberOfPendingReuqest = pendingRequests ? pendingRequests.length : 0;
