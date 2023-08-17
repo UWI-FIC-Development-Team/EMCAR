@@ -3,13 +3,11 @@ import { Text, StyleSheet, View, Switch } from "react-native";
 import SettingSelectChip from "../atoms/SettingSelectChip";
 import { FontFamily, FontSize, Color, Padding } from "../../GlobalStyles";
 
-const SettingChipContainer = ({title, children}) => {
-  const [switchSwitchValueState, setSwitchSwitchValueState] = useState(false);
-
+const SettingChipContainer = ({ title, children }) => {
   return (
     <View style={styles.section}>
       <Text style={styles.account}>{title}</Text>
-        {children}
+      {children}
     </View>
   );
 };
@@ -26,11 +24,9 @@ const styles = StyleSheet.create({
   },
 
   section: {
-    marginTop:20,
-    flex:1,
-    width:'100%',
-    borderRadius:5,
-    padding: 16
+    marginTop: 20,
+    flex: 1,
+    width: "100%",
   },
 });
 

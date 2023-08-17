@@ -22,10 +22,10 @@ const Settings = () => {
   return (
     <View style={styles.settings}>
       <UserProfileHeader UserName={activeUser} />
-      <SettingChipContainer title={"Account"}>
-        <SettingSelectChip iconName={"mail"} title={"Email"} />
-        <SettingSelectChip iconName={"lock"} title={"Password"} />
-        <SettingSelectChip iconName={"bell"} title={"Notification"} />
+      <SettingChipContainer title="Account">
+        <SettingSelectChip iconName="mail" title="Email" />
+        <SettingSelectChip iconName="lock" title="Password" />
+        <SettingSelectChip iconName="bell" title="Notification" />
       </SettingChipContainer>
       <TouchableOpacity
         style={styles.stateLayerWrapper}
@@ -44,21 +44,17 @@ const styles = StyleSheet.create({
     color: Color.materialThemeSysLightPrimary,
   },
   stateLayerWrapper: {
-    flex: 1,
     justifyContent: "center",
     alignSelf: "stretch",
     alignItems: "center",
-    marginBottom: 70,
+    marginBottom: 12,
   },
 
   settings: {
-    flexDirection: "column",
-    justifyContent: "space-between",
     width: "100%",
     flex: 1,
-    paddingTop: Padding.p_26xl,
-    paddingHorizontal: Padding.p_6xl,
-    backgroundColor: "red",
+    paddingHorizontal: 24,
+    backgroundColor: "#ffffff",
   },
 });
 
