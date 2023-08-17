@@ -8,7 +8,7 @@ import SettingSelectChip from "../../components/atoms/SettingSelectChip";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContextProvider";
 
-const Settings = () => {
+const SettingsScreen = () => {
   const { signOut, activeUser, setActiveUser } = useContext(AuthContext);
   // const {resetAllStates} = useContext(SessionContext)
   const navigation = useNavigation();
@@ -23,8 +23,9 @@ const Settings = () => {
     <View style={styles.settings}>
       <UserProfileHeader UserName={activeUser} />
       <SettingChipContainer title="Account">
-        <SettingSelectChip iconName="mail" title="Email" />
-        <SettingSelectChip iconName="lock" title="Password" />
+        <SettingSelectChip iconName="mail" title=" Change email" />
+        <SettingSelectChip iconName="lock" title="Change password" />
+        <SettingSelectChip iconName="user" title="Change name" />
         <SettingSelectChip iconName="bell" title="Notification" />
       </SettingChipContainer>
       <TouchableOpacity
@@ -58,4 +59,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Settings;
+export default SettingsScreen;

@@ -1,29 +1,19 @@
 import { useContext } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Feather } from "@expo/vector-icons";
-import SessionRequest from "../screens/student/SessionRequest";
 import StudentDB from "../screens/student/StudentDB";
-import TutorSelect from "../screens/student/AllTutorsScreen";
-import StudentProfileScreen from "../screens/student/StudentProfileScreen";
-import { FontFamily, FontSize, Color, Padding } from "../GlobalStyles";
 import Header from "../components/atoms/Header";
 import { getHeaderTitle } from "@react-navigation/elements";
 import SessionScreen from "../screens/student/SessionScreen";
 import TutorDB from "../screens/tutor/TutorDB";
 import { AuthContext } from "../context/AuthContextProvider";
 import TutorProfileScreen from "../screens/tutor/TutorProfileScreen";
-import Settings from "../screens/tutor/TutorSettingsScreen";
-import { useEffect } from "react";
-
+import SettingsScreen from "../screens/main/SettingsScreen";
+import { FontFamily } from "../GlobalStyles";
 const BottomTabs = createBottomTabNavigator();
 
 function BottomNavigation() {
   const { isTutor } = useContext(AuthContext);
-  // let isTutor = true
-
-  // useEffect(() => {
-  //   console.log("Is the current user a tutor? ", isTutor);
-  // }, []);
 
   return (
     <BottomTabs.Navigator
@@ -46,7 +36,6 @@ function BottomNavigation() {
           } else if (route.name === "Profile") {
             iconName = focused ? "user" : "user";
           }
- 
 
           return <Feather name={iconName} size={size} color={color} />;
         },
@@ -78,9 +67,9 @@ function BottomNavigation() {
         <BottomTabs.Screen name="Dashboard" component={StudentDB} />
       )}
       {isTutor ? (
-        <BottomTabs.Screen name="Settings" component={Settings} />
+        <BottomTabs.Screen name="Settings" component={SettingsScreen} />
       ) : (
-        <BottomTabs.Screen name="Settings" component={StudentProfileScreen} />
+        <BottomTabs.Screen name="Settings" component={SettingsScreen} />
       )}
     </BottomTabs.Navigator>
   );
