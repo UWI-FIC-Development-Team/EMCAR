@@ -31,13 +31,16 @@ const TutorDB = () => {
 
   //Todo: modify the arrays above to check of the list is empty. if yes. do something
 
-  reactotron.log("This is the data: ", pendingRequests);
-
   const isPendingRequestsEmpty = pendingRequests.length === 0;
   const isTutorUpcomingSessionsEmpty = tutorUpcomingSessions.length === 0;
 
   const firstItemInTutorUpcomingSessions = tutorUpcomingSessions.slice(0, 1);
   const firstItemInPendingRequest = pendingRequests.slice(0, 1);
+
+  const numberOfPendingSessions = pendingRequests ? pendingRequests.length : 0;
+  const numberOfTutorUpcomingSessions = tutorUpcomingSessions
+    ? tutorUpcomingSessions.length
+    : 0;
 
   const navigation = useNavigation();
 
@@ -70,7 +73,7 @@ const TutorDB = () => {
       <TopBar2 userName={activeUser} />
       <DashBoardCard
         showTitle
-        title="Pending Sessions"
+        title={`Pending Sessions(${numberOfPendingSessions})`}
         showSeeAll
         onPress={() => {
           navigation.navigate("render list", { List: pendingRequests });
@@ -111,7 +114,7 @@ const TutorDB = () => {
       </DashBoardCard>
       <DashBoardCard
         showTitle
-        title="Upcoming Sessions"
+        title={`Upcoming Sessions(${numberOfTutorUpcomingSessions})`}
         showSeeAll
         onPress={() => {
           navigation.navigate("render list", { List: tutorUpcomingSessions });

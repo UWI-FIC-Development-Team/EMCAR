@@ -37,17 +37,18 @@ const TutorPage = () => {
           completed="0"
         />
 
-        <DashBoardCard title={"Bio"} showTitle={true} showSeeAll={false}>
+        <DashBoardCard title="Bio" showTitle showSeeAll={false}>
           <Text style={styles.bioText}>{Bio}</Text>
         </DashBoardCard>
         <DashBoardCard
           title={`Schedule(${numberOfHoursRegistered})`}
-          showTitle={true}
+          showTitle
           showIcon={false}
         >
-          {availableTimes?.map((schedule) => {
+          {availableTimes?.map((schedule, index) => {
             return (
               <TimeAndDateCard
+                key={index}
                 showIcon={false}
                 day={schedule.day}
                 startWorking={schedule.startTime}
@@ -58,21 +59,20 @@ const TutorPage = () => {
         </DashBoardCard>
         <DashBoardCard
           title={`Courses(${numberOfCoursesRegistered})`}
-          showTitle={true}
+          showTitle
           showIcon={false}
         >
           {subjects ? (
-            subjects.map((subject) => {
-              return <CourseCard showIcon={false} courseName={subject} />;
+            subjects.map((subject, index) => {
+              return (
+                <CourseCard key={index} showIcon={false} courseName={subject} />
+              );
             })
           ) : (
-            <InfoText info={"No courses added"} />
+            <InfoText info="No courses added" />
           )}
         </DashBoardCard>
-        <FloatingButton
-          title={"Edit your profile"}
-          navigateTo={"Edit profile"}
-        />
+        <FloatingButton title="Edit your profile" navigateTo="Edit profile" />
       </ScrollView>
     </View>
   );

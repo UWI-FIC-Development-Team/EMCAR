@@ -1,14 +1,8 @@
-import {Text, StyleSheet} from "react-native";
+import { Text, StyleSheet } from "react-native";
 import { FontFamily, FontSize, Color } from "../../GlobalStyles";
 
-
-const InfoText = ({info}) => {
-  
-  return (
-      <Text style={[styles.title, styles.titleTypo]}>
-       {}
-      </Text>
-  );
+const InfoText = ({ info }) => {
+  return <Text style={[styles.title, styles.titleTypo]}>{info}</Text>;
 };
 
 const styles = StyleSheet.create({
@@ -21,9 +15,8 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    color: '#BEC9C8',
+    color: "#BEC9C8",
   },
-
 });
 
 export default InfoText;

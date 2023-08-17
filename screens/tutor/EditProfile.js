@@ -100,27 +100,28 @@ const EditProfile = ({ navigation }) => {
           onPress={() => {
             navigation.navigate("update bio");
           }}
-          title={"Edit your Bio"}
-          showTitle={true}
-          iconName={"edit"}
-          showIcon={true}
+          title="Edit your Bio"
+          showTitle
+          iconName="edit"
+          showIcon
         >
           <Text style={styles.bioText}>{Bio}</Text>
         </DashBoardCard>
         <DashBoardCard
-          iconName={"plus"}
-          title={"Create a schedule"}
-          showTitle={true}
-          showIcon={true}
+          iconName="plus"
+          title="Create a schedule"
+          showTitle
+          showIcon
           onPress={() => {
             navigation.navigate("Add work hours");
           }}
         >
           {availableTimes.length > 0 &&
-            availableTimes.map((schedule) => {
+            availableTimes.map((schedule, index) => {
               return (
                 <TimeAndDateCard
-                  showIcon={true}
+                  key={index}
+                  showIcon
                   day={schedule.day}
                   startWorking={schedule.startTime}
                   finishWorking={schedule.endTime}
@@ -132,26 +133,27 @@ const EditProfile = ({ navigation }) => {
             })}
         </DashBoardCard>
         <DashBoardCard
-          iconName={"plus"}
-          title={"Add a course"}
-          showTitle={true}
-          showIcon={true}
+          iconName="plus"
+          title="Add a course"
+          showTitle
+          showIcon
           onPress={() => {
             navigation.navigate("Add a course");
           }}
         >
           {subjects ? (
-            subjects.map((subject) => {
+            subjects.map((subject, index) => {
               return (
                 <CourseCard
-                  showIcon={true}
+                  key={index}
+                  showIcon
                   courseName={subject}
                   onPress={() => handleDeleteCourse(tutorId, subject)}
                 />
               );
             })
           ) : (
-            <InfoText info={"No courses added"} />
+            <InfoText info="No courses added" />
           )}
         </DashBoardCard>
       </ScrollView>
@@ -165,8 +167,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     padding: 8,
     width: "100%",
-    height:100,
-    fontWeight:'500'
+    height: 100,
+    fontWeight: "500",
   },
   bottomSheetHead: {
     flexDirection: "row",
