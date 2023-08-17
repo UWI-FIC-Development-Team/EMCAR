@@ -2,18 +2,20 @@ import React, { createContext, useContext, useState } from "react";
 import { auth, db } from "../services/firebaseConfig";
 import { doc, updateDoc } from "firebase/firestore";
 import { updatePassword, updateEmail } from "firebase/auth";
-
+import { AuthContext } from "./AuthContextProvider";
 const UserContext = createContext();
 
 function UserProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const { setActiveUser } = useContext(AuthContext);
+  // !important: fix error error: can't read uid
+  const userId = auth.currentUser?.uid;
 
   const updateUserProfile = async (name) => {
     try {
-      await updateDoc(doc(db, "users", user.uid), {
+      await updateDoc(doc(db, "users", userId), {
         name: name,
       });
-      setUser((prevUser) => ({ ...prevUser, name }));
+      setActiveUser(name);
     } catch (error) {
       console.error("Error updating user profile:", error.message);
     }
@@ -22,7 +24,6 @@ function UserProvider({ children }) {
   const updateUserEmail = async (newEmail) => {
     try {
       await updateEmail(auth.currentUser, newEmail);
-      setUser((prevUser) => ({ ...prevUser, email: newEmail }));
     } catch (error) {
       console.error("Error updating user email:", error.message);
     }
@@ -39,7 +40,6 @@ function UserProvider({ children }) {
   return (
     <UserContext.Provider
       value={{
-        user,
         updateUserProfile,
         updateUserEmail,
         updateUserPassword,
@@ -50,12 +50,12 @@ function UserProvider({ children }) {
   );
 }
 
-function useUser() {
-  const context = useContext(UserContext);
-  if (!context) {
-    throw new Error("useUser must be used within a UserProvider");
-  }
-  return context;
-}
+// function useUser() {
+//   const context = useContext(UserContext);
+//   if (!context) {
+//     throw new Error("useUser must be used within a UserProvider");
+//   }
+//   return context;
+// }
 
-export { UserProvider, useUser };
+export { UserProvider, UserContext };

@@ -23,9 +23,33 @@ const SettingsScreen = () => {
     <View style={styles.settings}>
       <UserProfileHeader UserName={activeUser} />
       <SettingChipContainer title="Account">
-        <SettingSelectChip iconName="mail" title=" Change email" />
-        <SettingSelectChip iconName="lock" title="Change password" />
-        <SettingSelectChip iconName="user" title="Change name" />
+        <SettingSelectChip
+          iconName="mail"
+          title=" Change email"
+          onPress={() => {
+            navigation.navigate("update profile", {
+              updateType: "email",
+            });
+          }}
+        />
+        <SettingSelectChip
+          iconName="lock"
+          title="Change password"
+          onPress={() => {
+            navigation.navigate("update profile", {
+              updateType: "password",
+            });
+          }}
+        />
+        <SettingSelectChip
+          iconName="user"
+          title="Change name"
+          onPress={() => {
+            navigation.navigate("update profile", {
+              updateType: "name",
+            });
+          }}
+        />
         <SettingSelectChip iconName="bell" title="Notification" />
       </SettingChipContainer>
       <TouchableOpacity

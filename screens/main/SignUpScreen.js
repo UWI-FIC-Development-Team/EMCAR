@@ -33,8 +33,10 @@ const SignUpScreen = ({ route }) => {
           await createStudentAccount(
             values.email,
             values.password,
-            values.name,
+            values.name
           );
+
+          navigation.navigate("Log In");
         }
 
         // Reset the input fields and loading state after successful sign-up

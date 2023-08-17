@@ -11,15 +11,14 @@ import TimeAndDateCard from "../../components/atoms/TimeAndDateCard";
 import CourseCard from "../../components/atoms/CourseCard";
 import { FontFamily } from "../../GlobalStyles";
 import { SessionContext } from "../../context/RequestContextProvider";
-import reactotron from "reactotron-react-native";
+import { AuthContext } from "../../context/AuthContextProvider";
 
 const TutorPage = () => {
-  const navigation = useNavigation();
-
   const { currentTutor, pendingRequests } = useContext(TutorContext);
   const { tutorUpcomingSessions } = useContext(SessionContext);
+  const { activeUser } = useContext(AuthContext);
 
-  const { Bio, subjects, availableTimes, name } = currentTutor;
+  const { Bio, subjects, availableTimes } = currentTutor;
 
   const numberOfHoursRegistered = availableTimes ? availableTimes.length : 0;
   const numberOfCoursesRegistered = subjects ? subjects.length : 0;
@@ -28,7 +27,7 @@ const TutorPage = () => {
   return (
     <View style={styles.tutorPage}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <TutorProfileHeader name={name} />
+        <TutorProfileHeader name={activeUser} />
 
         <SessionStatusBar
           courses={subjects.length}

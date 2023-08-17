@@ -2,9 +2,9 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { FontSize, FontFamily, Color } from "../../GlobalStyles";
 import { Feather } from "@expo/vector-icons";
 
-const SettingSelectChip = ({ iconName, title }) => {
+const SettingSelectChip = ({ iconName, title, onPress }) => {
   return (
-    <TouchableOpacity style={styles.stateLayer}>
+    <TouchableOpacity onPress={onPress} style={styles.stateLayer}>
       <View style={{ flex: 1, flexDirection: "row" }}>
         <Feather style={styles.icon} name={iconName} size={24} />
         <Text style={styles.headline}>{title}</Text>

@@ -9,15 +9,15 @@ if (__DEV__) reactotron.connect();
 
 const App = () => {
   return (
-    <UserProvider>
-      <TutorProvider>
-        <AuthProvider>
-          <SessionProvider>
+    <TutorProvider>
+      <AuthProvider>
+        <SessionProvider>
+          <UserProvider>
             <AppNavigator />
-          </SessionProvider>
-        </AuthProvider>
-      </TutorProvider>
-    </UserProvider>
+          </UserProvider>
+        </SessionProvider>
+      </AuthProvider>
+    </TutorProvider>
   );
 };
 export default App;
