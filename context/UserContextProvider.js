@@ -3,11 +3,11 @@ import { auth, db } from "../services/firebaseConfig";
 import { doc, updateDoc } from "firebase/firestore";
 import { updatePassword, updateEmail } from "firebase/auth";
 import { AuthContext } from "./AuthContextProvider";
+import { LogBox } from "react-native";
 const UserContext = createContext();
 
 function UserProvider({ children }) {
   const { setActiveUser } = useContext(AuthContext);
-  // !important: fix error error: can't read uid
   const userId = auth.currentUser?.uid;
 
   const updateUserProfile = async (name) => {
@@ -24,6 +24,7 @@ function UserProvider({ children }) {
   const updateUserEmail = async (newEmail) => {
     try {
       await updateEmail(auth.currentUser, newEmail);
+      console.log(" your email has been updated");
     } catch (error) {
       console.error("Error updating user email:", error.message);
     }
@@ -32,6 +33,8 @@ function UserProvider({ children }) {
   const updateUserPassword = async (newPassword) => {
     try {
       await updatePassword(auth.currentUser, newPassword);
+
+      console.log(" your password  has been updated");
     } catch (error) {
       console.error("Error updating user password:", error.message);
     }
@@ -49,13 +52,5 @@ function UserProvider({ children }) {
     </UserContext.Provider>
   );
 }
-
-// function useUser() {
-//   const context = useContext(UserContext);
-//   if (!context) {
-//     throw new Error("useUser must be used within a UserProvider");
-//   }
-//   return context;
-// }
 
 export { UserProvider, UserContext };

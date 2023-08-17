@@ -50,6 +50,7 @@ const UpdateUserProfile = ({ route, navigation }) => {
             value={updateValue}
             onChangeText={setUpdateValue}
             placeholder={placeholderText}
+            secureTextEntry={updateType === "password"}
           />
         </View>
 
