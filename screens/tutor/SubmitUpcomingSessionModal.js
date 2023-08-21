@@ -22,7 +22,6 @@ const SubmitUpcomingSession = ({ onPresent, onClose, route }) => {
   const [loading, setLoading] = useState(false);
   const [location, setLocation] = useState("");
 
-
   // updates location of the current request object
   const handleSubmitSession = async (requestId, location) => {
     try {

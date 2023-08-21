@@ -14,7 +14,6 @@ import AllTutors from "../screens/student/AllTutorsScreen";
 import TutorSelection from "../screens/student/TutorSelection";
 import SuccessScreen from "../screens/student/SuccessScreen";
 import SubmitSessionScreen from "../screens/main/SubmitSessionModal";
-import TutorSignUpScreen from "../screens/tutor/TutorRegistrationScreen";
 import RequestConfirmationScreen from "../screens/tutor/RequestConfirmationScreen";
 import SubmitUpcomingSession from "../screens/tutor/SubmitUpcomingSessionModal";
 import SessionDetails from "../screens/main/SessionDetails";
@@ -23,6 +22,8 @@ import AddCourseModal from "../screens/tutor/AddCourseModal";
 import AddWorkHours from "../screens/tutor/AddWorkHoursModal";
 import UpdateBioModal from "../screens/tutor/AddBioModal";
 import ListScreen from "../components/organisms/ListScreen";
+import UpdateUserProfile from "../screens/main/UpdateUserProfileModal";
+import ViewTutorProfile from "../screens/main/ViewTutorProfile";
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -165,7 +166,7 @@ const MainStack = () => {
         );
       },
     }),
-    [],
+    []
   );
 
   return (
@@ -209,20 +210,15 @@ const MainStack = () => {
         }}
       />
       <Stack.Screen
-        name="Sign up"
-        component={TutorSignUpScreen}
-        options={{ headerShown: true }}
-      />
-      <Stack.Screen
         name="render list"
         component={ListScreen}
         options={{ headerShown: false }}
       />
-      {/* <Stack.Screen
-        name="tutor profile"
-        component={TutorProfileScreen}
-        options={{ headerShown: false }}
-      /> */}
+      <Stack.Screen
+        name="update profile"
+        component={UpdateUserProfile}
+        options={{ headerShown: false, presentation: "modal" }}
+      />
 
       <Stack.Screen
         name="All tutors"
@@ -232,6 +228,11 @@ const MainStack = () => {
       <Stack.Screen
         name="Edit profile"
         component={EditProfile}
+        options={{ headerShown: false, presentation: "modal" }}
+      />
+      <Stack.Screen
+        name="view tutor profile"
+        component={ViewTutorProfile}
         options={{ headerShown: false, presentation: "modal" }}
       />
       <Stack.Screen

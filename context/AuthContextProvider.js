@@ -10,7 +10,6 @@ import { TutorContext } from "./TutorContextProvider";
 import createStudent from "../builders/StudentBuilder";
 import createTutor from "../builders/TutorBuilder";
 import { auth, db } from "../services/firebaseConfig";
-import reactotron from "reactotron-react-native";
 
 const AuthContext = createContext();
 
@@ -18,7 +17,6 @@ function AuthProvider({ children }) {
   const { getTutors, getCurrentTutor } = useContext(TutorContext);
 
   const [activeUser, setActiveUser] = useState("");
-  // const [loading, setLoading] = useState(false);
   const [isTutor, setIsTutor] = useState(false);
 
   // This function is used to login the current user into there account
@@ -28,15 +26,15 @@ function AuthProvider({ children }) {
       const userCredential = await signInWithEmailAndPassword(
         auth_,
         email,
-        password,
+        password
       );
       const user = userCredential.user;
 
       // Fetching user data, role, tutors, and current tutor in parallel
       await getUserName(user.uid);
       await getUserRole(user.uid);
+      await getCurrentTutor(user.uid);
       await getTutors();
-      const tutor = await getCurrentTutor(user.uid);
 
       return true;
     } catch (error) {
@@ -70,6 +68,8 @@ function AuthProvider({ children }) {
         .withDisplayName(userName)
         .build();
 
+      //Todo: use updateProfile method to
+      // add the properties difined below.
       const studentToUserCollection = {
         name: userName,
         email: email,

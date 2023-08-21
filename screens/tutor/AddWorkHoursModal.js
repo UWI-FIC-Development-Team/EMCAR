@@ -1,8 +1,7 @@
-import { useContext, useEffect } from "react";
+import { useContext, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import { useState } from "react";
 import { ActivityIndicator } from "react-native-paper";
 import FormInput from "../../components/atoms/FormInput";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -75,7 +74,6 @@ const AddWorkHours = () => {
       // Add a new course to the tutor object(firestore)
       await addAvailableTimesToTutor(tutorId, workingHoursData);
       // Set loading state to false after successful update
-
 
       console.log("course added successfully");
     } catch (error) {

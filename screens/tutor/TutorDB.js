@@ -15,26 +15,25 @@ import TopBar2 from "../../components/atoms/TopBar2";
 import SessionCard from "../../components/atoms/SessionCard";
 import { AuthContext } from "../../context/AuthContextProvider";
 import { SessionContext } from "../../context/RequestContextProvider";
-import { auth } from "../../services/firebaseConfig";
 import InfoText from "../../components/atoms/InfoText";
-import reactotron from "reactotron-react-native";
 
 const TutorDB = () => {
   const { activeUser } = useContext(AuthContext);
-  const {
-    getTutorUpcomingSessions,
-    tutorUpcomingSessions,
-    getPendingRequests,
-    pendingRequests,
-    fetchPendingRequests,
-  } = useContext(SessionContext);
+  const { tutorUpcomingSessions, pendingRequests, fetchPendingRequests } =
+    useContext(SessionContext);
 
   //Todo: modify the arrays above to check of the list is empty. if yes. do something
 
-  reactotron.log("This is the data: ", pendingRequests);
-
   const isPendingRequestsEmpty = pendingRequests.length === 0;
   const isTutorUpcomingSessionsEmpty = tutorUpcomingSessions.length === 0;
+
+  const firstItemInTutorUpcomingSessions = tutorUpcomingSessions.slice(0, 1);
+  const firstItemInPendingRequest = pendingRequests.slice(0, 1);
+
+  const numberOfPendingSessions = pendingRequests ? pendingRequests.length : 0;
+  const numberOfTutorUpcomingSessions = tutorUpcomingSessions
+    ? tutorUpcomingSessions.length
+    : 0;
 
   const navigation = useNavigation();
 
@@ -46,12 +45,14 @@ const TutorDB = () => {
 
   const onRefresh = async () => {
     // Step 2
-    setRefreshing(true);
-    const tutorId = auth.currentUser.uid;
-    await getPendingRequests(tutorId);
-    await getTutorUpcomingSessions(tutorId);
-    // await fetchPendingRequests();
-    setRefreshing(false);
+    try {
+      setRefreshing(true);
+      await fetchPendingRequests();
+      setRefreshing(false);
+    } catch (error) {
+      setRefreshing(false);
+      console.error("Error while refreshing:", error);
+    }
   };
 
   return (
@@ -67,7 +68,7 @@ const TutorDB = () => {
       <TopBar2 userName={activeUser} />
       <DashBoardCard
         showTitle
-        title="Pending Sessions"
+        title={`Pending Sessions(${numberOfPendingSessions})`}
         showSeeAll
         onPress={() => {
           navigation.navigate("render list", { List: pendingRequests });
@@ -76,7 +77,7 @@ const TutorDB = () => {
         {isPendingRequestsEmpty ? (
           <InfoText info="No sessions pending" />
         ) : (
-          pendingRequests.map((request) => (
+          firstItemInPendingRequest.map((request) => (
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate("Confirm Request", {
@@ -94,6 +95,7 @@ const TutorDB = () => {
               }}
             >
               <SessionCard
+                key={request.requestId}
                 name={request.studentName}
                 time={request.startTime.toDate().toLocaleTimeString()}
                 course={request.subjects[0]}
@@ -107,7 +109,7 @@ const TutorDB = () => {
       </DashBoardCard>
       <DashBoardCard
         showTitle
-        title="Upcoming Sessions"
+        title={`Upcoming Sessions(${numberOfTutorUpcomingSessions})`}
         showSeeAll
         onPress={() => {
           navigation.navigate("render list", { List: tutorUpcomingSessions });
@@ -116,7 +118,7 @@ const TutorDB = () => {
         {isTutorUpcomingSessionsEmpty ? (
           <InfoText info="No upcoming sessions" />
         ) : (
-          tutorUpcomingSessions.map((request) => (
+          firstItemInTutorUpcomingSessions.map((request) => (
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate("Session Details", {
@@ -134,6 +136,7 @@ const TutorDB = () => {
               }}
             >
               <SessionCard
+                key={request.requestId}
                 name={request.studentName}
                 time={request.startTime.toDate().toLocaleTimeString()}
                 course={request.subjects[0]}

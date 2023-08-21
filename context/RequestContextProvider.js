@@ -86,7 +86,27 @@ function SessionProvider({ children }) {
       const pendingRequestsQuery = query(
         requestsRef,
         where("tutorId", "==", tutorId),
-        where("status", "==", "pending"),
+        where("status", "==", "pending")
+      );
+      const querySnapshot = await getDocs(pendingRequestsQuery);
+      const pendingRequestsData = querySnapshot.docs.map((doc) => doc.data());
+      setPendingRequests([]);
+      setPendingRequests((prev) => {
+        return [...prev, ...pendingRequestsData];
+      });
+    } catch (error) {
+      console.error("Error while fetching pending requests:", error.message);
+      console.log("No request");
+    }
+  };
+
+  const getStudentPendingRequests = async (studentId) => {
+    try {
+      const requestsRef = collection(db, "requests");
+      const pendingRequestsQuery = query(
+        requestsRef,
+        where("studentId", "==", studentId),
+        where("status", "==", "pending")
       );
       const querySnapshot = await getDocs(pendingRequestsQuery);
       const pendingRequestsData = querySnapshot.docs.map((doc) => doc.data());
@@ -102,10 +122,22 @@ function SessionProvider({ children }) {
 
   const fetchPendingRequests = async () => {
     try {
-      const tutorId = auth.currentUser.uid;
+      const userId = auth.currentUser.uid;
       console.log("Fetching pending requests and upcoming sessions...");
-      await getPendingRequests(tutorId);
-      await getTutorUpcomingSessions(tutorId);
+      await getPendingRequests(userId);
+      await getTutorUpcomingSessions(userId);
+      await getPendingRequests();
+    } catch (error) {
+      console.error("Error while fetching data:", error.message);
+    }
+  };
+
+  const fetchStudentPendingRequests = async () => {
+    try {
+      const userId = auth.currentUser.uid;
+      console.log("Fetching pending requests and upcoming sessions...");
+      await getStudentPendingRequests(userId);
+      await getStudentPendingRequests(userId);
     } catch (error) {
       console.error("Error while fetching data:", error.message);
     }
@@ -232,6 +264,8 @@ function SessionProvider({ children }) {
         pendingRequests,
         setPendingRequests,
         fetchPendingRequests,
+        getPendingRequests,
+        fetchStudentPendingRequests,
         // resetAllStates,
       }}
     >

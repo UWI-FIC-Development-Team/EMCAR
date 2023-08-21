@@ -1,57 +1,43 @@
 import * as React from "react";
-import { Image } from "expo-image";
 import { StyleSheet, Text, View } from "react-native";
-import { Border, FontSize, FontFamily, Color, Padding } from "../../GlobalStyles";
+import { Avatar } from "react-native-paper";
+import { FontFamily } from "../../GlobalStyles";
 
-const UserProfileHeader = ({UserName, path}) => {
+const UserProfileHeader = ({ UserName }) => {
+  function getFirstCharacter(str) {
+    return str.substring(0, 1);
+  }
+
+  const intital = getFirstCharacter(UserName);
   return (
-    <View style={[styles.stateLayer, styles.headlineFlexBox]}>
-      <Image
-          style={styles.imageStyle}
-          contentFit="cover"
-          source={{uri:path}}
-                />
-      <Text style={[styles.headline, styles.headlineFlexBox]}>
-        {UserName}
-      </Text>
+    <View style={styles.headlineFlexBox}>
+      <Avatar.Text
+        size={48}
+        label={intital}
+        style={{ backgroundColor: "#008183" }}
+      />
+      <Text style={styles.headline}>{UserName}</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-
-  imageStyle:{
-    height:60,
-    width:60
-  },
   headlineFlexBox: {
-    width:'100%',
-    flex:1,
-    flexDirection:'row',
-    justifyContent:'center',
-    alignItems:'center',
-    padding:12
+    width: "100%",
+    height: 80,
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 16,
+    backgroundColor: "#004F50",
+    borderRadius: 10,
   },
 
   headline: {
-    fontSize: FontSize.materialThemeTitleLarge_size,
+    fontSize: 24,
     lineHeight: 28,
-    fontFamily: FontFamily.workSansMedium,
-    color: Color.materialThemeSysLightOnSurface,
+    fontFamily: FontFamily.materialThemeTitleMedium,
+    color: "#fff",
     marginLeft: 16,
-  },
-  stateLayer: {
-    borderRadius:10,
-    backgroundColor: Color.materialThemeSysLightSecondaryContainer,
-    shadowColor: "rgba(0, 0, 0, 0.25)",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowRadius: 4,
-    elevation: 4,
-    shadowOpacity: 1,
-    overflow: "hidden",
   },
 });
 

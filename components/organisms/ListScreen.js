@@ -25,6 +25,7 @@ const ListScreen = ({ route, navigation }) => {
           }}
         >
           <SessionCard
+            key={request.requestId}
             name={request.studentName}
             time={request.startTime.toDate().toLocaleTimeString()}
             course={request.subjects[0]}

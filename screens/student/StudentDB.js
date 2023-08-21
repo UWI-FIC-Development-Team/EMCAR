@@ -1,8 +1,6 @@
 import React, { useState, useCallback, useContext, useEffect } from "react";
 import {
   StyleSheet,
-  Text,
-  View,
   TouchableOpacity,
   ScrollView,
   StatusBar,
@@ -22,10 +20,14 @@ import { auth } from "../../services/firebaseConfig";
 import InfoText from "../../components/atoms/InfoText";
 
 const StudentDB = () => {
+  const { tutors } = useContext(TutorContext);
+
+  const { bio, subjects, name, tutorId, availableTimes } = tutors;
+  console.log("These are the tutor values: ", tutors);
+
   const { activeUser } = useContext(AuthContext);
   const { upcomingSessions, getStudentUpcomingSessions } =
     useContext(SessionContext);
-  const { tutors } = useContext(TutorContext);
   const navigation = useNavigation();
 
   console.log("The current user name is: ", activeUser);
@@ -36,6 +38,7 @@ const StudentDB = () => {
       try {
         const studentId = auth.currentUser.uid;
         await getStudentUpcomingSessions(studentId);
+        // const currentTutor = await getCurrentTutor(tutorId)
         // Handle the fetched sessions here
         // For example, update state or perform some actions
       } catch (error) {
@@ -49,24 +52,32 @@ const StudentDB = () => {
 
   return (
     <ScrollView style={styles.studentDb}>
-      <StatusBar barStyle={"dark-content"} />
+      <StatusBar barStyle="dark-content" />
 
       <TopBar2 userName={activeUser} />
       <DashBoardCard
-        showSeeAll={true}
-        showTitle={true}
-        title={"Recent tutors"}
+        showSeeAll
+        showTitle
+        title="Recent tutors"
         onPress={() => {
           navigation.navigate("All tutors");
         }}
       >
         {tutors.map((tutor, index) => {
           return (
-            <DashBoardChip
-              key={index}
-              tutorName={tutor.name}
-              iconIsVisible={true}
-            />
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("view tutor profile", {
+                  bio: tutor.Bio,
+                  availableTimes: tutor.availableTimes,
+                  subjects: tutor.subjects,
+                  tutorId: tutor.tutorId,
+                  name: tutor.name,
+                });
+              }}
+            >
+              <DashBoardChip key={index} tutorName={tutor.name} iconIsVisible />
+            </TouchableOpacity>
           );
         })}
       </DashBoardCard>
@@ -76,11 +87,7 @@ const StudentDB = () => {
           navigation.navigate("All tutors");
         }}
       ></TouchableOpacity>
-      <DashBoardCard
-        showTitle={true}
-        title={"Upcoming Sessions"}
-        showSeeAll={true}
-      >
+      <DashBoardCard showTitle title="Upcoming Sessions" showSeeAll>
         {upcomingSessions ? (
           upcomingSessions.map((request) => (
             <TouchableOpacity
@@ -114,8 +121,8 @@ const StudentDB = () => {
         )}
       </DashBoardCard>
       <FloatingButton
-        title={"Request a session"}
-        navigateTo={"Request a session"}
+        title="Request a session"
+        navigateTo="Request a session"
       />
     </ScrollView>
   );
