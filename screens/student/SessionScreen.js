@@ -1,86 +1,189 @@
-import * as React from "react";
+import { useNavigation } from "@react-navigation/native";
+import React, { useState, useContext, useEffect } from "react";
 import {
-  View,
   StyleSheet,
+  ScrollView,
+  StatusBar,
+  RefreshControl,
+  Text,
   TouchableOpacity,
 } from "react-native";
-import SessionsCard from "../../components/molecules/SessionsCard";
-import { useNavigation } from "@react-navigation/native";
-import FloatingButton from "../../components/atoms/FloatingButton";
-import { Color, FontSize, FontFamily, Padding, Border } from "../../GlobalStyles";
-import DropDownChip from "../../components/atoms/DropDownChip";
-import { ScrollView } from "react-native-gesture-handler";
 
-const SessionScreen = () => {
+import { FontFamily, Padding, Color } from "../../GlobalStyles";
+import DashBoardCard from "../../components/atoms/DashBoardCard";
+import SessionCard from "../../components/atoms/SessionCard";
+import { SessionContext } from "../../context/RequestContextProvider";
+import InfoText from "../../components/atoms/InfoText";
+
+const TutorDB = () => {
+  const { upcomingSessions, pendingRequests, fetchStudentPendingRequests } =
+    useContext(SessionContext);
+
+  //Todo: modify the arrays above to check of the list is empty. if yes. do something
+
+  const isPendingRequestsEmpty = pendingRequests.length === 0;
+  const isTutorUpcomingSessionsEmpty = upcomingSessions.length === 0;
+
+  const firstItemInTutorUpcomingSessions = upcomingSessions.slice(0, 1);
+  const firstItemInPendingRequest = pendingRequests.slice(0, 1);
+
+  const numberOfPendingSessions = pendingRequests ? pendingRequests.length : 0;
+  const numberOfTutorUpcomingSessions = upcomingSessions
+    ? upcomingSessions.length
+    : 0;
+
   const navigation = useNavigation();
 
-  return (
-    <ScrollView style={[styles.sessions, styles.sessionsFlexBox]}>
-      
-        <SessionsCard title={'Upcoming Sessions'}>
-            <DropDownChip courseTitle={'COMP1205'} IconName={'alert-circle'}/>
-            <DropDownChip courseTitle={'MATH0110'} IconName={'alert-circle'}/>
-        </SessionsCard>
-        <SessionsCard title={'Past Sessions'}>
-            <DropDownChip courseTitle={'COMP1205'} IconName={'check-circle'}/>
-            <DropDownChip courseTitle={'MATH0110'} IconName={'check-circle'}/>
-        </SessionsCard>
-        <View style={styles.extendedFabWrapper}>
-          <TouchableOpacity
-            style={[styles.extendedFab, styles.extendedFabFlexBox]}
-            activeOpacity={0.2}
-            onPress={() => navigation.navigate("SessionRequest")}
-          >
-            <FloatingButton />
-          </TouchableOpacity>
-        </View>
+  const [refreshing, setRefreshing] = useState(false); // Step 2
 
+  useEffect(() => {
+    fetchStudentPendingRequests();
+  }, []);
+
+  const onRefresh = async () => {
+    // Step 2
+    try {
+      setRefreshing(true);
+      await fetchStudentPendingRequests();
+      setRefreshing(false);
+    } catch (error) {
+      setRefreshing(false);
+      console.error("Error while refreshing:", error);
+    }
+  };
+
+  return (
+    <ScrollView
+      style={styles.studentDb}
+      refreshControl={
+        // Step 3
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
+      <StatusBar barStyle="dark-content" />
+      <DashBoardCard
+        showTitle
+        title={`Pending Sessions(${numberOfPendingSessions})`}
+        showSeeAll
+        onPress={() => {
+          navigation.navigate("render list", { List: pendingRequests });
+        }}
+      >
+        {isPendingRequestsEmpty ? (
+          <InfoText info="No sessions pending" />
+        ) : (
+          firstItemInPendingRequest.map((request) => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Confirm Request", {
+                  requestId: request.requestId,
+                  studentName: request.studentName,
+                  tutorId: request.tutorId,
+                  subjects: request.subjects,
+                  topics: request.topics,
+                  requestDate: request.requestDate,
+                  startTime: request.startTime,
+                  endTime: request.endTime,
+                  location: request.location,
+                  additionalDetails: request.additionalDetails,
+                });
+              }}
+            >
+              <SessionCard
+                key={request.requestId}
+                name={request.studentName}
+                time={request.startTime.toDate().toLocaleTimeString()}
+                course={request.subjects[0]}
+                Topic={request.topics[0]}
+                date={request.requestDate.toDate().toLocaleDateString()}
+                location={request.location}
+              />
+            </TouchableOpacity>
+          ))
+        )}
+      </DashBoardCard>
+      <DashBoardCard
+        showTitle
+        title={`Upcoming Sessions(${numberOfTutorUpcomingSessions})`}
+        showSeeAll
+        onPress={() => {
+          navigation.navigate("render list", { List: upcomingSessions });
+        }}
+      >
+        {isTutorUpcomingSessionsEmpty ? (
+          <InfoText info="No upcoming sessions" />
+        ) : (
+          firstItemInTutorUpcomingSessions.map((request) => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Session Details", {
+                  requestId: request.requestId,
+                  studentName: request.studentName,
+                  tutorId: request.tutorId,
+                  subjects: request.subjects,
+                  topics: request.topics,
+                  requestDate: request.requestDate,
+                  startTime: request.startTime,
+                  endTime: request.endTime,
+                  location: request.location,
+                  additionalDetails: request.additionalDetails,
+                });
+              }}
+            >
+              <SessionCard
+                key={request.requestId}
+                name={request.studentName}
+                time={request.startTime.toDate().toLocaleTimeString()}
+                course={request.subjects[0]}
+                Topic={request.topics[0]}
+                date={request.requestDate.toDate().toLocaleDateString()}
+                location={request.location}
+              />
+            </TouchableOpacity>
+          ))
+        )}
+      </DashBoardCard>
+      <DashBoardCard showTitle title="Recent Sessions" showSeeAll>
+        <Text>No sessions completed</Text>
+      </DashBoardCard>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
- 
+  icon: {
+    color: Color.materialThemeSysLightPrimary,
+  },
 
-  extendedFabFlexBox: {
-    overflow: "hidden",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
- 
-
-  extendedFab: {
-    borderRadius: Border.br_base,
-    backgroundColor: Color.materialThemeSysLightSecondaryContainer,
-    shadowColor: "rgba(0, 0, 0, 0.25)",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowRadius: 1,
-    elevation: 1,
-    shadowOpacity: 1,
-    width: 177,
-  },
-  extendedFabWrapper: {
-    justifyContent: "flex-end",
-    marginTop: 194,
-    alignSelf: "stretch",
-    flexDirection: "row",
-  },
-  container: {
-    marginTop: 30,
-    width:'100%',
+  headlineContainer: {
     flex: 1,
+    marginLeft: 12,
   },
-  sessions: {
+
+  headline4: {
+    fontFamily: FontFamily.materialThemeLabelMedium,
+    fontWeight: "500",
+    lineHeight: 12,
+    fontSize: 12,
+    textAlign: "left",
+    marginTop: 6,
+    color: "#3F4948",
+  },
+  headline: {
+    fontFamily: FontFamily.materialThemeTitleMedium,
+    fontWeight: "500",
+    fontSize: 16,
+    textAlign: "left",
+    color: Color.materialThemeSysLightOnPrimaryContainer,
+  },
+
+  studentDb: {
     width: "100%",
-    paddingTop: Padding.p_26xl,
     paddingHorizontal: Padding.p_6xl,
+    paddingTop: 20,
     flex: 1,
-    backgroundColor: Color.materialThemeSysLightBackground,
+    backgroundColor: "#fff",
   },
 });
 
-export default SessionScreen;
+export default TutorDB;

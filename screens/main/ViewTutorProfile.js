@@ -34,7 +34,7 @@ const ViewTutorProfile = ({ route }) => {
 
     fetchPendingRequests();
   }, []);
-  //   const numberOfHoursRegistered = availableTimes ? availableTimes.length : 0;
+  const numberOfHoursRegistered = availableTimes ? availableTimes.length : 0;
   const numberOfCoursesRegistered = subjects ? subjects.length : 0;
   const numberOfPendingRequest = pendingRequests ? pendingRequests.length : 0;
   const numberOfUpcomingRequest = tutorUpcomingSessions
@@ -57,7 +57,7 @@ const ViewTutorProfile = ({ route }) => {
           <Text style={styles.bioText}>{bio}</Text>
         </DashBoardCard>
         <DashBoardCard
-          //   title={`Schedule (${numberOfHoursRegistered})`}
+          title={`Schedule (${numberOfHoursRegistered})`}
           showTitle
           showIcon={false}
         >
