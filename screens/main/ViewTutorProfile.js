@@ -1,44 +1,63 @@
-import { useContext } from "react";
+import React, { useContext, useEffect } from "react"; // Added React import
 import { View, ScrollView, StyleSheet, Text } from "react-native";
 import TutorProfileHeader from "../../components/molecules/TutorProfileHeader";
 import SessionStatusBar from "../../components/molecules/SessionStatusBar";
 import DashBoardCard from "../../components/atoms/DashBoardCard";
-import FloatingButton from "../../components/atoms/FloatingButton";
-import { TutorContext } from "../../context/TutorContextProvider";
 import InfoText from "../../components/atoms/InfoText";
 import TimeAndDateCard from "../../components/atoms/TimeAndDateCard";
 import CourseCard from "../../components/atoms/CourseCard";
 import { SessionContext } from "../../context/RequestContextProvider";
-import { AuthContext } from "../../context/AuthContextProvider";
 
-const TutorPage = () => {
-  const { currentTutor, pendingRequests } = useContext(TutorContext);
-  const { tutorUpcomingSessions } = useContext(SessionContext);
-  const { activeUser } = useContext(AuthContext);
+const ViewTutorProfile = ({ route }) => {
+  const { bio, subjects, tutorId, name, availableTimes } = route.params;
+  const { getPendingRequests, tutorUpcomingSessions, pendingRequests } =
+    useContext(SessionContext);
 
-  const { Bio, subjects, availableTimes } = currentTutor;
+  console.log(
+    "Values from the tutor object: ",
+    bio,
+    availableTimes,
+    tutorId,
+    name,
+    subjects
+  );
 
-  const numberOfHoursRegistered = availableTimes ? availableTimes.length : 0;
+  useEffect(() => {
+    const fetchPendingRequests = async () => {
+      try {
+        await getPendingRequests(tutorId);
+      } catch (error) {
+        // Handle error if needed
+        console.error("Error fetching pending requests:", error);
+      }
+    };
+
+    fetchPendingRequests();
+  }, []);
+  //   const numberOfHoursRegistered = availableTimes ? availableTimes.length : 0;
   const numberOfCoursesRegistered = subjects ? subjects.length : 0;
-  const numberOfPendingReuqest = pendingRequests ? pendingRequests.length : 0;
+  const numberOfPendingRequest = pendingRequests ? pendingRequests.length : 0;
+  const numberOfUpcomingRequest = tutorUpcomingSessions
+    ? tutorUpcomingSessions.length
+    : 0;
 
   return (
     <View style={styles.tutorPage}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <TutorProfileHeader name={activeUser} />
+        <TutorProfileHeader name={name} />
 
         <SessionStatusBar
-          courses={subjects.length}
-          notStarted={numberOfPendingReuqest}
-          onGoing={tutorUpcomingSessions.length}
-          completed="0"
+          courses={numberOfCoursesRegistered} // Corrected the prop value
+          notStarted={numberOfPendingRequest}
+          onGoing={numberOfUpcomingRequest}
+          completed={0} // Corrected the prop value
         />
 
         <DashBoardCard title="Bio" showTitle showSeeAll={false}>
-          <Text style={styles.bioText}>{Bio}</Text>
+          <Text style={styles.bioText}>{bio}</Text>
         </DashBoardCard>
         <DashBoardCard
-          title={`Schedule(${numberOfHoursRegistered})`}
+          //   title={`Schedule (${numberOfHoursRegistered})`}
           showTitle
           showIcon={false}
         >
@@ -55,12 +74,12 @@ const TutorPage = () => {
           })}
         </DashBoardCard>
         <DashBoardCard
-          title={`Courses(${numberOfCoursesRegistered})`}
+          title={`Courses (${numberOfCoursesRegistered})`}
           showTitle
           showIcon={false}
         >
-          {subjects ? (
-            subjects.map((subject, index) => {
+          {subjects && subjects.length > 0 ? (
+            subjects?.map((subject, index) => {
               return (
                 <CourseCard key={index} showIcon={false} courseName={subject} />
               );
@@ -69,7 +88,6 @@ const TutorPage = () => {
             <InfoText info="No courses added" />
           )}
         </DashBoardCard>
-        <FloatingButton title="Edit your profile" navigateTo="Edit profile" />
       </ScrollView>
     </View>
   );
@@ -92,4 +110,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TutorPage;
+export default ViewTutorProfile;

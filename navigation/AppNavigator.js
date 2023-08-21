@@ -23,6 +23,7 @@ import AddWorkHours from "../screens/tutor/AddWorkHoursModal";
 import UpdateBioModal from "../screens/tutor/AddBioModal";
 import ListScreen from "../components/organisms/ListScreen";
 import UpdateUserProfile from "../screens/main/UpdateUserProfileModal";
+import ViewTutorProfile from "../screens/main/ViewTutorProfile";
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -227,6 +228,11 @@ const MainStack = () => {
       <Stack.Screen
         name="Edit profile"
         component={EditProfile}
+        options={{ headerShown: false, presentation: "modal" }}
+      />
+      <Stack.Screen
+        name="view tutor profile"
+        component={ViewTutorProfile}
         options={{ headerShown: false, presentation: "modal" }}
       />
       <Stack.Screen

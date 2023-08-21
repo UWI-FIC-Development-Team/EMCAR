@@ -86,7 +86,7 @@ function SessionProvider({ children }) {
       const pendingRequestsQuery = query(
         requestsRef,
         where("tutorId", "==", tutorId),
-        where("status", "==", "pending"),
+        where("status", "==", "pending")
       );
       const querySnapshot = await getDocs(pendingRequestsQuery);
       const pendingRequestsData = querySnapshot.docs.map((doc) => doc.data());
@@ -232,6 +232,7 @@ function SessionProvider({ children }) {
         pendingRequests,
         setPendingRequests,
         fetchPendingRequests,
+        getPendingRequests,
         // resetAllStates,
       }}
     >

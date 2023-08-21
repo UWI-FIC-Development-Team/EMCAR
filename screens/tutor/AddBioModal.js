@@ -16,7 +16,6 @@ const UpdateBioModal = () => {
   const tutorId = auth.currentUser.uid;
   const { Bio } = currentTutor;
   const [loading, setLoading] = useState(false);
-  console.log('This is the current tutor bio', Bio);
 
   const [biography, setBiography] = useState(Bio);
 
@@ -61,7 +60,6 @@ const UpdateBioModal = () => {
             autoFocus={true}
           />
         </View>
-
       </KeyboardAwareScrollView>
     </View>
   );

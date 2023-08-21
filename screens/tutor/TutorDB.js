@@ -21,13 +21,8 @@ import reactotron from "reactotron-react-native";
 
 const TutorDB = () => {
   const { activeUser } = useContext(AuthContext);
-  const {
-    getTutorUpcomingSessions,
-    tutorUpcomingSessions,
-    getPendingRequests,
-    pendingRequests,
-    fetchPendingRequests,
-  } = useContext(SessionContext);
+  const { tutorUpcomingSessions, pendingRequests, fetchPendingRequests } =
+    useContext(SessionContext);
 
   //Todo: modify the arrays above to check of the list is empty. if yes. do something
 
@@ -52,12 +47,14 @@ const TutorDB = () => {
 
   const onRefresh = async () => {
     // Step 2
-    setRefreshing(true);
-    const tutorId = auth.currentUser.uid;
-    await getPendingRequests(tutorId);
-    await getTutorUpcomingSessions(tutorId);
-    // await fetchPendingRequests();
-    setRefreshing(false);
+    try {
+      setRefreshing(true);
+      await fetchPendingRequests();
+      setRefreshing(false);
+    } catch (error) {
+      setRefreshing(false);
+      console.error("Error while refreshing:", error);
+    }
   };
 
   return (
