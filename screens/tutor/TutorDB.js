@@ -15,9 +15,7 @@ import TopBar2 from "../../components/atoms/TopBar2";
 import SessionCard from "../../components/atoms/SessionCard";
 import { AuthContext } from "../../context/AuthContextProvider";
 import { SessionContext } from "../../context/RequestContextProvider";
-import { auth } from "../../services/firebaseConfig";
 import InfoText from "../../components/atoms/InfoText";
-import reactotron from "reactotron-react-native";
 
 const TutorDB = () => {
   const { activeUser } = useContext(AuthContext);
