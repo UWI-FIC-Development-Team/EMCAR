@@ -42,9 +42,9 @@ const SignUpScreen = ({ route }) => {
         // Reset the input fields and loading state after successful sign-up
         setLoading(false);
         navigation.navigate("Log In");
-        values.name("");
-        values.email("");
-        values.password("");
+        values.name = "";
+        values.email = "";
+        values.password = "";
 
         // The navigation to "StudentDB" will happen automatically when useEffect is triggered
       }

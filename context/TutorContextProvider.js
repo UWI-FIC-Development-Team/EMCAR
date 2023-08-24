@@ -56,6 +56,15 @@ function TutorProvider({ children }) {
     }
   };
 
+  const fetchCurrentTutor = async () => {
+    try {
+      const userId = auth.currentUser.uid;
+      await getCurrentTutor(userId);
+    } catch (error) {
+      console.log("Failed to fetch the current tutor: ", error);
+    }
+  };
+
   // Function to update the tutor's bio
   const updateTutorBio = async (tutorId, bio) => {
     try {
@@ -158,6 +167,7 @@ function TutorProvider({ children }) {
         setCurrentTutor,
         deleteAvailableTimesFromTutor,
         updateTutorBio,
+        fetchCurrentTutor,
       }}
     >
       {children}

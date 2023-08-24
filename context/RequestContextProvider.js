@@ -15,6 +15,7 @@ import {
 
 import RequestBuilder from "../builders/RequestBuilder";
 import reactotron from "reactotron-react-native";
+import { LogBox } from "react-native";
 
 const SessionContext = createContext();
 
@@ -82,6 +83,7 @@ function SessionProvider({ children }) {
   //Todo: move this function
   const getPendingRequests = async (tutorId) => {
     try {
+      // console.log("This the tutorId Before: ", tutorId);
       const requestsRef = collection(db, "requests");
       const pendingRequestsQuery = query(
         requestsRef,
@@ -94,6 +96,8 @@ function SessionProvider({ children }) {
       setPendingRequests((prev) => {
         return [...prev, ...pendingRequestsData];
       });
+
+      console.log("This the tutorId After: ", tutorId);
     } catch (error) {
       console.error("Error while fetching pending requests:", error.message);
       console.log("No request");
@@ -124,9 +128,10 @@ function SessionProvider({ children }) {
     try {
       const userId = auth.currentUser.uid;
       console.log("Fetching pending requests and upcoming sessions...");
+
+      console.log("This the tutorId Before: ", userId);
       await getPendingRequests(userId);
       await getTutorUpcomingSessions(userId);
-      await getPendingRequests();
     } catch (error) {
       console.error("Error while fetching data:", error.message);
     }
@@ -136,7 +141,6 @@ function SessionProvider({ children }) {
     try {
       const userId = auth.currentUser.uid;
       console.log("Fetching pending requests and upcoming sessions...");
-      await getStudentPendingRequests(userId);
       await getStudentPendingRequests(userId);
     } catch (error) {
       console.error("Error while fetching data:", error.message);

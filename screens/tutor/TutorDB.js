@@ -16,11 +16,14 @@ import SessionCard from "../../components/atoms/SessionCard";
 import { AuthContext } from "../../context/AuthContextProvider";
 import { SessionContext } from "../../context/RequestContextProvider";
 import InfoText from "../../components/atoms/InfoText";
+import { TutorContext } from "../../context/TutorContextProvider";
+import { auth } from "../../services/firebaseConfig";
 
 const TutorDB = () => {
   const { activeUser } = useContext(AuthContext);
   const { tutorUpcomingSessions, pendingRequests, fetchPendingRequests } =
     useContext(SessionContext);
+  const { fetchCurrentTutor } = useContext(TutorContext);
 
   //Todo: modify the arrays above to check of the list is empty. if yes. do something
 
@@ -41,6 +44,7 @@ const TutorDB = () => {
 
   useEffect(() => {
     fetchPendingRequests();
+    fetchCurrentTutor();
   }, []);
 
   const onRefresh = async () => {

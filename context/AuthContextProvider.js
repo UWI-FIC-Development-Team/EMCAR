@@ -33,7 +33,12 @@ function AuthProvider({ children }) {
       // Fetching user data, role, tutors, and current tutor in parallel
       await getUserName(user.uid);
       await getUserRole(user.uid);
-      await getCurrentTutor(user.uid);
+      // Using cloud functions and custom claims will
+      // allow for us to add roles on the
+      // user auth objects. By doing so we will be able to
+      // run getCurrentTutor function based on the role
+      // of the user.
+      // await getCurrentTutor(user.uid);
       await getTutors();
 
       return true;

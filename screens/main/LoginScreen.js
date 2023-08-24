@@ -19,6 +19,7 @@ const LoginScreen = ({ route }) => {
   useEffect(() => {
     // Check if the activeUser is available and not null, then navigate to the "StudentDB" screen
     if (!!activeUser) {
+      console.log("I am and active user, that I am");
       setLoading(false);
       navigation.navigate("StudentDB");
     }
