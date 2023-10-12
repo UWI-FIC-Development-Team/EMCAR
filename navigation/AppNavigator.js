@@ -71,25 +71,6 @@ const AppNavigator = () => {
               }}
             />
           </RootStack.Group>
-
-          <RootStack.Group
-            screenOptions={{
-              presentation: "modal",
-              gestureResponseDistance: 1000,
-            }}
-          >
-            <RootStack.Screen
-              name="Complete request"
-              component={SuccessScreen}
-              options={{
-                headerMode: "none",
-                cardStyle: {
-                  backgroundColor: "rgba(0,0,0,0)",
-                },
-              }}
-            />
-          </RootStack.Group>
-
           <RootStack.Group
             screenOptions={{
               presentation: "modal",
@@ -183,6 +164,11 @@ const MainStack = () => {
         name="Confirm Request"
         component={RequestConfirmationScreen}
         options={{ headerShown: false, presentation: "modal" }}
+      />
+      <Stack.Screen
+        name="Complete Request"
+        component={SuccessScreen}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="update bio"

@@ -10,13 +10,17 @@ import { TutorContext } from "./TutorContextProvider";
 import createStudent from "../builders/StudentBuilder";
 import createTutor from "../builders/TutorBuilder";
 import { auth, db } from "../services/firebaseConfig";
+import { produce } from "immer";
 
 const AuthContext = createContext();
 
 function AuthProvider({ children }) {
-  const { getTutors, getCurrentTutor } = useContext(TutorContext);
+  const { getTutors } = useContext(TutorContext);
 
-  const [activeUser, setActiveUser] = useState("");
+  const [activeUser, setActiveUser] = useState({
+    name: "",
+    isActive: false,
+  });
   const [isTutor, setIsTutor] = useState(false);
 
   // This function is used to login the current user into there account
@@ -33,12 +37,6 @@ function AuthProvider({ children }) {
       // Fetching user data, role, tutors, and current tutor in parallel
       await getUserName(user.uid);
       await getUserRole(user.uid);
-      // Using cloud functions and custom claims will
-      // allow for us to add roles on the
-      // user auth objects. By doing so we will be able to
-      // run getCurrentTutor function based on the role
-      // of the user.
-      // await getCurrentTutor(user.uid);
       await getTutors();
 
       return true;
@@ -174,7 +172,13 @@ function AuthProvider({ children }) {
       // Check if the user document exists and has the display_name field
       if (userDoc.exists && userDoc.data().name) {
         const name = userDoc.data().name;
-        setActiveUser(name);
+        setActiveUser({});
+        setActiveUser(
+          produce(activeUser, (draft) => {
+            draft.name = name;
+            draft.isActive = true;
+          })
+        );
       }
     } catch (error) {
       console.error(

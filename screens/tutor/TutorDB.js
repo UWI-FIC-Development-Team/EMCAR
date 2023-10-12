@@ -69,7 +69,7 @@ const TutorDB = () => {
     >
       <StatusBar barStyle="dark-content" />
 
-      <TopBar2 userName={activeUser} />
+      <TopBar2 userName={activeUser.name} />
       <DashBoardCard
         showTitle
         title={`Pending Sessions(${numberOfPendingSessions})`}

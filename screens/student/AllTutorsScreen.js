@@ -1,4 +1,4 @@
-import React, { useState, useRef,useContext } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { StyleSheet, View, ScrollView, StatusBar } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
@@ -13,12 +13,16 @@ const AllTutors = () => {
 
   return (
     <ScrollView style={styles.studentDb}>
-      <StatusBar barStyle={"dark-content"} />
+      <StatusBar barStyle="dark-content" />
       <View style={styles.listDialogParent}>
-        <DashBoardCard title={"Available"} showTitle={true}>
+        <DashBoardCard title="Available" showTitle>
           {tutors.map((tutor) => {
             return (
-              <DashBoardChip tutorName={tutor.name} iconIsVisible={true} />
+              <DashBoardChip
+                key={tutor.tutorId}
+                tutorName={tutor.name}
+                iconIsVisible
+              />
             );
           })}
         </DashBoardCard>

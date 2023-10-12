@@ -22,7 +22,6 @@ import InfoText from "../../components/atoms/InfoText";
 const StudentDB = () => {
   const { tutors } = useContext(TutorContext);
 
-  const { bio, subjects, name, tutorId, availableTimes } = tutors;
   console.log("These are the tutor values: ", tutors);
 
   const { activeUser } = useContext(AuthContext);
@@ -30,7 +29,13 @@ const StudentDB = () => {
     useContext(SessionContext);
   const navigation = useNavigation();
 
-  console.log("The current user name is: ", activeUser);
+  const firstItemInTutorsArray = tutors.slice(0, 1);
+  const firstItemInStudentUpcomingSessions = upcomingSessions.slice(0, 1);
+
+  const IsStudentUpcomingSessionsEmpty = upcomingSessions.length === 0;
+  const IsTutorsArrayEmpty = tutors.length === 0;
+
+  console.log("The current user name is: ", activeUser.name);
 
   useEffect(() => {
     // Fetch pending requests associated with the tutor
@@ -38,7 +43,6 @@ const StudentDB = () => {
       try {
         const studentId = auth.currentUser.uid;
         await getStudentUpcomingSessions(studentId);
-        // const currentTutor = await getCurrentTutor(tutorId)
         // Handle the fetched sessions here
         // For example, update state or perform some actions
       } catch (error) {
@@ -54,7 +58,7 @@ const StudentDB = () => {
     <ScrollView style={styles.studentDb}>
       <StatusBar barStyle="dark-content" />
 
-      <TopBar2 userName={activeUser} />
+      <TopBar2 userName={activeUser.name} />
       <DashBoardCard
         showSeeAll
         showTitle
@@ -63,33 +67,37 @@ const StudentDB = () => {
           navigation.navigate("All tutors");
         }}
       >
-        {tutors.map((tutor, index) => {
-          return (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("view tutor profile", {
-                  bio: tutor.Bio,
-                  availableTimes: tutor.availableTimes,
-                  subjects: tutor.subjects,
-                  tutorId: tutor.tutorId,
-                  name: tutor.name,
-                });
-              }}
-            >
-              <DashBoardChip key={index} tutorName={tutor.name} iconIsVisible />
-            </TouchableOpacity>
-          );
-        })}
+        {IsTutorsArrayEmpty ? (
+          <InfoText info="No tutors available" />
+        ) : (
+          firstItemInTutorsArray.map((tutor) => {
+            return (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("view tutor profile", {
+                    bio: tutor.Bio,
+                    availableTimes: tutor.availableTimes,
+                    subjects: tutor.subjects,
+                    tutorId: tutor.tutorId,
+                    name: tutor.name,
+                  });
+                }}
+              >
+                <DashBoardChip
+                  key={tutor.tutorId}
+                  tutorName={tutor.name}
+                  iconIsVisible
+                />
+              </TouchableOpacity>
+            );
+          })
+        )}
       </DashBoardCard>
-      <TouchableOpacity
-        activeOpacity={0.2}
-        onPress={() => {
-          navigation.navigate("All tutors");
-        }}
-      ></TouchableOpacity>
       <DashBoardCard showTitle title="Upcoming Sessions" showSeeAll>
-        {upcomingSessions ? (
-          upcomingSessions.map((request) => (
+        {IsStudentUpcomingSessionsEmpty ? (
+          <InfoText info="No upcoming sessions" />
+        ) : (
+          firstItemInStudentUpcomingSessions.map((request) => (
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate("Session Details", {
@@ -107,6 +115,7 @@ const StudentDB = () => {
               }}
             >
               <SessionCard
+                key={request.requestId}
                 name={request.studentName}
                 time={request.startTime.toDate().toLocaleTimeString()}
                 course={request.subjects[0]}
@@ -116,8 +125,6 @@ const StudentDB = () => {
               />
             </TouchableOpacity>
           ))
-        ) : (
-          <InfoText />
         )}
       </DashBoardCard>
       <FloatingButton

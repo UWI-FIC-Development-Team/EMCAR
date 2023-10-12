@@ -17,7 +17,7 @@ const RequestConfirmationScreen = ({ route, navigation }) => {
     endTime,
     location,
     additionalDetails,
-    requestId
+    requestId,
   } = route.params;
 
   // Convert Firestore timestamps to human-readable format
@@ -85,7 +85,15 @@ const RequestConfirmationScreen = ({ route, navigation }) => {
         </View>
 
         <View style={{ marginVertical: 36 }}>
-          <PrimaryButton title={"Confirm session"} onPress={() => {navigation.navigate('update session', {studentName: studentName, requestId:requestId})}} />
+          <PrimaryButton
+            title={"Confirm session"}
+            onPress={() => {
+              navigation.navigate("update session", {
+                studentName: studentName,
+                requestId: requestId,
+              });
+            }}
+          />
           <PrimaryButton title={"Reject request"} onPress={() => {}} />
         </View>
       </ScrollView>
@@ -110,7 +118,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: "left",
     marginBottom: 12,
-    marginRight:8
+    marginRight: 8,
   },
 
   title: {
