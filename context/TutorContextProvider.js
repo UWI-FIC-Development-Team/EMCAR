@@ -56,6 +56,7 @@ function TutorProvider({ children }) {
     }
   };
 
+  //TODO: If the user logged in is not a Tutor, then ignore this function.
   const fetchCurrentTutor = async () => {
     try {
       const userId = auth.currentUser.uid;

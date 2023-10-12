@@ -15,7 +15,7 @@ import SessionCard from "../../components/atoms/SessionCard";
 import { SessionContext } from "../../context/RequestContextProvider";
 import InfoText from "../../components/atoms/InfoText";
 
-const TutorDB = () => {
+const SessionScreen = () => {
   const { upcomingSessions, pendingRequests, fetchStudentPendingRequests } =
     useContext(SessionContext);
 
@@ -144,7 +144,7 @@ const TutorDB = () => {
         )}
       </DashBoardCard>
       <DashBoardCard showTitle title="Recent Sessions" showSeeAll>
-        <Text>No sessions completed</Text>
+        <InfoText info={"No recent sessions"}></InfoText>
       </DashBoardCard>
     </ScrollView>
   );
@@ -186,4 +186,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TutorDB;
+export default SessionScreen;

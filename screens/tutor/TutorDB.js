@@ -25,6 +25,8 @@ const TutorDB = () => {
     useContext(SessionContext);
   const { fetchCurrentTutor } = useContext(TutorContext);
 
+  console.log("Check to see if this object throws an error:", pendingRequests);
+
   //Todo: modify the arrays above to check of the list is empty. if yes. do something
 
   const isPendingRequestsEmpty = pendingRequests.length === 0;
@@ -63,7 +65,6 @@ const TutorDB = () => {
     <ScrollView
       style={styles.studentDb}
       refreshControl={
-        // Step 3
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
     >
