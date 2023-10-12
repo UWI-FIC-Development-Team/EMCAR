@@ -1,4 +1,4 @@
-import { useContext, useEffect} from "react";
+import { useContext, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
@@ -7,13 +7,18 @@ import { SessionContext } from "../../context/RequestContextProvider";
 import { useState } from "react";
 import { ActivityIndicator } from "react-native-paper";
 
-
 const SubmitSessionScreen = ({ onPresent, onClose, route }) => {
-  const { sessionRequest, setSessionRequest, dataIsSent, sendARequest, setDataIsSent} = useContext(SessionContext);
+  const {
+    sessionRequest,
+    setSessionRequest,
+    dataIsSent,
+    sendARequest,
+    setDataIsSent,
+  } = useContext(SessionContext);
   const navigation = useNavigation();
-  const { selectedTutor, tutorId} = route.params;
+  const { selectedTutor, tutorId } = route.params;
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   // check to see if there data as being sent to the database
   useEffect(() => {
     // Check if the activeUser is available and not null, then navigate to the "StudentDB" screen
@@ -23,17 +28,20 @@ const SubmitSessionScreen = ({ onPresent, onClose, route }) => {
     }
   }, [dataIsSent]);
 
-
   // Define the function to handle navigation to the CreateRequest screen
-  const handleCreateRequest = async (tutorID,tutorName) => {
-    console.log('This is the tutor you requested: ', tutorID, tutorName);
-    setLoading(true)
+  const handleCreateRequest = async (tutorID, tutorName) => {
+    console.log("This is the tutor you requested: ", tutorID, tutorName);
+    setLoading(true);
     // Update the tutorId directly in the sendARequest function call
-    await sendARequest({ ...sessionRequest, tutorId: tutorID, tutorName:tutorName }); 
+    await sendARequest({
+      ...sessionRequest,
+      tutorId: tutorID,
+      tutorName: tutorName,
+    });
     navigation.pop();
-    setSessionRequest({})
-    setDataIsSent(false)
-    navigation.navigate("Complete request", { selectedTutor: selectedTutor });
+    setSessionRequest({});
+    setDataIsSent(false);
+    navigation.navigate("Complete Request", { selectedTutor: selectedTutor });
   };
 
   return (
@@ -42,12 +50,18 @@ const SubmitSessionScreen = ({ onPresent, onClose, route }) => {
       <View style={{ width: "100%" }}>
         <DashBoardChip tutorName={selectedTutor} iconIsVisible={false} />
       </View>
-      {loading ? <ActivityIndicator style={{marginVertical:16}} animating={true} color="#006A6A"/>
-     : <PrimaryButton
-        title="Sumbit your request"
-        onPress={()=>handleCreateRequest(tutorId, selectedTutor)}
-      />
-      }
+      {loading ? (
+        <ActivityIndicator
+          style={{ marginVertical: 16 }}
+          animating={true}
+          color="#006A6A"
+        />
+      ) : (
+        <PrimaryButton
+          title="Sumbit your request"
+          onPress={() => handleCreateRequest(tutorId, selectedTutor)}
+        />
+      )}
     </View>
   );
 };

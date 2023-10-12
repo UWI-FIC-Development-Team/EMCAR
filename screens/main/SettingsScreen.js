@@ -15,13 +15,13 @@ const SettingsScreen = () => {
 
   const handleSignOut = () => {
     signOut();
-    setActiveUser("");
+    // setActiveUser({});
     // resetAllStates()
     navigation.navigate("Log In");
   };
   return (
     <View style={styles.settings}>
-      <UserProfileHeader UserName={activeUser} />
+      <UserProfileHeader UserName={activeUser.name} />
       <SettingChipContainer title="Account">
         <SettingSelectChip
           iconName="mail"

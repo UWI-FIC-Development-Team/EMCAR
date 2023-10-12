@@ -25,7 +25,7 @@ const TutorPage = () => {
   return (
     <View style={styles.tutorPage}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <TutorProfileHeader name={activeUser} />
+        <TutorProfileHeader name={activeUser.name} />
 
         <SessionStatusBar
           courses={subjects.length}

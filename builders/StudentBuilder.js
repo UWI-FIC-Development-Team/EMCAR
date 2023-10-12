@@ -4,7 +4,7 @@ const createStudent = () => {
     uid: "",
     email: "",
     displayName: "",
-    role: 'student',
+    role: "student",
   };
 
   const withUid = (uid) => {
@@ -21,7 +21,6 @@ const createStudent = () => {
     student.displayName = displayName;
     return builder;
   };
-
 
   const build = () => {
     return student;

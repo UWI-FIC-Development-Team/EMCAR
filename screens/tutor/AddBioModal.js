@@ -1,7 +1,6 @@
-import { useContext, useEffect } from "react";
+import { useContext, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/core";
-import { useState } from "react";
 import FormInput from "../../components/atoms/FormInput";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { TutorContext } from "../../context/TutorContextProvider";
