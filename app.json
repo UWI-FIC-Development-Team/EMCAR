@@ -28,6 +28,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f4430dc7-0695-49a6-b961-88461abb43bd"
+      }
+    },
+    "owner": "blenmanjoel"
   }
 }
