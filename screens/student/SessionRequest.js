@@ -55,7 +55,7 @@ const SessionRequest = () => {
     const requestData = {
       requestId: uuid.v4(),
       studentId: userId,
-      studentName: activeUser, // Assuming the user is a student and has a UID
+      studentName: activeUser.name, // Assuming the user is a student and has a UID
       tutorId: "", // The UID of the tutor to whom the request is sent
       tutorName: "",
       subjects: courseId,

@@ -99,7 +99,6 @@ function AuthProvider({ children }) {
       // Handle the error as needed
     }
   };
-
   // Get the user role
   const getUserRole = async (currentUserId) => {
     try {
