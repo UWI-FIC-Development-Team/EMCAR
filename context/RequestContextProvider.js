@@ -14,8 +14,6 @@ import {
 } from "firebase/firestore";
 
 import RequestBuilder from "../builders/RequestBuilder";
-import reactotron from "reactotron-react-native";
-import { LogBox } from "react-native";
 
 const SessionContext = createContext();
 

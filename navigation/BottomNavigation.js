@@ -9,6 +9,7 @@ import TutorDB from "../screens/tutor/TutorDB";
 import { AuthContext } from "../context/AuthContextProvider";
 import TutorProfileScreen from "../screens/tutor/TutorProfileScreen";
 import SettingsScreen from "../screens/main/SettingsScreen";
+import ChatScreen from "../screens/main/ChatScreen";
 import { FontFamily } from "../GlobalStyles";
 const BottomTabs = createBottomTabNavigator();
 
@@ -35,6 +36,8 @@ function BottomNavigation() {
             iconName = focused ? "settings" : "settings";
           } else if (route.name === "Profile") {
             iconName = focused ? "user" : "user";
+          } else if (route.name === "chat") {
+            iconName = focused ? "message-circle" : "message-circle";
           }
 
           return <Feather name={iconName} size={size} color={color} />;
@@ -66,6 +69,8 @@ function BottomNavigation() {
       ) : (
         <BottomTabs.Screen name="Dashboard" component={StudentDB} />
       )}
+
+      <BottomTabs.Screen name="chat" component={ChatScreen} />
       {isTutor ? (
         <BottomTabs.Screen name="Settings" component={SettingsScreen} />
       ) : (

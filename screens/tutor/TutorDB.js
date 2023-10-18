@@ -3,7 +3,6 @@ import React, { useState, useContext, useEffect } from "react";
 import {
   StyleSheet,
   ScrollView,
-  StatusBar,
   RefreshControl,
   Text,
   TouchableOpacity,
@@ -18,6 +17,8 @@ import { SessionContext } from "../../context/RequestContextProvider";
 import InfoText from "../../components/atoms/InfoText";
 import { TutorContext } from "../../context/TutorContextProvider";
 import { auth } from "../../services/firebaseConfig";
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const TutorDB = () => {
   const { activeUser } = useContext(AuthContext);
@@ -62,101 +63,102 @@ const TutorDB = () => {
   };
 
   return (
-    <ScrollView
-      style={styles.studentDb}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    >
-      <StatusBar barStyle="dark-content" />
+    <SafeAreaView style={styles.studentDb}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <StatusBar style="auto" />
 
-      <TopBar2 userName={activeUser.name} />
-      <DashBoardCard
-        showTitle
-        title={`Pending Sessions(${numberOfPendingSessions})`}
-        showSeeAll
-        onPress={() => {
-          navigation.navigate("render list", { List: pendingRequests });
-        }}
-      >
-        {isPendingRequestsEmpty ? (
-          <InfoText info="No sessions pending" />
-        ) : (
-          firstItemInPendingRequest.map((request) => (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("Confirm Request", {
-                  requestId: request.requestId,
-                  studentName: request.studentName,
-                  tutorId: request.tutorId,
-                  subjects: request.subjects,
-                  topics: request.topics,
-                  requestDate: request.requestDate,
-                  startTime: request.startTime,
-                  endTime: request.endTime,
-                  location: request.location,
-                  additionalDetails: request.additionalDetails,
-                });
-              }}
-            >
-              <SessionCard
-                key={request.requestId}
-                name={request.studentName}
-                time={request.startTime.toDate().toLocaleTimeString()}
-                course={request.subjects[0]}
-                Topic={request.topics[0]}
-                date={request.requestDate.toDate().toLocaleDateString()}
-                location={request.location}
-              />
-            </TouchableOpacity>
-          ))
-        )}
-      </DashBoardCard>
-      <DashBoardCard
-        showTitle
-        title={`Upcoming Sessions(${numberOfTutorUpcomingSessions})`}
-        showSeeAll
-        onPress={() => {
-          navigation.navigate("render list", { List: tutorUpcomingSessions });
-        }}
-      >
-        {isTutorUpcomingSessionsEmpty ? (
-          <InfoText info="No upcoming sessions" />
-        ) : (
-          firstItemInTutorUpcomingSessions.map((request) => (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("Session Details", {
-                  requestId: request.requestId,
-                  studentName: request.studentName,
-                  tutorId: request.tutorId,
-                  subjects: request.subjects,
-                  topics: request.topics,
-                  requestDate: request.requestDate,
-                  startTime: request.startTime,
-                  endTime: request.endTime,
-                  location: request.location,
-                  additionalDetails: request.additionalDetails,
-                });
-              }}
-            >
-              <SessionCard
-                key={request.requestId}
-                name={request.studentName}
-                time={request.startTime.toDate().toLocaleTimeString()}
-                course={request.subjects[0]}
-                Topic={request.topics[0]}
-                date={request.requestDate.toDate().toLocaleDateString()}
-                location={request.location}
-              />
-            </TouchableOpacity>
-          ))
-        )}
-      </DashBoardCard>
-      <DashBoardCard showTitle title="Recent Sessions" showSeeAll>
-        <Text>No sessions completed</Text>
-      </DashBoardCard>
-    </ScrollView>
+        <TopBar2 userName={activeUser.name} />
+        <DashBoardCard
+          showTitle
+          title={`Pending Sessions(${numberOfPendingSessions})`}
+          showSeeAll
+          onPress={() => {
+            navigation.navigate("render list", { List: pendingRequests });
+          }}
+        >
+          {isPendingRequestsEmpty ? (
+            <InfoText info="No sessions pending" />
+          ) : (
+            firstItemInPendingRequest.map((request) => (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("Confirm Request", {
+                    requestId: request.requestId,
+                    studentName: request.studentName,
+                    tutorId: request.tutorId,
+                    subjects: request.subjects,
+                    topics: request.topics,
+                    requestDate: request.requestDate,
+                    startTime: request.startTime,
+                    endTime: request.endTime,
+                    location: request.location,
+                    additionalDetails: request.additionalDetails,
+                  });
+                }}
+              >
+                <SessionCard
+                  key={request.requestId}
+                  name={request.studentName}
+                  time={request.startTime.toDate().toLocaleTimeString()}
+                  course={request.subjects[0]}
+                  Topic={request.topics[0]}
+                  date={request.requestDate.toDate().toLocaleDateString()}
+                  location={request.location}
+                />
+              </TouchableOpacity>
+            ))
+          )}
+        </DashBoardCard>
+        <DashBoardCard
+          showTitle
+          title={`Upcoming Sessions(${numberOfTutorUpcomingSessions})`}
+          showSeeAll
+          onPress={() => {
+            navigation.navigate("render list", { List: tutorUpcomingSessions });
+          }}
+        >
+          {isTutorUpcomingSessionsEmpty ? (
+            <InfoText info="No upcoming sessions" />
+          ) : (
+            firstItemInTutorUpcomingSessions.map((request) => (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("Session Details", {
+                    requestId: request.requestId,
+                    studentName: request.studentName,
+                    tutorId: request.tutorId,
+                    subjects: request.subjects,
+                    topics: request.topics,
+                    requestDate: request.requestDate,
+                    startTime: request.startTime,
+                    endTime: request.endTime,
+                    location: request.location,
+                    additionalDetails: request.additionalDetails,
+                  });
+                }}
+              >
+                <SessionCard
+                  key={request.requestId}
+                  name={request.studentName}
+                  time={request.startTime.toDate().toLocaleTimeString()}
+                  course={request.subjects[0]}
+                  Topic={request.topics[0]}
+                  date={request.requestDate.toDate().toLocaleDateString()}
+                  location={request.location}
+                />
+              </TouchableOpacity>
+            ))
+          )}
+        </DashBoardCard>
+        <DashBoardCard showTitle title="Recent Sessions" showSeeAll>
+          <Text>No sessions completed</Text>
+        </DashBoardCard>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

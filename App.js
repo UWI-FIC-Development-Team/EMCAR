@@ -1,3 +1,4 @@
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import reactotron from "./config/ReactotronConfig";
 import { AuthProvider } from "./context/AuthContextProvider";
 import { SessionProvider } from "./context/RequestContextProvider";
@@ -12,9 +13,11 @@ const App = () => {
     <TutorProvider>
       <AuthProvider>
         <SessionProvider>
-          <UserProvider>
-            <AppNavigator />
-          </UserProvider>
+          <SafeAreaProvider>
+            <UserProvider>
+              <AppNavigator />
+            </UserProvider>
+          </SafeAreaProvider>
         </SessionProvider>
       </AuthProvider>
     </TutorProvider>

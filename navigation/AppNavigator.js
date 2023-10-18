@@ -24,6 +24,7 @@ import UpdateBioModal from "../screens/tutor/AddBioModal";
 import ListScreen from "../components/organisms/ListScreen";
 import UpdateUserProfile from "../screens/main/UpdateUserProfileModal";
 import ViewTutorProfile from "../screens/main/ViewTutorProfile";
+import ChatRoom from "../screens/main/ChatRoom";
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -174,6 +175,11 @@ const MainStack = () => {
         name="update bio"
         component={UpdateBioModal}
         options={{ headerShown: false, presentation: "modal" }}
+      />
+      <Stack.Screen
+        name="chat room"
+        component={ChatRoom}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="StudentDB"

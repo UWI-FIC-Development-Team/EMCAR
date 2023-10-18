@@ -1,10 +1,5 @@
 import React, { useState, useCallback, useContext, useEffect } from "react";
-import {
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-  StatusBar,
-} from "react-native";
+import { StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, Padding, Color } from "../../GlobalStyles";
@@ -18,6 +13,8 @@ import { TutorContext } from "../../context/TutorContextProvider";
 import { SessionContext } from "../../context/RequestContextProvider";
 import { auth } from "../../services/firebaseConfig";
 import InfoText from "../../components/atoms/InfoText";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
 
 const StudentDB = () => {
   const { tutors } = useContext(TutorContext);
@@ -55,83 +52,85 @@ const StudentDB = () => {
   }, []);
 
   return (
-    <ScrollView style={styles.studentDb}>
-      <StatusBar barStyle="dark-content" />
+    <SafeAreaView style={styles.studentDb}>
+      <ScrollView>
+        <StatusBar style="auto" />
 
-      <TopBar2 userName={activeUser.name} />
-      <DashBoardCard
-        showSeeAll
-        showTitle
-        title="Recent tutors"
-        onPress={() => {
-          navigation.navigate("All tutors");
-        }}
-      >
-        {IsTutorsArrayEmpty ? (
-          <InfoText info="No tutors available" />
-        ) : (
-          firstItemInTutorsArray.map((tutor) => {
-            return (
+        <TopBar2 userName={activeUser.name} />
+        <DashBoardCard
+          showSeeAll
+          showTitle
+          title="Recent tutors"
+          onPress={() => {
+            navigation.navigate("All tutors");
+          }}
+        >
+          {IsTutorsArrayEmpty ? (
+            <InfoText info="No tutors available" />
+          ) : (
+            firstItemInTutorsArray.map((tutor) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate("view tutor profile", {
+                      bio: tutor.Bio,
+                      availableTimes: tutor.availableTimes,
+                      subjects: tutor.subjects,
+                      tutorId: tutor.tutorId,
+                      name: tutor.name,
+                    });
+                  }}
+                >
+                  <DashBoardChip
+                    key={tutor.tutorId}
+                    tutorName={tutor.name}
+                    iconIsVisible
+                  />
+                </TouchableOpacity>
+              );
+            })
+          )}
+        </DashBoardCard>
+        <DashBoardCard showTitle title="Upcoming Sessions" showSeeAll>
+          {IsStudentUpcomingSessionsEmpty ? (
+            <InfoText info="No upcoming sessions" />
+          ) : (
+            firstItemInStudentUpcomingSessions.map((request) => (
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate("view tutor profile", {
-                    bio: tutor.Bio,
-                    availableTimes: tutor.availableTimes,
-                    subjects: tutor.subjects,
-                    tutorId: tutor.tutorId,
-                    name: tutor.name,
+                  navigation.navigate("Session Details", {
+                    requestId: request.requestId,
+                    studentName: request.studentName,
+                    tutorId: request.tutorId,
+                    subjects: request.subjects,
+                    topics: request.topics,
+                    requestDate: request.requestDate,
+                    startTime: request.startTime,
+                    endTime: request.endTime,
+                    location: request.location,
+                    additionalDetails: request.additionalDetails,
                   });
                 }}
               >
-                <DashBoardChip
-                  key={tutor.tutorId}
-                  tutorName={tutor.name}
-                  iconIsVisible
+                <SessionCard
+                  key={request.requestId}
+                  name={request.studentName}
+                  time={request.startTime.toDate().toLocaleTimeString()}
+                  course={request.subjects[0]}
+                  Topic={request.topics[0]}
+                  date={request.requestDate.toDate().toLocaleDateString()}
+                  location={request.location}
                 />
               </TouchableOpacity>
-            );
-          })
-        )}
-      </DashBoardCard>
-      <DashBoardCard showTitle title="Upcoming Sessions" showSeeAll>
-        {IsStudentUpcomingSessionsEmpty ? (
-          <InfoText info="No upcoming sessions" />
-        ) : (
-          firstItemInStudentUpcomingSessions.map((request) => (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("Session Details", {
-                  requestId: request.requestId,
-                  studentName: request.studentName,
-                  tutorId: request.tutorId,
-                  subjects: request.subjects,
-                  topics: request.topics,
-                  requestDate: request.requestDate,
-                  startTime: request.startTime,
-                  endTime: request.endTime,
-                  location: request.location,
-                  additionalDetails: request.additionalDetails,
-                });
-              }}
-            >
-              <SessionCard
-                key={request.requestId}
-                name={request.studentName}
-                time={request.startTime.toDate().toLocaleTimeString()}
-                course={request.subjects[0]}
-                Topic={request.topics[0]}
-                date={request.requestDate.toDate().toLocaleDateString()}
-                location={request.location}
-              />
-            </TouchableOpacity>
-          ))
-        )}
-      </DashBoardCard>
-      <FloatingButton
-        title="Request a session"
-        navigateTo="Request a session"
-      />
-    </ScrollView>
+            ))
+          )}
+        </DashBoardCard>
+        <FloatingButton
+          title="Request a session"
+          navigateTo="Request a session"
+        />
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
