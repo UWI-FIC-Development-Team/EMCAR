@@ -7,6 +7,7 @@ import { FontFamily, Color, FontSize, Padding } from "../../GlobalStyles";
 import SettingSelectChip from "../../components/atoms/SettingSelectChip";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContextProvider";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const SettingsScreen = () => {
   const { signOut, activeUser, setActiveUser } = useContext(AuthContext);
@@ -20,7 +21,7 @@ const SettingsScreen = () => {
     navigation.navigate("Log In");
   };
   return (
-    <View style={styles.settings}>
+    <SafeAreaView style={styles.settings}>
       <UserProfileHeader UserName={activeUser.name} />
       <SettingChipContainer title="Account">
         <SettingSelectChip
@@ -59,7 +60,7 @@ const SettingsScreen = () => {
       >
         <Text style={styles.labelText}>Log Out</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 };
 

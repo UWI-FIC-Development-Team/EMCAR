@@ -60,14 +60,30 @@ function BottomNavigation() {
       })}
     >
       {isTutor ? (
-        <BottomTabs.Screen name="Profile" component={TutorProfileScreen} />
+        <BottomTabs.Screen
+          options={{ headerShown: false }}
+          name="Profile"
+          component={TutorProfileScreen}
+        />
       ) : (
-        <BottomTabs.Screen name="Session" component={SessionScreen} />
+        <BottomTabs.Screen
+          options={{ headerShown: false }}
+          name="Session"
+          component={SessionScreen}
+        />
       )}
       {isTutor ? (
-        <BottomTabs.Screen name="Dashboard" component={TutorDB} />
+        <BottomTabs.Screen
+          options={{ headerShown: false }}
+          name="Dashboard"
+          component={TutorDB}
+        />
       ) : (
-        <BottomTabs.Screen name="Dashboard" component={StudentDB} />
+        <BottomTabs.Screen
+          options={{ headerShown: false }}
+          name="Dashboard"
+          component={StudentDB}
+        />
       )}
 
       <BottomTabs.Screen
@@ -76,9 +92,17 @@ function BottomNavigation() {
         component={ChatScreen}
       />
       {isTutor ? (
-        <BottomTabs.Screen name="Settings" component={SettingsScreen} />
+        <BottomTabs.Screen
+          options={{ headerShown: false }}
+          name="Settings"
+          component={SettingsScreen}
+        />
       ) : (
-        <BottomTabs.Screen name="Settings" component={SettingsScreen} />
+        <BottomTabs.Screen
+          options={{ headerShown: false }}
+          name="Settings"
+          component={SettingsScreen}
+        />
       )}
     </BottomTabs.Navigator>
   );

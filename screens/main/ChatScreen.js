@@ -9,7 +9,8 @@ import DashBoardCard from "../../components/atoms/DashBoardCard";
 import DashBoardChip from "../../components/atoms/DashBoardChip";
 
 const ChatScreen = ({ navigation }) => {
-  const { tutorUpcomingSessions, upcomingSessions } = useContext(SessionContext);
+  const { tutorUpcomingSessions, upcomingSessions } =
+    useContext(SessionContext);
   const { isTutor } = useContext(AuthContext);
 
   // Define a function to filter and extract required fields from the sessions
@@ -18,7 +19,10 @@ const ChatScreen = ({ navigation }) => {
       .filter((session, index, self) => {
         // Filter out duplicate sessions by student/tutor ID
         const id = isTutor ? session.studentId : session.tutorId;
-        return self.findIndex((s) => s.studentId === id || s.tutorId === id) === index;
+        return (
+          self.findIndex((s) => s.studentId === id || s.tutorId === id) ===
+          index
+        );
       })
       .map((session) => {
         return {
@@ -47,7 +51,7 @@ const ChatScreen = ({ navigation }) => {
                 onPress={() => {
                   navigation.navigate("chat room", {
                     Name: chat.Name,
-                    recipientUID: chat.recipientUID,
+                    chatId: chat.requestId,
                   });
                 }}
                 iconIsVisible
@@ -67,7 +71,6 @@ const styles = StyleSheet.create({
   },
   listDialogParent: {
     paddingHorizontal: 20, // Adjust this as needed
-    paddingTop: 20, // Adjust this as needed
   },
 });
 

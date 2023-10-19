@@ -2,6 +2,7 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  updateProfile,
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { createContext, useContext, useEffect, useState } from "react";
@@ -61,6 +62,20 @@ function AuthProvider({ children }) {
         password
       );
       const user = userCredential.user;
+      const currentUser = auth.currentUser;
+
+      updateProfile(currentUser, {
+        displayName: userName, // Set the desired display name
+      })
+        .then(() => {
+          // Display name updated successfully
+          console.log("Display name updated:", user.displayName);
+        })
+        .catch((error) => {
+          // Handle errors, if any
+          console.error("Error updating display name:", error);
+        });
+
       const userId = user.uid;
 
       console.log("This is start of the function before execution");
@@ -75,7 +90,7 @@ function AuthProvider({ children }) {
       // add the properties difined below.
       const studentToUserCollection = {
         name: userName,
-        email: email,
+        email,
       };
 
       console.log(
@@ -132,7 +147,25 @@ function AuthProvider({ children }) {
         email,
         password
       );
-      const userId = userCredential.user.uid;
+      const user = userCredential.user;
+
+      // Update the user's display name
+      const currentUser = auth.currentUser;
+
+      updateProfile(currentUser, {
+        displayName: name, // Set the desired display name
+      })
+        .then(() => {
+          // Display name updated successfully
+          console.log("Display name updated:", user.displayName);
+        })
+        .catch((error) => {
+          // Handle errors, if any
+          console.error("Error updating display name:", error);
+        });
+
+      const userId = user.uid;
+
       // Create a tutor object using the TutorBuilder
       const tutorToTutorCollection = createTutor()
         .withTutorId(userId)
@@ -141,8 +174,8 @@ function AuthProvider({ children }) {
         .build();
 
       const tutorToUserCollection = {
-        name: name,
-        email: email,
+        name,
+        email,
         role: "tutor",
       };
 

@@ -10,6 +10,7 @@ import TimeAndDateCard from "../../components/atoms/TimeAndDateCard";
 import CourseCard from "../../components/atoms/CourseCard";
 import { SessionContext } from "../../context/RequestContextProvider";
 import { AuthContext } from "../../context/AuthContextProvider";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const TutorPage = () => {
   const { currentTutor, pendingRequests } = useContext(TutorContext);
@@ -23,8 +24,11 @@ const TutorPage = () => {
   const numberOfPendingReuqest = pendingRequests ? pendingRequests.length : 0;
 
   return (
-    <View style={styles.tutorPage}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+    <SafeAreaView style={styles.tutorPage}>
+      <ScrollView
+        style={{ paddingTop: 4 }}
+        showsVerticalScrollIndicator={false}
+      >
         <TutorProfileHeader name={activeUser.name} />
 
         <SessionStatusBar
@@ -71,7 +75,7 @@ const TutorPage = () => {
         </DashBoardCard>
         <FloatingButton title="Edit your profile" navigateTo="Edit profile" />
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 

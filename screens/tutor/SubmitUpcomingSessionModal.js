@@ -50,7 +50,7 @@ const SubmitUpcomingSession = ({ onPresent, onClose, route }) => {
       <KeyboardAwareScrollView style={{ width: "100%" }}>
         <Text style={styles.title}>Complete Submisson</Text>
         <View style={{ width: "100%" }}>
-          <DashBoardChip tutorName={studentName} iconIsVisible={false} />
+          <DashBoardChip Name={studentName} iconIsVisible={false} />
         </View>
 
         <View style={{ width: "100%" }}>

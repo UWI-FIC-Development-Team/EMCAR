@@ -83,7 +83,7 @@ const StudentDB = () => {
                 >
                   <DashBoardChip
                     key={tutor.tutorId}
-                    tutorName={tutor.name}
+                    Name={tutor.name}
                     iconIsVisible
                   />
                 </TouchableOpacity>

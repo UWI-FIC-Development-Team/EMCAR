@@ -10,6 +10,7 @@ import CourseCard from "../../components/atoms/CourseCard";
 import { useContext, useState } from "react";
 import { TutorContext } from "../../context/TutorContextProvider";
 import { auth } from "../../services/firebaseConfig";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const EditProfile = ({ navigation }) => {
   const {
@@ -82,7 +83,7 @@ const EditProfile = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.confirmSessionDetails}>
+    <SafeAreaView style={styles.confirmSessionDetails}>
       <TouchableOpacity
         onPress={() => navigation.pop()}
         style={styles.bottomSheetHead}
@@ -157,7 +158,7 @@ const EditProfile = ({ navigation }) => {
           )}
         </DashBoardCard>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 

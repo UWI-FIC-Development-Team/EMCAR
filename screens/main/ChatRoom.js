@@ -14,24 +14,21 @@ import {
   onSnapshot,
   where,
 } from "firebase/firestore";
-import { signOut } from "firebase/auth";
 import { auth, db } from "../../services/firebaseConfig";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
-import uuid from "react-native-uuid";
 
 export default function ChatRoom({ route }) {
   const [messages, setMessages] = useState([]);
   const navigation = useNavigation();
-  // const currentUserUID = auth?.currentUser?.uid; // Get the current user's UID
-  // const { recipientUID, Name } = route.params; // Extract userUID from route.params
-  // Add a header to the top of the screen
+  const { chatId } = route.params;
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
         <View style={{ marginLeft: 20 }}>
           <Feather
-            onPress={() => navigation.goBack()} // Fix: Add an arrow function to onPress
+            onPress={() => navigation.goBack()}
             name="arrowleft"
             size={24}
             color="black"
@@ -41,13 +38,13 @@ export default function ChatRoom({ route }) {
     });
   }, [navigation]);
 
-  //This function displays the chat messages
+  // This function displays the chat messages
   useLayoutEffect(() => {
-    const collectionRef = collection(db, "chats");
+    // Create a reference to the user-specific subcollection
+    const collectionRef = collection(db, "chats", chatId, "messages");
     const q = query(collectionRef, orderBy("createdAt", "desc"));
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      console.log("querySnapshot unsusbscribe");
       setMessages(
         querySnapshot.docs.map((doc) => ({
           _id: doc.data()._id,
@@ -57,6 +54,7 @@ export default function ChatRoom({ route }) {
         }))
       );
     });
+
     return unsubscribe;
   }, []);
 
@@ -64,9 +62,11 @@ export default function ChatRoom({ route }) {
     setMessages((previousMessages) =>
       GiftedChat.append(previousMessages, messages)
     );
-    // setMessages([...messages, ...messages]);
+
     const { _id, createdAt, text, user } = messages[0];
-    addDoc(collection(db, "chats"), {
+
+    // Add the message to the user-specific subcollection
+    addDoc(collection(db, "chats", chatId, "messages"), {
       _id,
       createdAt,
       text,
@@ -88,7 +88,8 @@ export default function ChatRoom({ route }) {
         borderRadius: 20,
       }}
       user={{
-        _id: auth?.currentUser?.email,
+        _id: auth.currentUser.uid, // Use UID instead of email
+        name: auth.currentUser.displayName,
       }}
     />
   );
