@@ -5,6 +5,7 @@ import PrimaryButton from "../../components/atoms/PrimaryButton";
 import { Divider } from "react-native-paper";
 import { ScrollView } from "react-native-gesture-handler";
 import { Feather } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const RequestConfirmationScreen = ({ route, navigation }) => {
   const {
@@ -26,7 +27,7 @@ const RequestConfirmationScreen = ({ route, navigation }) => {
   const formattedEndTime = endTime.toDate().toLocaleTimeString();
 
   return (
-    <View style={styles.confirmSessionDetails}>
+    <SafeAreaView style={styles.confirmSessionDetails}>
       <TouchableOpacity
         onPress={() => navigation.pop()}
         style={styles.bottomSheetHead}
@@ -97,7 +98,7 @@ const RequestConfirmationScreen = ({ route, navigation }) => {
           <PrimaryButton title={"Reject request"} onPress={() => {}} />
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 

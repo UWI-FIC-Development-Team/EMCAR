@@ -9,44 +9,50 @@ import DashBoardCard from "../../components/atoms/DashBoardCard";
 import DashBoardChip from "../../components/atoms/DashBoardChip";
 
 const ChatScreen = ({ navigation }) => {
-  const { tutorUpcomingSessions, upcomingSessions } =
-    useContext(SessionContext);
+  const { tutorUpcomingSessions, upcomingSessions } = useContext(SessionContext);
   const { isTutor } = useContext(AuthContext);
-  console.log("TutorUpcomingSessions: ", tutorUpcomingSessions);
-  console.log("UpcomingSessions: ", upcomingSessions);
+
+  // Define a function to filter and extract required fields from the sessions
+  const extractChatData = (sessions, isTutor) => {
+    return sessions
+      .filter((session, index, self) => {
+        // Filter out duplicate sessions by student/tutor ID
+        const id = isTutor ? session.studentId : session.tutorId;
+        return self.findIndex((s) => s.studentId === id || s.tutorId === id) === index;
+      })
+      .map((session) => {
+        return {
+          Name: isTutor ? session.studentName : session.tutorName,
+          recipientUID: isTutor ? session.studentId : session.tutorId,
+          requestId: session.requestId,
+        };
+      });
+  };
+
+  // Extract chat data based on user role (tutor or student)
+  const chatData = isTutor
+    ? extractChatData(tutorUpcomingSessions, true)
+    : extractChatData(upcomingSessions, false);
+
   return (
     <SafeAreaView style={styles.chatScreen}>
       <ScrollView>
         <StatusBar style="auto" />
         <View style={styles.listDialogParent}>
-          <DashBoardCard title="Available" showTitle>
-            {isTutor
-              ? tutorUpcomingSessions.map((student) => (
-                  <DashBoardChip
-                    key={student.requestId}
-                    Name={student.studentName}
-                    onPress={() => {
-                      navigation.navigate("chat room", {
-                        Name: student.studentName,
-                        recipientUID: student.studentId,
-                      });
-                    }}
-                    iconIsVisible
-                  />
-                ))
-              : upcomingSessions.map((tutor) => (
-                  <DashBoardChip
-                    key={tutor.requestId}
-                    Name={tutor.tutorName}
-                    onPress={() => {
-                      navigation.navigate("chat room", {
-                        Name: tutor.tutorName,
-                        recipientUID: tutor.tutorId,
-                      });
-                    }}
-                    iconIsVisible
-                  />
-                ))}
+          <DashBoardCard title="Chats" showTitle>
+            {chatData.map((chat) => (
+              <DashBoardChip
+                key={chat.requestId}
+                Name={chat.Name}
+                onPress={() => {
+                  navigation.navigate("chat room", {
+                    Name: chat.Name,
+                    recipientUID: chat.recipientUID,
+                  });
+                }}
+                iconIsVisible
+              />
+            ))}
           </DashBoardCard>
         </View>
       </ScrollView>

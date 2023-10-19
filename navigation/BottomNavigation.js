@@ -36,7 +36,7 @@ function BottomNavigation() {
             iconName = focused ? "settings" : "settings";
           } else if (route.name === "Profile") {
             iconName = focused ? "user" : "user";
-          } else if (route.name === "chat") {
+          } else if (route.name === "Chat") {
             iconName = focused ? "message-circle" : "message-circle";
           }
 
@@ -70,7 +70,11 @@ function BottomNavigation() {
         <BottomTabs.Screen name="Dashboard" component={StudentDB} />
       )}
 
-      <BottomTabs.Screen name="chat" component={ChatScreen} />
+      <BottomTabs.Screen
+        options={{ headerShown: false }}
+        name="Chat"
+        component={ChatScreen}
+      />
       {isTutor ? (
         <BottomTabs.Screen name="Settings" component={SettingsScreen} />
       ) : (

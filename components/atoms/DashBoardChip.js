@@ -11,18 +11,17 @@ import { Feather } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const TutorCard = ({ onPress, Name, iconIsVisible }) => {
-  // function getFirstLetter(name) {
-  //   return name.charAt(0);
-  // }
+  function getFirstLetter(name) {
+    return name ? name.charAt(0) : ""; // Check if name is defined before using charAt
+  }
 
-  // const intial = getFirstLetter(Name);
-  // console.log("This is the Name: ", Name);
+  const initial = getFirstLetter(Name);
 
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={[styles.user, styles.userFlexBox]}>
         <View style={[styles.buildingBlocksmonogram, styles.initialLayout]}>
-          <Text style={[styles.initial, styles.initialFlexBox]}>{"T"}</Text>
+          <Text style={[styles.initial, styles.initialFlexBox]}>{initial}</Text>
         </View>
         <View style={[styles.container, styles.buttonsSpaceBlock]}>
           <View style={styles.content}>

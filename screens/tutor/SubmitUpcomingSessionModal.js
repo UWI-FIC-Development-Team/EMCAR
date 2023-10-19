@@ -64,7 +64,7 @@ const SubmitUpcomingSession = ({ onPresent, onClose, route }) => {
         {loading ? (
           <ActivityIndicator
             style={{ marginVertical: 16 }}
-            animating={true}
+            animating
             color="#006A6A"
           />
         ) : (
