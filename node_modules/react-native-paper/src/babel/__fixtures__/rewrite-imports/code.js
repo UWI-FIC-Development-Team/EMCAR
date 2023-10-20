@@ -1,16 +1,15 @@
 /* eslint-disable prettier/prettier */
-
-import { Text } from 'react-native';
 import {
-  Provider as PaperProvider,
+  PaperProvider,
   BottomNavigation,
   Button,
   FAB,
   Appbar,
-  Colors,
+  MD2Colors,
+  MD3Colors,
   NonExistent,
   NonExistentSecond as Stuff,
   ThemeProvider,
   withTheme,
-  Theme
+  DefaultTheme,
 } from 'react-native-paper';

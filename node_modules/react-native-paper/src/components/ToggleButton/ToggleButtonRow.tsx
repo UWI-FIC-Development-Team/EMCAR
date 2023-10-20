@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { StyleSheet, View, StyleProp, ViewStyle } from 'react-native';
-import ToggleButtonGroup from './ToggleButtonGroup';
+
 import ToggleButton from './ToggleButton';
+import ToggleButtonGroup from './ToggleButtonGroup';
 
 export type Props = {
   /**
@@ -21,12 +22,6 @@ export type Props = {
 
 /**
  * Toggle button row renders a group of toggle buttons in a row.
- *
- * <div class="screenshots">
- *   <figure>
- *     <img class="medium" src="screenshots/toggle-button-row.gif" />
- *   </figure>
- * </div>
  *
  * ## Usage
  * ```js

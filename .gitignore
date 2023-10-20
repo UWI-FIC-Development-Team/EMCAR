@@ -1,1 +1,10 @@
+# Expo-related
+.expo
+.expo-shared
+build
+
+# VS Code-related
+.vscode
+
+# Node.js-related
 node_modules
