@@ -13,7 +13,11 @@ import {
 import invariant from 'invariant';
 
 import type {AndroidNativeProps} from './types';
-import {getOpenPicker, validateAndroidProps} from './androidUtils';
+import {
+  getOpenPicker,
+  timeZoneOffsetDateSetter,
+  validateAndroidProps,
+} from './androidUtils';
 import pickers from './picker';
 import {
   createDateTimeSetEvtParams,
@@ -32,7 +36,6 @@ function open(props: AndroidNativeProps) {
     maximumDate,
     minuteInterval,
     timeZoneOffsetInMinutes,
-    timeZoneName,
     onChange,
     onError,
     positiveButton,
@@ -41,7 +44,6 @@ function open(props: AndroidNativeProps) {
     neutralButtonLabel,
     positiveButtonLabel,
     negativeButtonLabel,
-    testID,
   } = props;
   validateAndroidProps(props);
   invariant(originalValue, 'A date or time must be specified as `value` prop.');
@@ -73,7 +75,7 @@ function open(props: AndroidNativeProps) {
         display === ANDROID_DISPLAY.spinner
           ? ANDROID_DISPLAY.spinner
           : ANDROID_DISPLAY.default;
-      const {action, timestamp, utcOffset} = await openPicker({
+      const {action, day, month, year, minute, hour} = await openPicker({
         value: valueTimestamp,
         display: displayOverride,
         is24Hour,
@@ -81,28 +83,36 @@ function open(props: AndroidNativeProps) {
         maximumDate,
         minuteInterval,
         timeZoneOffsetInMinutes,
-        timeZoneName,
         dialogButtons,
-        testID,
       });
 
       switch (action) {
-        case DATE_SET_ACTION:
+        case DATE_SET_ACTION: {
+          let date = new Date(valueTimestamp);
+          date.setFullYear(year, month, day);
+          date = timeZoneOffsetDateSetter(date, timeZoneOffsetInMinutes);
+          const [event] = createDateTimeSetEvtParams(date);
+          onChange?.(event, date);
+          break;
+        }
+
         case TIME_SET_ACTION: {
-          const date = new Date(timestamp);
-          const [event] = createDateTimeSetEvtParams(date, utcOffset);
+          let date = new Date(valueTimestamp);
+          date.setHours(hour, minute);
+          date = timeZoneOffsetDateSetter(date, timeZoneOffsetInMinutes);
+          const [event] = createDateTimeSetEvtParams(date);
           onChange?.(event, date);
           break;
         }
 
         case NEUTRAL_BUTTON_ACTION: {
-          const [event] = createNeutralEvtParams(originalValue, utcOffset);
+          const [event] = createNeutralEvtParams(originalValue);
           onChange?.(event, originalValue);
           break;
         }
         case DISMISS_ACTION:
         default: {
-          const [event] = createDismissEvtParams(originalValue, utcOffset);
+          const [event] = createDismissEvtParams(originalValue);
           onChange?.(event, originalValue);
           break;
         }

@@ -5,22 +5,24 @@ import { SessionProvider } from "./context/RequestContextProvider";
 import { TutorProvider } from "./context/TutorContextProvider";
 import { UserProvider } from "./context/UserContextProvider";
 import AppNavigator from "./navigation/AppNavigator";
-
+import { PaperProvider } from "react-native-paper";
 if (__DEV__) reactotron.connect();
 
 const App = () => {
   return (
-    <TutorProvider>
-      <AuthProvider>
-        <SessionProvider>
-          <SafeAreaProvider>
-            <UserProvider>
-              <AppNavigator />
-            </UserProvider>
-          </SafeAreaProvider>
-        </SessionProvider>
-      </AuthProvider>
-    </TutorProvider>
+    <PaperProvider>
+      <TutorProvider>
+        <AuthProvider>
+          <SessionProvider>
+            <SafeAreaProvider>
+              <UserProvider>
+                <AppNavigator />
+              </UserProvider>
+            </SafeAreaProvider>
+          </SessionProvider>
+        </AuthProvider>
+      </TutorProvider>
+    </PaperProvider>
   );
 };
 export default App;

@@ -110,11 +110,6 @@ namespace winrt::DateTimePicker::implementation {
                     m_timeZoneOffsetInSeconds = propertyValue.AsInt64();
                 }
             }
-            else if (propertyName == "accessibilityLabel") {
-                if (!propertyValue.IsNull()) {
-                    this->Name(to_hstring(propertyValue.AsString()));
-                }
-            }
         }
 
         if (updateMaxDate) {

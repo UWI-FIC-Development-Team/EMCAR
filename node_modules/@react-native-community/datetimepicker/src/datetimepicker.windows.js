@@ -39,7 +39,6 @@ export default function RNDateTimePickerQWE(
   sharedPropsValidation({value: props?.value});
 
   const localProps = {
-    accessibilityLabel: props.accessibilityLabel,
     dayOfWeekFormat: props.dayOfWeekFormat,
     dateFormat: props.dateFormat,
     firstDayOfWeek: props.firstDayOfWeek,
@@ -55,11 +54,7 @@ export default function RNDateTimePickerQWE(
     const {onChange} = props;
     const unifiedEvent: DateTimePickerEvent = {
       ...event,
-      nativeEvent: {
-        ...event.nativeEvent,
-        timestamp: event.nativeEvent.newDate,
-        utcOffset: 0,
-      },
+      nativeEvent: {...event.nativeEvent, timestamp: event.nativeEvent.newDate},
       type: EVENT_TYPE_SET,
     };
 

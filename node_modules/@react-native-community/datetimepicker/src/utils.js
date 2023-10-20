@@ -30,27 +30,10 @@ export function dateToMilliseconds(date: ?Date): ?number {
   return date.getTime();
 }
 
-export function sharedPropsValidation({
-  value,
-  timeZoneName,
-  timeZoneOffsetInMinutes,
-}: {
-  value: Date,
-  timeZoneName?: ?string,
-  timeZoneOffsetInMinutes?: ?number,
-}) {
+export function sharedPropsValidation({value}: {value: ?Date}) {
   invariant(value, 'A date or time must be specified as `value` prop');
   invariant(
     value instanceof Date,
     '`value` prop must be an instance of Date object',
   );
-  invariant(
-    timeZoneName == null || timeZoneOffsetInMinutes == null,
-    '`timeZoneName` and `timeZoneOffsetInMinutes` cannot be specified at the same time',
-  );
-  if (timeZoneOffsetInMinutes !== undefined) {
-    console.warn(
-      '`timeZoneOffsetInMinutes` is deprecated and will be removed in a future release. Use `timeZoneName` instead.',
-    );
-  }
 }

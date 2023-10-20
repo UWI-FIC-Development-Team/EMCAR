@@ -12,12 +12,19 @@ export const mockAndroidDialogDateChange = (datePickedByUser: Date) => {
       value: timestampFromPickerValueProp,
     }) {
       const pickedDate = new Date(timestampFromPickerValueProp);
-      pickedDate.setTime(datePickedByUser.getTime());
+      pickedDate.setFullYear(
+        datePickedByUser.getFullYear(),
+        datePickedByUser.getMonth(),
+        datePickedByUser.getDate(),
+      );
 
       return {
         action: DATE_SET_ACTION,
-        timestamp: pickedDate.getTime(),
-        utcOffset: 0,
+        year: pickedDate.getFullYear(),
+        month: pickedDate.getMonth(),
+        day: pickedDate.getDate(),
+        hour: pickedDate.getHours(),
+        minute: pickedDate.getMinutes(),
       };
     }
     return (fakeDateTimePickerAndroidOpener: PresentPickerCallback);
