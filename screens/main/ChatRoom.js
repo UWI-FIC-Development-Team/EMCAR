@@ -1,10 +1,5 @@
-import React, {
-  useState,
-  useLayoutEffect,
-  useEffect,
-  useCallback,
-} from "react";
-import { TouchableOpacity, View } from "react-native";
+import React, { useState, useLayoutEffect, useCallback } from "react";
+import { View } from "react-native";
 import { GiftedChat } from "react-native-gifted-chat";
 import {
   collection,
@@ -12,11 +7,11 @@ import {
   query,
   orderBy,
   onSnapshot,
-  where,
 } from "firebase/firestore";
 import { auth, db } from "../../services/firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function ChatRoom({ route }) {
   const [messages, setMessages] = useState([]);
@@ -26,10 +21,10 @@ export default function ChatRoom({ route }) {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <View style={{ marginLeft: 20 }}>
+        <View style={{ marginLeft: 20, width: "100%" }}>
           <Feather
             onPress={() => navigation.goBack()}
-            name="arrowleft"
+            name="arrow-left"
             size={24}
             color="black"
           />

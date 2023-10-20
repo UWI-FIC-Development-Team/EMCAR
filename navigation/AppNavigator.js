@@ -179,7 +179,7 @@ const MainStack = () => {
       <Stack.Screen
         name="chat room"
         component={ChatRoom}
-        options={{ headerShown: false }}
+        options={{ headerShown: true }}
       />
       <Stack.Screen
         name="StudentDB"
