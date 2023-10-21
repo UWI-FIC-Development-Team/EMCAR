@@ -22,8 +22,12 @@ const StudentDB = () => {
   console.log("These are the tutor values: ", tutors);
 
   const { activeUser } = useContext(AuthContext);
-  const { upcomingSessions, getStudentUpcomingSessions } =
-    useContext(SessionContext);
+  const {
+    upcomingSessions,
+    addUpcomingSessionsListener,
+    addPendingRequestsListener,
+    user,
+  } = useContext(SessionContext);
   const navigation = useNavigation();
 
   const firstItemInTutorsArray = tutors.slice(0, 1);
@@ -35,21 +39,24 @@ const StudentDB = () => {
   console.log("The current user name is: ", activeUser.name);
 
   useEffect(() => {
-    // Fetch pending requests associated with the tutor
-    const fetchPendingRequests = async () => {
-      try {
-        const studentId = auth.currentUser.uid;
-        await getStudentUpcomingSessions(studentId);
-        // Handle the fetched sessions here
-        // For example, update state or perform some actions
-      } catch (error) {
-        // Handle errors that occurred during fetching
-        console.error("Error fetching upcoming sessions:", error);
-      }
-    };
+    if (user) {
+      const userId = auth.currentUser.uid;
+      const userType = "student"; // or "student" based on your use case
+      const pendingRequestsUnsubscribe = addPendingRequestsListener(
+        userId,
+        userType
+      );
+      const upcomingSessionsUnsubscribe = addUpcomingSessionsListener(
+        userId,
+        userType
+      );
 
-    fetchPendingRequests();
-  }, []);
+      return () => {
+        upcomingSessionsUnsubscribe();
+        pendingRequestsUnsubscribe(); // Cleanup the listener when the component unmounts
+      };
+    }
+  }, [user]);
 
   return (
     <SafeAreaView style={styles.studentDb}>
@@ -163,7 +170,6 @@ const styles = StyleSheet.create({
   studentDb: {
     width: "100%",
     paddingHorizontal: Padding.p_6xl,
-    paddingTop: 20,
     flex: 1,
     backgroundColor: "#fff",
   },

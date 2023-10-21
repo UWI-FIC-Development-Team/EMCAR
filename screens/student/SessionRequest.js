@@ -1,5 +1,4 @@
-import { useContext } from "react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { View, StyleSheet, KeyboardAvoidingView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, FontSize, Color, Padding } from "../../GlobalStyles";
@@ -23,7 +22,6 @@ const SessionRequest = () => {
   const { setSessionRequest } = useContext(SessionContext);
   const { activeUser } = useContext(AuthContext);
   // get the current user logged in by ID
-  const currentUserID = auth.currentUser.uid;
   const [courseId, setCourseId] = useState([]);
   const [topic, setTopic] = useState([]);
   const [date, setDate] = useState(new Date());

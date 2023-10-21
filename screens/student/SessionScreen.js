@@ -14,11 +14,16 @@ import { SessionContext } from "../../context/RequestContextProvider";
 import InfoText from "../../components/atoms/InfoText";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
-import AppHeader from "../../components/atoms/Header";
+import { auth } from "../../services/firebaseConfig";
 
 const SessionScreen = () => {
-  const { upcomingSessions, pendingRequests, fetchStudentPendingRequests } =
-    useContext(SessionContext);
+  const {
+    upcomingSessions,
+    pendingRequests,
+    addPendingRequestsListener,
+    addUpcomingSessionsListener,
+    user,
+  } = useContext(SessionContext);
 
   //Todo: modify the arrays above to check of the list is empty. if yes. do something
 
@@ -37,31 +42,46 @@ const SessionScreen = () => {
 
   const [refreshing, setRefreshing] = useState(false); // Step 2
 
-  useEffect(() => {
-    fetchStudentPendingRequests();
-  }, []);
+  // useEffect(() => {
+  //   fetchStudentPendingRequests();
+  // }, []);
 
-  const onRefresh = async () => {
-    // Step 2
-    try {
-      setRefreshing(true);
-      await fetchStudentPendingRequests();
-      setRefreshing(false);
-    } catch (error) {
-      setRefreshing(false);
-      console.error("Error while refreshing:", error);
+  // const onRefresh = async () => {
+  //   // Step 2
+  //   try {
+  //     setRefreshing(true);
+  //     await fetchStudentPendingRequests();
+  //     setRefreshing(false);
+  //   } catch (error) {
+  //     setRefreshing(false);
+  //     console.error("Error while refreshing:", error);
+  //   }
+  // };
+
+  useEffect(() => {
+    if (user) {
+      const userId = auth.currentUser.uid;
+      const userType = "student"; // or "student" based on your use case
+      const pendingRequestsUnsubscribe = addPendingRequestsListener(
+        userId,
+        userType
+      );
+      const upcomingSessionsUnsubscribe = addUpcomingSessionsListener(
+        userId,
+        userType
+      );
+
+      return () => {
+        upcomingSessionsUnsubscribe();
+        pendingRequestsUnsubscribe(); // Cleanup the listener when the component unmounts
+      };
     }
-  };
+  }, [user]);
+
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView
-        style={styles.studentDb}
-        refreshControl={
-          // Step 3
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
+    <SafeAreaView style={styles.studentDb}>
+      <ScrollView>
         <StatusBar backgroundColor="white" style="auto" />
 
         <DashBoardCard

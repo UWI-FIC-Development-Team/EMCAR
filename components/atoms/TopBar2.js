@@ -17,11 +17,11 @@ const TopBar2 = ({ userName }) => {
   return (
     <View style={styles.topbarGreeting}>
       <View style={styles.greetingHeadline}>
+        <Text style={[styles.headline3, styles.headlineFlexBox]}>
+          Hi {userName} 👋
+        </Text>
         <Text style={[styles.headline2, styles.headlineLayout]}>
           Welcome Back!
-        </Text>
-        <Text style={[styles.headline3, styles.headlineFlexBox]}>
-          {userName}
         </Text>
       </View>
     </View>
@@ -69,10 +69,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headline2: {
-    color: Color.materialThemeSysLightOnSurface,
+    color: "#64748B",
     fontFamily: FontFamily.materialThemeBodyLarge,
     fontSize: FontSize.materialThemeBodyLarge_size,
     textAlign: "left",
+    fontWeight: "500",
   },
   headlineLayout: {
     lineHeight: 24,

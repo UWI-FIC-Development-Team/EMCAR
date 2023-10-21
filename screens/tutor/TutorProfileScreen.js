@@ -25,10 +25,7 @@ const TutorPage = () => {
 
   return (
     <SafeAreaView style={styles.tutorPage}>
-      <ScrollView
-        style={{ paddingTop: 4 }}
-        showsVerticalScrollIndicator={false}
-      >
+      <ScrollView showsVerticalScrollIndicator={false}>
         <TutorProfileHeader name={activeUser.name} />
 
         <SessionStatusBar

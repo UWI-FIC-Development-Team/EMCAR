@@ -1,5 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState, useContext, useEffect } from "react";
+import React, {
+  useState,
+  useContext,
+  useEffect,
+  useCallback,
+  useMemo,
+} from "react";
 import {
   StyleSheet,
   ScrollView,
@@ -22,53 +28,98 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const TutorDB = () => {
   const { activeUser } = useContext(AuthContext);
-  const { tutorUpcomingSessions, pendingRequests, fetchPendingRequests } =
-    useContext(SessionContext);
-  const { fetchCurrentTutor } = useContext(TutorContext);
-
-  console.log("Check to see if this object throws an error:", pendingRequests);
-
-  //Todo: modify the arrays above to check of the list is empty. if yes. do something
-
-  const isPendingRequestsEmpty = pendingRequests.length === 0;
-  const isTutorUpcomingSessionsEmpty = tutorUpcomingSessions.length === 0;
-
-  const firstItemInTutorUpcomingSessions = tutorUpcomingSessions.slice(0, 1);
-  const firstItemInPendingRequest = pendingRequests.slice(0, 1);
-
-  const numberOfPendingSessions = pendingRequests ? pendingRequests.length : 0;
-  const numberOfTutorUpcomingSessions = tutorUpcomingSessions
-    ? tutorUpcomingSessions.length
-    : 0;
-
+  const {
+    tutorUpcomingSessions,
+    pendingRequests,
+    addPendingRequestsListener,
+    addUpcomingSessionsListener,
+    user,
+  } = useContext(SessionContext);
   const navigation = useNavigation();
-
-  const [refreshing, setRefreshing] = useState(false); // Step 2
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    fetchPendingRequests();
-    fetchCurrentTutor();
-  }, []);
+    if (user) {
+      const userId = auth.currentUser.uid;
+      const userType = "tutor"; // or "student" based on your use case
+      const pendingRequestsUnsubscribe = addPendingRequestsListener(
+        userId,
+        userType
+      );
+      const upcomingSessionsUnsubscribe = addUpcomingSessionsListener(
+        userId,
+        userType
+      );
 
-  const onRefresh = async () => {
-    // Step 2
-    try {
-      setRefreshing(true);
-      await fetchPendingRequests();
-      setRefreshing(false);
-    } catch (error) {
-      setRefreshing(false);
-      console.error("Error while refreshing:", error);
+      return () => {
+        upcomingSessionsUnsubscribe();
+        pendingRequestsUnsubscribe(); // Cleanup the listener when the component unmounts
+      };
     }
-  };
+  }, [user]);
+
+  // Optimize the following values with useMemo
+  const numberOfPendingSessions = useMemo(
+    () => (pendingRequests ? pendingRequests.length : 0),
+    [pendingRequests]
+  );
+  const numberOfTutorUpcomingSessions = useMemo(
+    () => (tutorUpcomingSessions ? tutorUpcomingSessions.length : 0),
+    [tutorUpcomingSessions]
+  );
+  const isPendingRequestsEmpty = useMemo(
+    () => pendingRequests.length === 0,
+    [pendingRequests]
+  );
+  const isTutorUpcomingSessionsEmpty = useMemo(
+    () => tutorUpcomingSessions.length === 0,
+    [tutorUpcomingSessions]
+  );
+
+  // Memoize the first items in lists
+  const firstItemInTutorUpcomingSessions = useMemo(
+    () => tutorUpcomingSessions.slice(0, 1),
+    [tutorUpcomingSessions]
+  );
+  const firstItemInPendingRequest = useMemo(
+    () => pendingRequests.slice(0, 1),
+    [pendingRequests]
+  );
+
+  // Define the optimized callback
+  const handleItemClick = useCallback(
+    (request) => {
+      navigation.navigate("Confirm Request", {
+        requestId: request.requestId,
+        studentName: request.studentName,
+        tutorId: request.tutorId,
+        subjects: request.subjects,
+        topics: request.topics,
+        requestDate: request.requestDate,
+        startTime: request.startTime,
+        endTime: request.endTime,
+        location: request.location,
+        additionalDetails: request.additionalDetails,
+      });
+    },
+    [navigation]
+  );
+
+  // Define the refresh callback
+  // const onRefresh = useCallback(async () => {
+  //   setRefreshing(true);
+  //   try {
+  //     await fetchPendingRequests();
+  //   } catch (error) {
+  //     console.error("Error while refreshing:", error);
+  //   } finally {
+  //     setRefreshing(false);
+  //   }
+  // }, [fetchPendingRequests]);
 
   return (
     <SafeAreaView style={styles.studentDb}>
-      <ScrollView
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
+      <ScrollView>
         <StatusBar style="auto" />
 
         <TopBar2 userName={activeUser.name} />
@@ -85,23 +136,10 @@ const TutorDB = () => {
           ) : (
             firstItemInPendingRequest.map((request) => (
               <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("Confirm Request", {
-                    requestId: request.requestId,
-                    studentName: request.studentName,
-                    tutorId: request.tutorId,
-                    subjects: request.subjects,
-                    topics: request.topics,
-                    requestDate: request.requestDate,
-                    startTime: request.startTime,
-                    endTime: request.endTime,
-                    location: request.location,
-                    additionalDetails: request.additionalDetails,
-                  });
-                }}
+                key={request.requestId}
+                onPress={() => handleItemClick(request)}
               >
                 <SessionCard
-                  key={request.requestId}
                   name={request.studentName}
                   time={request.startTime.toDate().toLocaleTimeString()}
                   course={request.subjects[0]}
@@ -126,23 +164,10 @@ const TutorDB = () => {
           ) : (
             firstItemInTutorUpcomingSessions.map((request) => (
               <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("Session Details", {
-                    requestId: request.requestId,
-                    studentName: request.studentName,
-                    tutorId: request.tutorId,
-                    subjects: request.subjects,
-                    topics: request.topics,
-                    requestDate: request.requestDate,
-                    startTime: request.startTime,
-                    endTime: request.endTime,
-                    location: request.location,
-                    additionalDetails: request.additionalDetails,
-                  });
-                }}
+                key={request.requestId}
+                onPress={() => handleItemClick(request)}
               >
                 <SessionCard
-                  key={request.requestId}
                   name={request.studentName}
                   time={request.startTime.toDate().toLocaleTimeString()}
                   course={request.subjects[0]}
@@ -155,7 +180,7 @@ const TutorDB = () => {
           )}
         </DashBoardCard>
         <DashBoardCard showTitle title="Recent Sessions" showSeeAll>
-          <Text>No sessions completed</Text>
+          <InfoText info="no recent sessions" />
         </DashBoardCard>
       </ScrollView>
     </SafeAreaView>
