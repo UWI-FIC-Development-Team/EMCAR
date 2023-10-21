@@ -1,13 +1,14 @@
-import React, { useContext, useEffect, useState, useLayoutEffect } from "react";
+import { useContext, useEffect, useState, useLayoutEffect } from "react";
+import { View, Text, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, FontSize, Color, Padding } from "../../GlobalStyles";
 
 import { auth } from "../../services/firebaseConfig";
 import { AuthContext } from "../../context/AuthContextProvider";
-import { StyleSheet, View } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 import LoginForm from "../../components/organisms/LoginForm";
-import LoadingDialog from "../../components/organisms/LoadingDialog";
-import { StatusBar } from "expo-status-bar";
 
 const LoginScreen = ({ route }) => {
   const { login, activeUser } = useContext(AuthContext);
@@ -18,7 +19,7 @@ const LoginScreen = ({ route }) => {
   useEffect(() => {
     // Check if the activeUser is available and not null, then navigate to the "StudentDB" screen
     if (activeUser.isActive) {
-      console.log("I am an active user");
+      console.log("I am and active user, that I am");
       setLoading(false);
       navigation.navigate("StudentDB");
     }
@@ -42,21 +43,29 @@ const LoginScreen = ({ route }) => {
     } catch (error) {
       console.error("Login error:", error.message);
       // Handle login errors, show an error message, etc.
-    } finally {
-      setLoading(false); // Set loading to false when login process is complete
     }
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "rgba(0, 0, 0, 0)" }}>
-      <StatusBar style="auto" backgroundColor="white" />
-      {/* Conditionally render the LoginModal when loading is true */}
+    <View style={{ flex: 1 }}>
       {loading ? (
-        <LoadingDialog visible={loading} onDismiss={() => setLoading(false)} />
+        <View style={styles.activityIndicatorContainer}>
+          <Text style={styles.activityIndicatorGroupText}>
+            Logging you in! Please wait
+          </Text>
+          <ActivityIndicator size="large" animating color="#006A6A" />
+        </View>
       ) : (
         <>
           <View style={styles.loginScreen}>
-            <LoginForm onSubmit={handleLogin} />
+            <KeyboardAwareScrollView>
+              <Text style={[styles.title, styles.titleTypo]}>
+                Welcome! Please log into your account
+              </Text>
+
+              {/* Wrap the content that needs to be adjusted inside a KeyboardAvoidingView */}
+              <LoginForm onSubmit={handleLogin} />
+            </KeyboardAwareScrollView>
           </View>
         </>
       )}

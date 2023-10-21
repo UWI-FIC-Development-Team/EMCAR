@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Feather } from "@expo/vector-icons";
 import StudentDB from "../screens/student/StudentDB";
-import Header from "../components/atoms/Header";
 import { getHeaderTitle } from "@react-navigation/elements";
 import SessionScreen from "../screens/student/SessionScreen";
 import TutorDB from "../screens/tutor/TutorDB";
@@ -11,6 +10,7 @@ import TutorProfileScreen from "../screens/tutor/TutorProfileScreen";
 import SettingsScreen from "../screens/main/SettingsScreen";
 import ChatScreen from "../screens/main/ChatScreen";
 import { FontFamily } from "../GlobalStyles";
+import AppHeader from "../components/atoms/Header";
 const BottomTabs = createBottomTabNavigator();
 
 function BottomNavigation() {
@@ -20,11 +20,6 @@ function BottomNavigation() {
     <BottomTabs.Navigator
       initialRouteName="Dashboard"
       screenOptions={({ route }) => ({
-        header: ({ navigation, route, options }) => {
-          const title = getHeaderTitle(options, route.name);
-
-          return <Header title={title} backButtomShown={false} />;
-        },
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
@@ -61,45 +56,120 @@ function BottomNavigation() {
     >
       {isTutor ? (
         <BottomTabs.Screen
-          options={{ headerShown: false }}
+          options={{
+            headerShown: true,
+            header: () => {
+              return <AppHeader title="Profile" goBack mode="center-aligned" />;
+            },
+          }}
           name="Profile"
           component={TutorProfileScreen}
         />
       ) : (
         <BottomTabs.Screen
-          options={{ headerShown: false }}
+          options={{
+            headerShown: true,
+            header: () => {
+              return (
+                <AppHeader
+                  title="Session"
+                  goBack={false}
+                  mode="center-aligned"
+                />
+              );
+            },
+          }}
           name="Session"
           component={SessionScreen}
         />
       )}
       {isTutor ? (
         <BottomTabs.Screen
-          options={{ headerShown: false }}
+          options={{
+            headerShown: true,
+            header: () => {
+              return (
+                <AppHeader
+                  title="Dashboard"
+                  goBack={false}
+                  mode="center-aligned"
+                  IconName="bell"
+                  showIcon
+                />
+              );
+            },
+          }}
           name="Dashboard"
           component={TutorDB}
         />
       ) : (
         <BottomTabs.Screen
-          options={{ headerShown: false }}
+          options={{
+            headerShown: true,
+            header: () => {
+              return (
+                <AppHeader
+                  title="Dashboard"
+                  goBack={false}
+                  mode="center-aligned"
+                  IconName="bell"
+                  showIcon
+                />
+              );
+            },
+          }}
           name="Dashboard"
           component={StudentDB}
         />
       )}
 
       <BottomTabs.Screen
-        options={{ headerShown: false }}
+        options={{
+          headerShown: true,
+          header: () => {
+            return (
+              <AppHeader
+                title="Messages"
+                goBack={false}
+                mode="center-aligned"
+              />
+            );
+          },
+        }}
         name="Chat"
         component={ChatScreen}
       />
       {isTutor ? (
         <BottomTabs.Screen
-          options={{ headerShown: false }}
+          options={{
+            headerShown: true,
+            header: () => {
+              return (
+                <AppHeader
+                  title="Settings"
+                  goBack={false}
+                  mode="center-aligned"
+                />
+              );
+            },
+          }}
           name="Settings"
           component={SettingsScreen}
         />
       ) : (
         <BottomTabs.Screen
-          options={{ headerShown: false }}
+          options={{
+            headerShown: true,
+            header: () => {
+              return (
+                <AppHeader
+                  title="Settings"
+                  goBack={false}
+                  mode="center-aligned"
+                />
+              );
+            },
+          }}
           name="Settings"
           component={SettingsScreen}
         />

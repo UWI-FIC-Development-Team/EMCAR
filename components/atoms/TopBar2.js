@@ -11,23 +11,22 @@ import {
   FontSize,
 } from "../../GlobalStyles";
 
-
-const TopBar2 = ({userName})=> {
-    
-    // const [showLogo, setShowLogo] = useState(true)
+const TopBar2 = ({ userName }) => {
+  // const [showLogo, setShowLogo] = useState(true)
 
   return (
     <View style={styles.topbarGreeting}>
-     
       <View style={styles.greetingHeadline}>
         <Text style={[styles.headline2, styles.headlineLayout]}>
           Welcome Back!
         </Text>
-        <Text style={[styles.headline3, styles.headlineFlexBox]}>{userName}</Text>
+        <Text style={[styles.headline3, styles.headlineFlexBox]}>
+          {userName}
+        </Text>
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   topbarGreeting: {
@@ -54,7 +53,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     color: Color.materialThemeSysLightOnPrimaryContainer,
   },
-   headline1: {
+  headline1: {
     fontSize: FontSize.materialThemeTitleLarge_size,
     marginLeft: 6,
     textAlign: "center",

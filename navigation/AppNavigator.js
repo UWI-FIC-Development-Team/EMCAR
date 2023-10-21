@@ -9,7 +9,7 @@ import LoginScreen from "../screens/main/LoginScreen";
 import { createStackNavigator } from "@react-navigation/stack";
 import BottomNavigation from "./BottomNavigation";
 import { getHeaderTitle } from "@react-navigation/elements";
-import Header from "../components/atoms/Header";
+import AppHeader from "../components/atoms/Header";
 import AllTutors from "../screens/student/AllTutorsScreen";
 import TutorSelection from "../screens/student/TutorSelection";
 import SuccessScreen from "../screens/student/SuccessScreen";
@@ -143,9 +143,8 @@ const MainStack = () => {
     () => ({
       header: ({ navigation, route, options }) => {
         const title = getHeaderTitle(options, route.name);
-        return (
-          <Header title={title} backButtomShown NotificationIconShown={false} />
-        );
+        console.log("route name:", route.name);
+        return <AppHeader title={title} goBack mode="center-aligned" />;
       },
     }),
     []

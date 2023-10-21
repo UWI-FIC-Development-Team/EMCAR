@@ -12,9 +12,9 @@ import DashBoardCard from "../../components/atoms/DashBoardCard";
 import SessionCard from "../../components/atoms/SessionCard";
 import { SessionContext } from "../../context/RequestContextProvider";
 import InfoText from "../../components/atoms/InfoText";
-import { Appbar } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
+import AppHeader from "../../components/atoms/Header";
 
 const SessionScreen = () => {
   const { upcomingSessions, pendingRequests, fetchStudentPendingRequests } =
@@ -55,9 +55,6 @@ const SessionScreen = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <Appbar.Header style={{ backgroundColor: "white" }} mode="center-aligned">
-        <Appbar.Content title="Sessions" />
-      </Appbar.Header>
       <ScrollView
         style={styles.studentDb}
         refreshControl={
@@ -65,7 +62,7 @@ const SessionScreen = () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <StatusBar style="auto" />
+        <StatusBar backgroundColor="white" style="auto" />
 
         <DashBoardCard
           showTitle
@@ -150,7 +147,7 @@ const SessionScreen = () => {
           )}
         </DashBoardCard>
         <DashBoardCard showTitle title="Recent Sessions" showSeeAll>
-          <InfoText info={"No recent sessions"}></InfoText>
+          <InfoText info="No recent sessions"></InfoText>
         </DashBoardCard>
       </ScrollView>
     </SafeAreaView>
@@ -187,7 +184,6 @@ const styles = StyleSheet.create({
   studentDb: {
     width: "100%",
     paddingHorizontal: Padding.p_6xl,
-    paddingTop: 20,
     flex: 1,
     backgroundColor: "#fff",
   },

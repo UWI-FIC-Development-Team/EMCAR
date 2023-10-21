@@ -55,7 +55,6 @@ const StudentDB = () => {
     <SafeAreaView style={styles.studentDb}>
       <ScrollView>
         <StatusBar style="auto" />
-
         <TopBar2 userName={activeUser.name} />
         <DashBoardCard
           showSeeAll
