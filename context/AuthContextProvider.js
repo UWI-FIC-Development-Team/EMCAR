@@ -36,8 +36,8 @@ function AuthProvider({ children }) {
       const user = userCredential.user;
 
       // Fetching user data, role, tutors, and current tutor in parallel
-      await getUserName(user.uid);
       await getUserRole(user.uid);
+      await getUserName(user.uid);
       await getTutors();
 
       return true;
@@ -246,6 +246,9 @@ function AuthProvider({ children }) {
         isTutor,
         activeUser,
         setActiveUser,
+        getUserName,
+        getTutors,
+
         // loading,
       }}
     >

@@ -18,7 +18,7 @@ const TopBar2 = ({ userName }) => {
     <View style={styles.topbarGreeting}>
       <View style={styles.greetingHeadline}>
         <Text style={[styles.headline3, styles.headlineFlexBox]}>
-          Hi {userName} 👋
+          Hi {userName}
         </Text>
         <Text style={[styles.headline2, styles.headlineLayout]}>
           Welcome Back!

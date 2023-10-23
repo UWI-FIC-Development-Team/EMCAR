@@ -9,7 +9,6 @@ import { useContext } from "react";
 const TutorSelection = () => {
   const navigation = useNavigation();
   const { tutors } = useContext(TutorContext);
-  console.log("These are the Tutor values: ", JSON.stringify(tutors, null, 2));
   return (
     <ScrollView style={styles.studentDb}>
       <StatusBar barStyle={"dark-content"} />

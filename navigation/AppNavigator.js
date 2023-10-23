@@ -1,12 +1,14 @@
 import { useMemo, useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import OnboardingScreen1a from "../screens/main/OnboardingScreen1a";
 import OnboardingScreen2 from "../screens/main/OnboardingScreen2";
 import SessionRequest from "../screens/student/SessionRequest";
 import SignUpScreen from "../screens/main/SignUpScreen";
 import LoginScreen from "../screens/main/LoginScreen";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from "@react-navigation/stack";
 import BottomNavigation from "./BottomNavigation";
 import { getHeaderTitle } from "@react-navigation/elements";
 import AppHeader from "../components/atoms/Header";
@@ -25,7 +27,7 @@ import ListScreen from "../components/organisms/ListScreen";
 import UpdateUserProfile from "../screens/main/UpdateUserProfileModal";
 import ViewTutorProfile from "../screens/main/ViewTutorProfile";
 import ChatRoom from "../screens/main/ChatRoom";
-
+import { StatusBar } from "react-native";
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
 
@@ -47,7 +49,13 @@ const AppNavigator = () => {
   return (
     <>
       <NavigationContainer>
-        <RootStack.Navigator initialRouteName="MainStack">
+        <RootStack.Navigator
+          initialRouteName="MainStack"
+          screenOptions={{
+            presentation: "transparentModal",
+            gestureResponseDistance: 1000,
+          }}
+        >
           <RootStack.Group>
             <RootStack.Screen
               name="MainStack"
@@ -138,14 +146,62 @@ const AppNavigator = () => {
   );
 };
 
+const customTransitionSpec = {
+  open: {
+    animation: "timing",
+    config: { duration: 200 }, // Adjust the duration as needed (e.g., 200ms for faster transitions).
+  },
+  close: {
+    animation: "timing",
+    config: { duration: 200 }, // Adjust the duration as needed (e.g., 200ms for faster transitions).
+  },
+};
+
+const customScreenOptions = {
+  header: ({ navigation, route, options }) => {
+    const title = getHeaderTitle(options, route.name);
+    return (
+      <>
+        <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+        <AppHeader title={title} goBack mode="center-aligned" />
+      </>
+    );
+  },
+  cardStyle: {
+    backgroundColor: "rgba(0,0,0,0)",
+  },
+  cardStyleInterpolator: ({ current, next, layouts }) => {
+    return {
+      cardStyle: {
+        transform: [
+          {
+            translateX: current.progress.interpolate({
+              inputRange: [0, 1],
+              outputRange: [layouts.screen.width, 0],
+            }),
+          },
+          {
+            translateX: next
+              ? next.progress.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, -layouts.screen.width],
+                })
+              : 1,
+          },
+        ],
+      },
+    };
+  },
+  transitionSpec: {
+    open: customTransitionSpec.open,
+    close: customTransitionSpec.close,
+  },
+};
+
 const MainStack = () => {
   const screenOptions = useMemo(
     () => ({
-      header: ({ navigation, route, options }) => {
-        const title = getHeaderTitle(options, route.name);
-        console.log("route name:", route.name);
-        return <AppHeader title={title} goBack mode="center-aligned" />;
-      },
+      ...customScreenOptions,
     }),
     []
   );
@@ -153,13 +209,8 @@ const MainStack = () => {
   return (
     <Stack.Navigator
       screenOptions={screenOptions}
-      initialRouteName="OnboardingScreen1a"
+      initialRouteName="OnboardingScreen2"
     >
-      <Stack.Screen
-        name="OnboardingScreen1a"
-        component={OnboardingScreen1a}
-        options={{ headerShown: false }}
-      />
       <Stack.Screen
         name="Confirm Request"
         component={RequestConfirmationScreen}
@@ -181,7 +232,7 @@ const MainStack = () => {
         options={{ headerShown: true }}
       />
       <Stack.Screen
-        name="StudentDB"
+        name="mainDashboard"
         component={BottomNavigation}
         options={{ headerShown: false }}
       />
@@ -239,12 +290,17 @@ const MainStack = () => {
       <Stack.Screen
         name="Sign Up"
         component={SignUpScreen}
-        options={{ headerShown: true }}
+        options={{
+          headerShown: true,
+        }}
       />
       <Stack.Screen
         name="Log In"
         component={LoginScreen}
-        options={{ headerShown: true }}
+        options={{
+          presentation: "transparentModal",
+          headerShown: true,
+        }}
       />
 
       {/* Add more screens here... */}

@@ -19,8 +19,6 @@ import { StatusBar } from "expo-status-bar";
 const StudentDB = () => {
   const { tutors } = useContext(TutorContext);
 
-  console.log("These are the tutor values: ", tutors);
-
   const { activeUser } = useContext(AuthContext);
   const {
     upcomingSessions,
@@ -35,8 +33,6 @@ const StudentDB = () => {
 
   const IsStudentUpcomingSessionsEmpty = upcomingSessions.length === 0;
   const IsTutorsArrayEmpty = tutors.length === 0;
-
-  console.log("The current user name is: ", activeUser.name);
 
   useEffect(() => {
     if (user) {
@@ -74,63 +70,65 @@ const StudentDB = () => {
           {IsTutorsArrayEmpty ? (
             <InfoText info="No tutors available" />
           ) : (
-            firstItemInTutorsArray.map((tutor) => {
-              return (
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate("view tutor profile", {
-                      bio: tutor.Bio,
-                      availableTimes: tutor.availableTimes,
-                      subjects: tutor.subjects,
-                      tutorId: tutor.tutorId,
-                      name: tutor.name,
-                    });
-                  }}
-                >
-                  <DashBoardChip
-                    key={tutor.tutorId}
-                    Name={tutor.name}
-                    iconIsVisible
-                  />
-                </TouchableOpacity>
-              );
-            })
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("view tutor profile", {
+                  bio: firstItemInTutorsArray[0].Bio,
+                  availableTimes: firstItemInTutorsArray[0].availableTimes,
+                  subjects: firstItemInTutorsArray[0].subjects,
+                  tutorId: firstItemInTutorsArray[0].tutorId,
+                  name: firstItemInTutorsArray[0].name,
+                });
+              }}
+            >
+              <DashBoardChip
+                key={firstItemInTutorsArray[0].tutorId}
+                Name={firstItemInTutorsArray[0].name}
+                iconIsVisible
+              />
+            </TouchableOpacity>
           )}
         </DashBoardCard>
         <DashBoardCard showTitle title="Upcoming Sessions" showSeeAll>
           {IsStudentUpcomingSessionsEmpty ? (
             <InfoText info="No upcoming sessions" />
           ) : (
-            firstItemInStudentUpcomingSessions.map((request) => (
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("Session Details", {
-                    requestId: request.requestId,
-                    studentName: request.studentName,
-                    tutorId: request.tutorId,
-                    subjects: request.subjects,
-                    topics: request.topics,
-                    requestDate: request.requestDate,
-                    startTime: request.startTime,
-                    endTime: request.endTime,
-                    location: request.location,
-                    additionalDetails: request.additionalDetails,
-                  });
-                }}
-              >
-                <SessionCard
-                  key={request.requestId}
-                  name={request.studentName}
-                  time={request.startTime.toDate().toLocaleTimeString()}
-                  course={request.subjects[0]}
-                  Topic={request.topics[0]}
-                  date={request.requestDate.toDate().toLocaleDateString()}
-                  location={request.location}
-                />
-              </TouchableOpacity>
-            ))
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Session Details", {
+                  requestId: firstItemInStudentUpcomingSessions[0].requestId,
+                  studentName:
+                    firstItemInStudentUpcomingSessions[0].studentName,
+                  tutorId: firstItemInStudentUpcomingSessions[0].tutorId,
+                  subjects: firstItemInStudentUpcomingSessions[0].subjects,
+                  topics: firstItemInStudentUpcomingSessions[0].topics,
+                  requestDate:
+                    firstItemInStudentUpcomingSessions[0].requestDate,
+                  startTime: firstItemInStudentUpcomingSessions[0].startTime,
+                  endTime: firstItemInStudentUpcomingSessions[0].endTime,
+                  location: firstItemInStudentUpcomingSessions[0].location,
+                  additionalDetails:
+                    firstItemInStudentUpcomingSessions[0].additionalDetails,
+                });
+              }}
+            >
+              <SessionCard
+                key={firstItemInStudentUpcomingSessions[0].requestId}
+                name={firstItemInStudentUpcomingSessions[0].studentName}
+                time={firstItemInStudentUpcomingSessions[0].startTime
+                  .toDate()
+                  .toLocaleTimeString()}
+                course={firstItemInStudentUpcomingSessions[0].subjects[0]}
+                Topic={firstItemInStudentUpcomingSessions[0].topics[0]}
+                date={firstItemInStudentUpcomingSessions[0].requestDate
+                  .toDate()
+                  .toLocaleDateString()}
+                location={firstItemInStudentUpcomingSessions[0].location}
+              />
+            </TouchableOpacity>
           )}
         </DashBoardCard>
+
         <FloatingButton
           title="Request a session"
           navigateTo="Request a session"

@@ -20,7 +20,6 @@ const EditProfile = ({ navigation }) => {
     deleteAvailableTimesFromTutor,
   } = useContext(TutorContext);
   const { Bio, subjects, topics, availableTimes } = currentTutor;
-  // console.log(" This is the bio of the current tutor", availableTimes);
 
   const tutorId = auth.currentUser.uid;
   //   const [interestedTopics, setInterestedTopics] = useState([]);
@@ -117,7 +116,7 @@ const EditProfile = ({ navigation }) => {
             navigation.navigate("Add work hours");
           }}
         >
-          {availableTimes.length > 0 &&
+          {availableTimes?.length > 0 &&
             availableTimes.map((schedule, index) => {
               return (
                 <TimeAndDateCard
@@ -168,7 +167,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     padding: 8,
     width: "100%",
-    height: 100,
+    height: "100%",
     fontWeight: "500",
   },
   bottomSheetHead: {

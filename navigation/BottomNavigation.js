@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Feather } from "@expo/vector-icons";
 import StudentDB from "../screens/student/StudentDB";
@@ -11,11 +11,13 @@ import SettingsScreen from "../screens/main/SettingsScreen";
 import ChatScreen from "../screens/main/ChatScreen";
 import { FontFamily } from "../GlobalStyles";
 import AppHeader from "../components/atoms/Header";
+import { StatusBar } from "react-native";
+
 const BottomTabs = createBottomTabNavigator();
 
 function BottomNavigation() {
   const { isTutor } = useContext(AuthContext);
-
+  console.log("isTutor", isTutor);
   return (
     <BottomTabs.Navigator
       initialRouteName="Dashboard"
@@ -59,7 +61,16 @@ function BottomNavigation() {
           options={{
             headerShown: true,
             header: () => {
-              return <AppHeader title="Profile" goBack mode="center-aligned" />;
+              return (
+                <>
+                  <StatusBar backgroundColor="white" />
+                  <AppHeader
+                    title="Profile"
+                    goBack={false}
+                    mode="center-aligned"
+                  />
+                </>
+              );
             },
           }}
           name="Profile"
@@ -71,11 +82,14 @@ function BottomNavigation() {
             headerShown: true,
             header: () => {
               return (
-                <AppHeader
-                  title="Session"
-                  goBack={false}
-                  mode="center-aligned"
-                />
+                <>
+                  <StatusBar backgroundColor="white" />
+                  <AppHeader
+                    title="Session"
+                    goBack={false}
+                    mode="center-aligned"
+                  />
+                </>
               );
             },
           }}
@@ -89,13 +103,16 @@ function BottomNavigation() {
             headerShown: true,
             header: () => {
               return (
-                <AppHeader
-                  title="Dashboard"
-                  goBack={false}
-                  mode="center-aligned"
-                  IconName="bell"
-                  showIcon
-                />
+                <>
+                  <StatusBar backgroundColor="white" />
+                  <AppHeader
+                    title="Dashboard"
+                    goBack={false}
+                    mode="center-aligned"
+                    IconName="bell"
+                    showIcon
+                  />
+                </>
               );
             },
           }}
@@ -108,13 +125,16 @@ function BottomNavigation() {
             headerShown: true,
             header: () => {
               return (
-                <AppHeader
-                  title="Dashboard"
-                  goBack={false}
-                  mode="center-aligned"
-                  IconName="bell"
-                  showIcon
-                />
+                <>
+                  <StatusBar backgroundColor="white" />
+                  <AppHeader
+                    title="Dashboard"
+                    goBack={false}
+                    mode="center-aligned"
+                    IconName="bell"
+                    showIcon
+                  />
+                </>
               );
             },
           }}
@@ -128,11 +148,14 @@ function BottomNavigation() {
           headerShown: true,
           header: () => {
             return (
-              <AppHeader
-                title="Messages"
-                goBack={false}
-                mode="center-aligned"
-              />
+              <>
+                <StatusBar backgroundColor="white" />
+                <AppHeader
+                  title="Messages"
+                  goBack={false}
+                  mode="center-aligned"
+                />
+              </>
             );
           },
         }}
@@ -145,11 +168,14 @@ function BottomNavigation() {
             headerShown: true,
             header: () => {
               return (
-                <AppHeader
-                  title="Settings"
-                  goBack={false}
-                  mode="center-aligned"
-                />
+                <>
+                  <StatusBar backgroundColor="white" />
+                  <AppHeader
+                    title="Settings"
+                    goBack={false}
+                    mode="center-aligned"
+                  />
+                </>
               );
             },
           }}
@@ -162,11 +188,14 @@ function BottomNavigation() {
             headerShown: true,
             header: () => {
               return (
-                <AppHeader
-                  title="Settings"
-                  goBack={false}
-                  mode="center-aligned"
-                />
+                <>
+                  <StatusBar backgroundColor="white" />
+                  <AppHeader
+                    title="Settings"
+                    goBack={false}
+                    mode="center-aligned"
+                  />
+                </>
               );
             },
           }}
