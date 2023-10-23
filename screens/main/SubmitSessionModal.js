@@ -48,7 +48,7 @@ const SubmitSessionScreen = ({ onPresent, onClose, route }) => {
     <View style={styles.modalContainer}>
       <Text style={styles.title}>Almost There!</Text>
       <View style={{ width: "100%" }}>
-        <DashBoardChip tutorName={selectedTutor} iconIsVisible={false} />
+        <DashBoardChip Name={selectedTutor} iconIsVisible={false} />
       </View>
       {loading ? (
         <ActivityIndicator
@@ -58,7 +58,7 @@ const SubmitSessionScreen = ({ onPresent, onClose, route }) => {
         />
       ) : (
         <PrimaryButton
-          title="Sumbit your request"
+          title="Submit your request"
           onPress={() => handleCreateRequest(tutorId, selectedTutor)}
         />
       )}
@@ -77,7 +77,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     width: "100%",
-    borderRadius: 12,
+    borderTopRightRadius: 24,
+    borderTopLeftRadius: 24,
   },
   title: {
     fontSize: 20,

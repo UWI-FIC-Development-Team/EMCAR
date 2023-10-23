@@ -3,10 +3,10 @@ import React, { useState, useContext, useEffect } from "react";
 import {
   StyleSheet,
   ScrollView,
-  StatusBar,
-  RefreshControl,
-  Text,
+  View,
   TouchableOpacity,
+  Text,
+  StatusBar,
 } from "react-native";
 
 import { FontFamily, Padding, Color } from "../../GlobalStyles";
@@ -16,75 +16,64 @@ import SessionCard from "../../components/atoms/SessionCard";
 import { AuthContext } from "../../context/AuthContextProvider";
 import { SessionContext } from "../../context/RequestContextProvider";
 import InfoText from "../../components/atoms/InfoText";
-import { TutorContext } from "../../context/TutorContextProvider";
 import { auth } from "../../services/firebaseConfig";
+import { SafeAreaView } from "react-native-safe-area-context";
+import LoadingDialog from "../../components/organisms/LoadingDialog";
 
 const TutorDB = () => {
   const { activeUser } = useContext(AuthContext);
-  const { tutorUpcomingSessions, pendingRequests, fetchPendingRequests } =
-    useContext(SessionContext);
-  const { fetchCurrentTutor } = useContext(TutorContext);
-
-  console.log("Check to see if this object throws an error:", pendingRequests);
-
-  //Todo: modify the arrays above to check of the list is empty. if yes. do something
-
-  const isPendingRequestsEmpty = pendingRequests.length === 0;
-  const isTutorUpcomingSessionsEmpty = tutorUpcomingSessions.length === 0;
-
-  const firstItemInTutorUpcomingSessions = tutorUpcomingSessions.slice(0, 1);
-  const firstItemInPendingRequest = pendingRequests.slice(0, 1);
-
-  const numberOfPendingSessions = pendingRequests ? pendingRequests.length : 0;
-  const numberOfTutorUpcomingSessions = tutorUpcomingSessions
-    ? tutorUpcomingSessions.length
-    : 0;
-
+  const {
+    tutorUpcomingSessions,
+    pendingRequests,
+    addPendingRequestsListener,
+    addUpcomingSessionsListener,
+    user,
+  } = useContext(SessionContext);
   const navigation = useNavigation();
 
-  const [refreshing, setRefreshing] = useState(false); // Step 2
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
-    fetchPendingRequests();
-    fetchCurrentTutor();
-  }, []);
+    if (user) {
+      const userId = auth.currentUser.uid;
+      const userType = "tutor"; // or "student" based on your use case
+      const pendingRequestsUnsubscribe = addPendingRequestsListener(
+        userId,
+        userType
+      );
+      const upcomingSessionsUnsubscribe = addUpcomingSessionsListener(
+        userId,
+        userType
+      );
 
-  const onRefresh = async () => {
-    // Step 2
-    try {
-      setRefreshing(true);
-      await fetchPendingRequests();
-      setRefreshing(false);
-    } catch (error) {
-      setRefreshing(false);
-      console.error("Error while refreshing:", error);
+      return () => {
+        upcomingSessionsUnsubscribe();
+        pendingRequestsUnsubscribe(); // Cleanup the listener when the component unmounts
+      };
     }
-  };
+  }, [user]);
 
   return (
-    <ScrollView
-      style={styles.studentDb}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    >
-      <StatusBar barStyle="dark-content" />
+    <SafeAreaView style={styles.studentDb}>
+      <ScrollView>
+        <StatusBar batstyle="dark-content" backgroundColor="#fff" />
 
-      <TopBar2 userName={activeUser.name} />
-      <DashBoardCard
-        showTitle
-        title={`Pending Sessions(${numberOfPendingSessions})`}
-        showSeeAll
-        onPress={() => {
-          navigation.navigate("render list", { List: pendingRequests });
-        }}
-      >
-        {isPendingRequestsEmpty ? (
-          <InfoText info="No sessions pending" />
-        ) : (
-          firstItemInPendingRequest.map((request) => (
+        <TopBar2 userName={activeUser.name} />
+        <DashBoardCard
+          showTitle
+          title={`Pending Sessions(${pendingRequests.length})`}
+          showSeeAll
+          onPress={() => {
+            navigation.navigate("render list", { List: pendingRequests });
+          }}
+        >
+          {pendingRequests.length === 0 ? (
+            <InfoText info="No sessions pending" />
+          ) : (
             <TouchableOpacity
+              key={pendingRequests[0].requestId}
               onPress={() => {
+                const request = pendingRequests[0];
                 navigation.navigate("Confirm Request", {
                   requestId: request.requestId,
                   studentName: request.studentName,
@@ -100,33 +89,36 @@ const TutorDB = () => {
               }}
             >
               <SessionCard
-                key={request.requestId}
-                name={request.studentName}
-                time={request.startTime.toDate().toLocaleTimeString()}
-                course={request.subjects[0]}
-                Topic={request.topics[0]}
-                date={request.requestDate.toDate().toLocaleDateString()}
-                location={request.location}
+                name={pendingRequests[0].studentName}
+                time={pendingRequests[0].startTime
+                  .toDate()
+                  .toLocaleTimeString()}
+                course={pendingRequests[0].subjects[0]}
+                Topic={pendingRequests[0].topics[0]}
+                date={pendingRequests[0].requestDate
+                  .toDate()
+                  .toLocaleDateString()}
+                location={pendingRequests[0].location}
               />
             </TouchableOpacity>
-          ))
-        )}
-      </DashBoardCard>
-      <DashBoardCard
-        showTitle
-        title={`Upcoming Sessions(${numberOfTutorUpcomingSessions})`}
-        showSeeAll
-        onPress={() => {
-          navigation.navigate("render list", { List: tutorUpcomingSessions });
-        }}
-      >
-        {isTutorUpcomingSessionsEmpty ? (
-          <InfoText info="No upcoming sessions" />
-        ) : (
-          firstItemInTutorUpcomingSessions.map((request) => (
+          )}
+        </DashBoardCard>
+        <DashBoardCard
+          showTitle
+          title={`Upcoming Sessions(${tutorUpcomingSessions.length})`}
+          showSeeAll
+          onPress={() => {
+            navigation.navigate("render list", { List: tutorUpcomingSessions });
+          }}
+        >
+          {tutorUpcomingSessions.length === 0 ? (
+            <InfoText info="No upcoming sessions" />
+          ) : (
             <TouchableOpacity
+              key={tutorUpcomingSessions[0].requestId}
               onPress={() => {
-                navigation.navigate("Session Details", {
+                const request = tutorUpcomingSessions[0];
+                navigation.navigate("Confirm Request", {
                   requestId: request.requestId,
                   studentName: request.studentName,
                   tutorId: request.tutorId,
@@ -141,52 +133,29 @@ const TutorDB = () => {
               }}
             >
               <SessionCard
-                key={request.requestId}
-                name={request.studentName}
-                time={request.startTime.toDate().toLocaleTimeString()}
-                course={request.subjects[0]}
-                Topic={request.topics[0]}
-                date={request.requestDate.toDate().toLocaleDateString()}
-                location={request.location}
+                name={tutorUpcomingSessions[0].studentName}
+                time={tutorUpcomingSessions[0].startTime
+                  .toDate()
+                  .toLocaleTimeString()}
+                course={tutorUpcomingSessions[0].subjects[0]}
+                Topic={tutorUpcomingSessions[0].topics[0]}
+                date={tutorUpcomingSessions[0].requestDate
+                  .toDate()
+                  .toLocaleDateString()}
+                location={tutorUpcomingSessions[0].location}
               />
             </TouchableOpacity>
-          ))
-        )}
-      </DashBoardCard>
-      <DashBoardCard showTitle title="Recent Sessions" showSeeAll>
-        <Text>No sessions completed</Text>
-      </DashBoardCard>
-    </ScrollView>
+          )}
+        </DashBoardCard>
+        <DashBoardCard showTitle title="Recent Sessions" showSeeAll>
+          <InfoText info="no recent sessions" />
+        </DashBoardCard>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  icon: {
-    color: Color.materialThemeSysLightPrimary,
-  },
-
-  headlineContainer: {
-    flex: 1,
-    marginLeft: 12,
-  },
-
-  headline4: {
-    fontFamily: FontFamily.materialThemeLabelMedium,
-    fontWeight: "500",
-    lineHeight: 12,
-    fontSize: 12,
-    textAlign: "left",
-    marginTop: 6,
-    color: "#3F4948",
-  },
-  headline: {
-    fontFamily: FontFamily.materialThemeTitleMedium,
-    fontWeight: "500",
-    fontSize: 16,
-    textAlign: "left",
-    color: Color.materialThemeSysLightOnPrimaryContainer,
-  },
-
   studentDb: {
     width: "100%",
     paddingHorizontal: Padding.p_6xl,

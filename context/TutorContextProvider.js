@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import { auth, db } from "../services/firebaseConfig";
 import {
   collection,
@@ -57,14 +57,21 @@ function TutorProvider({ children }) {
   };
 
   //TODO: If the user logged in is not a Tutor, then ignore this function.
-  const fetchCurrentTutor = async () => {
-    try {
-      const userId = auth.currentUser.uid;
-      await getCurrentTutor(userId);
-    } catch (error) {
-      console.log("Failed to fetch the current tutor: ", error);
-    }
-  };
+
+  useEffect(() => {
+    const fetchCurrentTutor = async () => {
+      try {
+        const userId = auth.currentUser.uid;
+        await getCurrentTutor(userId);
+      } catch (error) {
+        console.log("Failed to fetch the current tutor: ", error);
+      }
+    };
+
+    // Fetch the current tutor when the component mounts
+    fetchCurrentTutor();
+    console.log("Current tutor:", currentTutor);
+  }, [auth.currentUser]); // Empty dependency array to ensure it only runs once on mount
 
   // Function to update the tutor's bio
   const updateTutorBio = async (tutorId, bio) => {
@@ -168,7 +175,6 @@ function TutorProvider({ children }) {
         setCurrentTutor,
         deleteAvailableTimesFromTutor,
         updateTutorBio,
-        fetchCurrentTutor,
       }}
     >
       {children}

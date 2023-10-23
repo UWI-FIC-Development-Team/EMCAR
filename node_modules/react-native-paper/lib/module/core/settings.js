@@ -1,9 +1,11 @@
 import * as React from 'react';
 import MaterialCommunityIcon from '../components/MaterialCommunityIcon';
+export const SettingsContext = /*#__PURE__*/React.createContext({
+  icon: MaterialCommunityIcon,
+  rippleEffectEnabled: true
+});
 export const {
   Provider,
   Consumer
-} = /*#__PURE__*/React.createContext({
-  icon: MaterialCommunityIcon
-});
+} = SettingsContext;
 //# sourceMappingURL=settings.js.map

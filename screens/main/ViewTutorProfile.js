@@ -7,6 +7,7 @@ import InfoText from "../../components/atoms/InfoText";
 import TimeAndDateCard from "../../components/atoms/TimeAndDateCard";
 import CourseCard from "../../components/atoms/CourseCard";
 import { SessionContext } from "../../context/RequestContextProvider";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const ViewTutorProfile = ({ route }) => {
   const { bio, subjects, tutorId, name, availableTimes } = route.params;
@@ -42,7 +43,7 @@ const ViewTutorProfile = ({ route }) => {
     : 0;
 
   return (
-    <View style={styles.tutorPage}>
+    <SafeAreaView style={styles.tutorPage}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <TutorProfileHeader name={name} />
 
@@ -89,7 +90,7 @@ const ViewTutorProfile = ({ route }) => {
           )}
         </DashBoardCard>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 

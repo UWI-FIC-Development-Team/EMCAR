@@ -10,6 +10,7 @@ import CourseCard from "../../components/atoms/CourseCard";
 import { useContext, useState } from "react";
 import { TutorContext } from "../../context/TutorContextProvider";
 import { auth } from "../../services/firebaseConfig";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const EditProfile = ({ navigation }) => {
   const {
@@ -19,7 +20,6 @@ const EditProfile = ({ navigation }) => {
     deleteAvailableTimesFromTutor,
   } = useContext(TutorContext);
   const { Bio, subjects, topics, availableTimes } = currentTutor;
-  // console.log(" This is the bio of the current tutor", availableTimes);
 
   const tutorId = auth.currentUser.uid;
   //   const [interestedTopics, setInterestedTopics] = useState([]);
@@ -82,7 +82,7 @@ const EditProfile = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.confirmSessionDetails}>
+    <SafeAreaView style={styles.confirmSessionDetails}>
       <TouchableOpacity
         onPress={() => navigation.pop()}
         style={styles.bottomSheetHead}
@@ -116,7 +116,7 @@ const EditProfile = ({ navigation }) => {
             navigation.navigate("Add work hours");
           }}
         >
-          {availableTimes.length > 0 &&
+          {availableTimes?.length > 0 &&
             availableTimes.map((schedule, index) => {
               return (
                 <TimeAndDateCard
@@ -157,7 +157,7 @@ const EditProfile = ({ navigation }) => {
           )}
         </DashBoardCard>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     padding: 8,
     width: "100%",
-    height: 100,
+    height: "100%",
     fontWeight: "500",
   },
   bottomSheetHead: {

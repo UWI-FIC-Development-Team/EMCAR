@@ -9,21 +9,24 @@ import { ActivityIndicator } from "react-native-paper";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import LoginForm from "../../components/organisms/LoginForm";
+import LoadingDialog from "../../components/organisms/LoadingDialog";
+// import { StatusBar } from "expo-status-bar";
 
 const LoginScreen = ({ route }) => {
-  const { login, activeUser } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   const navigation = useNavigation();
 
   const [loading, setLoading] = useState(false);
 
+  const user = auth.currentUser;
+
   useEffect(() => {
     // Check if the activeUser is available and not null, then navigate to the "StudentDB" screen
-    if (activeUser.isActive) {
-      console.log("I am and active user, that I am");
+    if (user) {
       setLoading(false);
-      navigation.navigate("StudentDB");
+      navigation.navigate("mainDashboard");
     }
-  }, [activeUser]);
+  }, [user]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -49,12 +52,7 @@ const LoginScreen = ({ route }) => {
   return (
     <View style={{ flex: 1 }}>
       {loading ? (
-        <View style={styles.activityIndicatorContainer}>
-          <Text style={styles.activityIndicatorGroupText}>
-            Logging you in! Please wait
-          </Text>
-          <ActivityIndicator animating color="#006A6A" />
-        </View>
+        <LoadingDialog visible={loading} onDismiss={() => setLoading(false)} />
       ) : (
         <>
           <View style={styles.loginScreen}>

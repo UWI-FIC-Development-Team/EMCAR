@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState, useLayoutEffect } from "react";
 import { View, ScrollView, StyleSheet, Text } from "react-native";
 import TutorProfileHeader from "../../components/molecules/TutorProfileHeader";
 import SessionStatusBar from "../../components/molecules/SessionStatusBar";
@@ -10,28 +10,76 @@ import TimeAndDateCard from "../../components/atoms/TimeAndDateCard";
 import CourseCard from "../../components/atoms/CourseCard";
 import { SessionContext } from "../../context/RequestContextProvider";
 import { AuthContext } from "../../context/AuthContextProvider";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { auth } from "../../services/firebaseConfig";
 
-const TutorPage = () => {
-  const { currentTutor, pendingRequests } = useContext(TutorContext);
-  const { tutorUpcomingSessions } = useContext(SessionContext);
+const TutorPage = ({ navigation, route }) => {
+  const { currentTutor } = useContext(TutorContext);
+  const {
+    tutorUpcomingSessions,
+    pendingRequests,
+    addPendingRequestsListener,
+    addUpcomingSessionsListener,
+    user,
+  } = useContext(SessionContext);
   const { activeUser } = useContext(AuthContext);
 
   const { Bio, subjects, availableTimes } = currentTutor;
-
   const numberOfHoursRegistered = availableTimes ? availableTimes.length : 0;
   const numberOfCoursesRegistered = subjects ? subjects.length : 0;
   const numberOfPendingReuqest = pendingRequests ? pendingRequests.length : 0;
+  useEffect(() => {
+    if (user) {
+      const userId = auth.currentUser.uid;
+      const userType = "tutor"; // or "student" based on your use case
+      const pendingRequestsUnsubscribe = addPendingRequestsListener(
+        userId,
+        userType
+      );
+      const upcomingSessionsUnsubscribe = addUpcomingSessionsListener(
+        userId,
+        userType
+      );
 
+      return () => {
+        upcomingSessionsUnsubscribe();
+        pendingRequestsUnsubscribe(); // Cleanup the listener when the component unmounts
+      };
+    }
+  }, [user]);
+
+  const [headerVisible, setHeaderVisible] = useState(true);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: headerVisible,
+    });
+
+    return () => {
+      // Cleanup any subscriptions or listeners here
+    };
+  }, [headerVisible, navigation]);
+
+  const onScroll = (event) => {
+    const offsetY = event.nativeEvent.contentOffset.y;
+    // Adjust the threshold based on your preference
+    const threshold = 50;
+    setHeaderVisible(offsetY >= threshold);
+  };
   return (
-    <View style={styles.tutorPage}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+    <SafeAreaView style={styles.tutorPage}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        onScroll={(e) => onScroll(e)}
+        scrollEventThrottle={16} // Adjust this as needed for performance
+      >
         <TutorProfileHeader name={activeUser.name} />
 
         <SessionStatusBar
-          courses={subjects.length}
+          courses={numberOfCoursesRegistered}
           notStarted={numberOfPendingReuqest}
           onGoing={tutorUpcomingSessions.length}
-          completed="0"
+          completed={0}
         />
 
         <DashBoardCard title="Bio" showTitle showSeeAll={false}>
@@ -71,7 +119,7 @@ const TutorPage = () => {
         </DashBoardCard>
         <FloatingButton title="Edit your profile" navigateTo="Edit profile" />
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -81,7 +129,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     padding: 8,
     width: "100%",
-    height: 100,
+    height: "100%",
     fontWeight: "500",
   },
   tutorPage: {

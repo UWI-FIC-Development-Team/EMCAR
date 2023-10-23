@@ -1,11 +1,10 @@
-import React, { useContext } from "react";
-import { View, Text, Pressable, StyleSheet } from "react-native";
-import { FontFamily, FontSize, Color, Padding } from "../../GlobalStyles";
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { Formik } from "formik";
+import * as Yup from "yup";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
 import FormInput from "../../components/atoms/FormInput";
 import { AuthContext } from "../../context/AuthContextProvider";
-import { Formik } from "formik";
-import * as Yup from "yup";
 
 const SignUpForm = ({ onSubmit, navigation }) => {
   const validationSchema = Yup.object({
@@ -18,11 +17,10 @@ const SignUpForm = ({ onSubmit, navigation }) => {
     <Formik
       initialValues={{ name: "", email: "", password: "" }}
       validationSchema={validationSchema}
-      onSubmit={(values) => {
-        onSubmit(values);
-      }}
+      onSubmit={onSubmit}
     >
       {({
+        isValid,
         handleChange,
         handleBlur,
         handleSubmit,
@@ -70,7 +68,7 @@ const SignUpForm = ({ onSubmit, navigation }) => {
           <PrimaryButton
             title="Register your account"
             onPress={handleSubmit}
-            disabled={isSubmitting}
+            disabled={isSubmitting || !isValid} // Enable when valid and not submitting
           />
         </>
       )}
@@ -79,16 +77,12 @@ const SignUpForm = ({ onSubmit, navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  // ... Other styles ...
-
   textFieldParent: {
     marginTop: 64,
-    justifyContent: "flex-end",
-    alignSelf: "stretch",
   },
   errorText: {
-    color: "red", // Set the color to red for visibility
-    marginTop: 5, // Add some space between the input field and error message
+    color: "red",
+    marginTop: 5,
   },
 });
 

@@ -1,10 +1,5 @@
 import React, { useState, useCallback, useContext, useEffect } from "react";
-import {
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-  StatusBar,
-} from "react-native";
+import { StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, Padding, Color } from "../../GlobalStyles";
@@ -18,15 +13,19 @@ import { TutorContext } from "../../context/TutorContextProvider";
 import { SessionContext } from "../../context/RequestContextProvider";
 import { auth } from "../../services/firebaseConfig";
 import InfoText from "../../components/atoms/InfoText";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
 
 const StudentDB = () => {
   const { tutors } = useContext(TutorContext);
 
-  console.log("These are the tutor values: ", tutors);
-
   const { activeUser } = useContext(AuthContext);
-  const { upcomingSessions, getStudentUpcomingSessions } =
-    useContext(SessionContext);
+  const {
+    upcomingSessions,
+    addUpcomingSessionsListener,
+    addPendingRequestsListener,
+    user,
+  } = useContext(SessionContext);
   const navigation = useNavigation();
 
   const firstItemInTutorsArray = tutors.slice(0, 1);
@@ -35,103 +34,107 @@ const StudentDB = () => {
   const IsStudentUpcomingSessionsEmpty = upcomingSessions.length === 0;
   const IsTutorsArrayEmpty = tutors.length === 0;
 
-  console.log("The current user name is: ", activeUser.name);
-
   useEffect(() => {
-    // Fetch pending requests associated with the tutor
-    const fetchPendingRequests = async () => {
-      try {
-        const studentId = auth.currentUser.uid;
-        await getStudentUpcomingSessions(studentId);
-        // Handle the fetched sessions here
-        // For example, update state or perform some actions
-      } catch (error) {
-        // Handle errors that occurred during fetching
-        console.error("Error fetching upcoming sessions:", error);
-      }
-    };
+    if (user) {
+      const userId = auth.currentUser.uid;
+      const userType = "student"; // or "student" based on your use case
+      const pendingRequestsUnsubscribe = addPendingRequestsListener(
+        userId,
+        userType
+      );
+      const upcomingSessionsUnsubscribe = addUpcomingSessionsListener(
+        userId,
+        userType
+      );
 
-    fetchPendingRequests();
-  }, []);
+      return () => {
+        upcomingSessionsUnsubscribe();
+        pendingRequestsUnsubscribe(); // Cleanup the listener when the component unmounts
+      };
+    }
+  }, [user]);
 
   return (
-    <ScrollView style={styles.studentDb}>
-      <StatusBar barStyle="dark-content" />
-
-      <TopBar2 userName={activeUser.name} />
-      <DashBoardCard
-        showSeeAll
-        showTitle
-        title="Recent tutors"
-        onPress={() => {
-          navigation.navigate("All tutors");
-        }}
-      >
-        {IsTutorsArrayEmpty ? (
-          <InfoText info="No tutors available" />
-        ) : (
-          firstItemInTutorsArray.map((tutor) => {
-            return (
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("view tutor profile", {
-                    bio: tutor.Bio,
-                    availableTimes: tutor.availableTimes,
-                    subjects: tutor.subjects,
-                    tutorId: tutor.tutorId,
-                    name: tutor.name,
-                  });
-                }}
-              >
-                <DashBoardChip
-                  key={tutor.tutorId}
-                  tutorName={tutor.name}
-                  iconIsVisible
-                />
-              </TouchableOpacity>
-            );
-          })
-        )}
-      </DashBoardCard>
-      <DashBoardCard showTitle title="Upcoming Sessions" showSeeAll>
-        {IsStudentUpcomingSessionsEmpty ? (
-          <InfoText info="No upcoming sessions" />
-        ) : (
-          firstItemInStudentUpcomingSessions.map((request) => (
+    <SafeAreaView style={styles.studentDb}>
+      <ScrollView>
+        <StatusBar style="auto" />
+        <TopBar2 userName={activeUser.name} />
+        <DashBoardCard
+          showSeeAll
+          showTitle
+          title="Recent tutors"
+          onPress={() => {
+            navigation.navigate("All tutors");
+          }}
+        >
+          {IsTutorsArrayEmpty ? (
+            <InfoText info="No tutors available" />
+          ) : (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("view tutor profile", {
+                  bio: firstItemInTutorsArray[0].Bio,
+                  availableTimes: firstItemInTutorsArray[0].availableTimes,
+                  subjects: firstItemInTutorsArray[0].subjects,
+                  tutorId: firstItemInTutorsArray[0].tutorId,
+                  name: firstItemInTutorsArray[0].name,
+                });
+              }}
+            >
+              <DashBoardChip
+                key={firstItemInTutorsArray[0].tutorId}
+                Name={firstItemInTutorsArray[0].name}
+                iconIsVisible
+              />
+            </TouchableOpacity>
+          )}
+        </DashBoardCard>
+        <DashBoardCard showTitle title="Upcoming Sessions" showSeeAll>
+          {IsStudentUpcomingSessionsEmpty ? (
+            <InfoText info="No upcoming sessions" />
+          ) : (
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate("Session Details", {
-                  requestId: request.requestId,
-                  studentName: request.studentName,
-                  tutorId: request.tutorId,
-                  subjects: request.subjects,
-                  topics: request.topics,
-                  requestDate: request.requestDate,
-                  startTime: request.startTime,
-                  endTime: request.endTime,
-                  location: request.location,
-                  additionalDetails: request.additionalDetails,
+                  requestId: firstItemInStudentUpcomingSessions[0].requestId,
+                  studentName:
+                    firstItemInStudentUpcomingSessions[0].studentName,
+                  tutorId: firstItemInStudentUpcomingSessions[0].tutorId,
+                  subjects: firstItemInStudentUpcomingSessions[0].subjects,
+                  topics: firstItemInStudentUpcomingSessions[0].topics,
+                  requestDate:
+                    firstItemInStudentUpcomingSessions[0].requestDate,
+                  startTime: firstItemInStudentUpcomingSessions[0].startTime,
+                  endTime: firstItemInStudentUpcomingSessions[0].endTime,
+                  location: firstItemInStudentUpcomingSessions[0].location,
+                  additionalDetails:
+                    firstItemInStudentUpcomingSessions[0].additionalDetails,
                 });
               }}
             >
               <SessionCard
-                key={request.requestId}
-                name={request.studentName}
-                time={request.startTime.toDate().toLocaleTimeString()}
-                course={request.subjects[0]}
-                Topic={request.topics[0]}
-                date={request.requestDate.toDate().toLocaleDateString()}
-                location={request.location}
+                key={firstItemInStudentUpcomingSessions[0].requestId}
+                name={firstItemInStudentUpcomingSessions[0].studentName}
+                time={firstItemInStudentUpcomingSessions[0].startTime
+                  .toDate()
+                  .toLocaleTimeString()}
+                course={firstItemInStudentUpcomingSessions[0].subjects[0]}
+                Topic={firstItemInStudentUpcomingSessions[0].topics[0]}
+                date={firstItemInStudentUpcomingSessions[0].requestDate
+                  .toDate()
+                  .toLocaleDateString()}
+                location={firstItemInStudentUpcomingSessions[0].location}
               />
             </TouchableOpacity>
-          ))
-        )}
-      </DashBoardCard>
-      <FloatingButton
-        title="Request a session"
-        navigateTo="Request a session"
-      />
-    </ScrollView>
+          )}
+        </DashBoardCard>
+
+        <FloatingButton
+          title="Request a session"
+          navigateTo="Request a session"
+        />
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -165,7 +168,6 @@ const styles = StyleSheet.create({
   studentDb: {
     width: "100%",
     paddingHorizontal: Padding.p_6xl,
-    paddingTop: 20,
     flex: 1,
     backgroundColor: "#fff",
   },

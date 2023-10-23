@@ -4,6 +4,7 @@ import { FontFamily, Color } from "../../GlobalStyles";
 import { Divider } from "react-native-paper";
 import { ScrollView } from "react-native-gesture-handler";
 import { Feather } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const SessionDetails = ({ route, navigation }) => {
   const {
@@ -16,7 +17,7 @@ const SessionDetails = ({ route, navigation }) => {
     endTime,
     location,
     additionalDetails,
-    requestId
+    requestId,
   } = route.params;
 
   // Convert Firestore timestamps to human-readable format
@@ -25,7 +26,7 @@ const SessionDetails = ({ route, navigation }) => {
   const formattedEndTime = endTime.toDate().toLocaleTimeString();
 
   return (
-    <View style={styles.confirmSessionDetails}>
+    <SafeAreaView style={styles.confirmSessionDetails}>
       <TouchableOpacity
         onPress={() => navigation.pop()}
         style={styles.bottomSheetHead}
@@ -35,9 +36,7 @@ const SessionDetails = ({ route, navigation }) => {
       <ScrollView style={{ flex: 1, width: "100%" }}>
         <View style={styles.headlineParent}>
           <Text style={styles.headline0}>Session Details</Text>
-          <Text style={styles.title}>
-            
-          </Text>
+          <Text style={styles.title}></Text>
         </View>
 
         <View style={styles.listSpaceBlock}>
@@ -67,7 +66,7 @@ const SessionDetails = ({ route, navigation }) => {
 
           <Text style={[styles.textTypo]}>{location}</Text>
         </View>
-        
+
         <Divider style={{ width: "100%", height: 3, marginBottom: 16 }} />
 
         <View style={styles.listSpaceBlock}>
@@ -88,7 +87,7 @@ const SessionDetails = ({ route, navigation }) => {
           <Text style={styles.textTypo}>{additionalDetails}</Text>
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -109,7 +108,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: "left",
     marginBottom: 12,
-    marginRight:8
+    marginRight: 8,
   },
 
   title: {

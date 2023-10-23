@@ -1,4 +1,3 @@
-import React from "react";
 import { StyleSheet, View, ScrollView, StatusBar } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Padding } from "../../GlobalStyles";
@@ -9,7 +8,7 @@ import { useContext } from "react";
 
 const TutorSelection = () => {
   const navigation = useNavigation();
-  const {tutors} = useContext(TutorContext)
+  const { tutors } = useContext(TutorContext);
   return (
     <ScrollView style={styles.studentDb}>
       <StatusBar barStyle={"dark-content"} />
@@ -19,11 +18,14 @@ const TutorSelection = () => {
           {tutors.map((tutor) => (
             <DashBoardChip
               key={tutor.name}
-              tutorName={tutor.name}
+              Name={tutor.name}
               iconIsVisible={false}
-             onPress={() => {
-                navigation.navigate("submit session", { selectedTutor: tutor.name, tutorId:tutor.tutorId});
-              }} 
+              onPress={() => {
+                navigation.navigate("submit session", {
+                  selectedTutor: tutor.name,
+                  tutorId: tutor.tutorId,
+                });
+              }}
             />
           ))}
         </DashBoardCard>

@@ -9,13 +9,8 @@ import FormInput from "../../components/atoms/FormInput";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const SubmitUpcomingSession = ({ onPresent, onClose, route }) => {
-  const {
-    updateRequestLocation,
-    updateRequestStatusToUpcoming,
-    getPendingRequests,
-    pendingRequests,
-    fetchPendingRequests,
-  } = useContext(SessionContext);
+  const { updateRequestLocation, updateRequestStatus } =
+    useContext(SessionContext);
   const navigation = useNavigation();
   const { requestId, studentName } = route.params;
 
@@ -28,11 +23,10 @@ const SubmitUpcomingSession = ({ onPresent, onClose, route }) => {
       setLoading(true);
 
       // Update the request status to "upcoming"
-      await updateRequestStatusToUpcoming(requestId);
+      await updateRequestStatus(requestId, "upcoming");
 
       // Update the request location
       await updateRequestLocation(requestId, location);
-      await fetchPendingRequests();
 
       // Set loading state to false after successful update
       setLoading(false);
@@ -50,7 +44,7 @@ const SubmitUpcomingSession = ({ onPresent, onClose, route }) => {
       <KeyboardAwareScrollView style={{ width: "100%" }}>
         <Text style={styles.title}>Complete Submisson</Text>
         <View style={{ width: "100%" }}>
-          <DashBoardChip tutorName={studentName} iconIsVisible={false} />
+          <DashBoardChip Name={studentName} iconIsVisible={false} />
         </View>
 
         <View style={{ width: "100%" }}>
@@ -64,7 +58,7 @@ const SubmitUpcomingSession = ({ onPresent, onClose, route }) => {
         {loading ? (
           <ActivityIndicator
             style={{ marginVertical: 16 }}
-            animating={true}
+            animating
             color="#006A6A"
           />
         ) : (

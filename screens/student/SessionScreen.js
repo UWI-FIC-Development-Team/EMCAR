@@ -3,9 +3,7 @@ import React, { useState, useContext, useEffect } from "react";
 import {
   StyleSheet,
   ScrollView,
-  StatusBar,
   RefreshControl,
-  Text,
   TouchableOpacity,
 } from "react-native";
 
@@ -14,10 +12,18 @@ import DashBoardCard from "../../components/atoms/DashBoardCard";
 import SessionCard from "../../components/atoms/SessionCard";
 import { SessionContext } from "../../context/RequestContextProvider";
 import InfoText from "../../components/atoms/InfoText";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
+import { auth } from "../../services/firebaseConfig";
 
 const SessionScreen = () => {
-  const { upcomingSessions, pendingRequests, fetchStudentPendingRequests } =
-    useContext(SessionContext);
+  const {
+    upcomingSessions,
+    pendingRequests,
+    addPendingRequestsListener,
+    addUpcomingSessionsListener,
+    user,
+  } = useContext(SessionContext);
 
   //Todo: modify the arrays above to check of the list is empty. if yes. do something
 
@@ -36,117 +42,135 @@ const SessionScreen = () => {
 
   const [refreshing, setRefreshing] = useState(false); // Step 2
 
-  useEffect(() => {
-    fetchStudentPendingRequests();
-  }, []);
+  // useEffect(() => {
+  //   fetchStudentPendingRequests();
+  // }, []);
 
-  const onRefresh = async () => {
-    // Step 2
-    try {
-      setRefreshing(true);
-      await fetchStudentPendingRequests();
-      setRefreshing(false);
-    } catch (error) {
-      setRefreshing(false);
-      console.error("Error while refreshing:", error);
+  // const onRefresh = async () => {
+  //   // Step 2
+  //   try {
+  //     setRefreshing(true);
+  //     await fetchStudentPendingRequests();
+  //     setRefreshing(false);
+  //   } catch (error) {
+  //     setRefreshing(false);
+  //     console.error("Error while refreshing:", error);
+  //   }
+  // };
+
+  useEffect(() => {
+    if (user) {
+      const userId = auth.currentUser.uid;
+      const userType = "student"; // or "student" based on your use case
+      const pendingRequestsUnsubscribe = addPendingRequestsListener(
+        userId,
+        userType
+      );
+      const upcomingSessionsUnsubscribe = addUpcomingSessionsListener(
+        userId,
+        userType
+      );
+
+      return () => {
+        upcomingSessionsUnsubscribe();
+        pendingRequestsUnsubscribe(); // Cleanup the listener when the component unmounts
+      };
     }
-  };
+  }, [user]);
+
 
   return (
-    <ScrollView
-      style={styles.studentDb}
-      refreshControl={
-        // Step 3
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    >
-      <StatusBar barStyle="dark-content" />
-      <DashBoardCard
-        showTitle
-        title={`Pending Sessions(${numberOfPendingSessions})`}
-        showSeeAll
-        onPress={() => {
-          navigation.navigate("render list", { List: pendingRequests });
-        }}
-      >
-        {isPendingRequestsEmpty ? (
-          <InfoText info="No sessions pending" />
-        ) : (
-          firstItemInPendingRequest.map((request) => (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("Confirm Request", {
-                  requestId: request.requestId,
-                  studentName: request.studentName,
-                  tutorId: request.tutorId,
-                  subjects: request.subjects,
-                  topics: request.topics,
-                  requestDate: request.requestDate,
-                  startTime: request.startTime,
-                  endTime: request.endTime,
-                  location: request.location,
-                  additionalDetails: request.additionalDetails,
-                });
-              }}
-            >
-              <SessionCard
-                key={request.requestId}
-                name={request.studentName}
-                time={request.startTime.toDate().toLocaleTimeString()}
-                course={request.subjects[0]}
-                Topic={request.topics[0]}
-                date={request.requestDate.toDate().toLocaleDateString()}
-                location={request.location}
-              />
-            </TouchableOpacity>
-          ))
-        )}
-      </DashBoardCard>
-      <DashBoardCard
-        showTitle
-        title={`Upcoming Sessions(${numberOfTutorUpcomingSessions})`}
-        showSeeAll
-        onPress={() => {
-          navigation.navigate("render list", { List: upcomingSessions });
-        }}
-      >
-        {isTutorUpcomingSessionsEmpty ? (
-          <InfoText info="No upcoming sessions" />
-        ) : (
-          firstItemInTutorUpcomingSessions.map((request) => (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("Session Details", {
-                  requestId: request.requestId,
-                  studentName: request.studentName,
-                  tutorId: request.tutorId,
-                  subjects: request.subjects,
-                  topics: request.topics,
-                  requestDate: request.requestDate,
-                  startTime: request.startTime,
-                  endTime: request.endTime,
-                  location: request.location,
-                  additionalDetails: request.additionalDetails,
-                });
-              }}
-            >
-              <SessionCard
-                key={request.requestId}
-                name={request.studentName}
-                time={request.startTime.toDate().toLocaleTimeString()}
-                course={request.subjects[0]}
-                Topic={request.topics[0]}
-                date={request.requestDate.toDate().toLocaleDateString()}
-                location={request.location}
-              />
-            </TouchableOpacity>
-          ))
-        )}
-      </DashBoardCard>
-      <DashBoardCard showTitle title="Recent Sessions" showSeeAll>
-        <InfoText info={"No recent sessions"}></InfoText>
-      </DashBoardCard>
-    </ScrollView>
+    <SafeAreaView style={styles.studentDb}>
+      <ScrollView>
+        <StatusBar backgroundColor="white" style="auto" />
+
+        <DashBoardCard
+          showTitle
+          title={`Pending Sessions(${numberOfPendingSessions})`}
+          showSeeAll
+          onPress={() => {
+            navigation.navigate("render list", { List: pendingRequests });
+          }}
+        >
+          {isPendingRequestsEmpty ? (
+            <InfoText info="No sessions pending" />
+          ) : (
+            firstItemInPendingRequest.map((request) => (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("Confirm Request", {
+                    requestId: request.requestId,
+                    studentName: request.studentName,
+                    tutorId: request.tutorId,
+                    subjects: request.subjects,
+                    topics: request.topics,
+                    requestDate: request.requestDate,
+                    startTime: request.startTime,
+                    endTime: request.endTime,
+                    location: request.location,
+                    additionalDetails: request.additionalDetails,
+                  });
+                }}
+              >
+                <SessionCard
+                  key={request.requestId}
+                  name={request.studentName}
+                  time={request.startTime.toDate().toLocaleTimeString()}
+                  course={request.subjects[0]}
+                  Topic={request.topics[0]}
+                  date={request.requestDate.toDate().toLocaleDateString()}
+                  location={request.location}
+                />
+              </TouchableOpacity>
+            ))
+          )}
+        </DashBoardCard>
+        <DashBoardCard
+          showTitle
+          title={`Upcoming Sessions(${numberOfTutorUpcomingSessions})`}
+          showSeeAll
+          onPress={() => {
+            navigation.navigate("render list", { List: upcomingSessions });
+          }}
+        >
+          {isTutorUpcomingSessionsEmpty ? (
+            <InfoText info="No upcoming sessions" />
+          ) : (
+            firstItemInTutorUpcomingSessions.map((request) => (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("Session Details", {
+                    requestId: request.requestId,
+                    studentName: request.studentName,
+                    tutorId: request.tutorId,
+                    subjects: request.subjects,
+                    topics: request.topics,
+                    requestDate: request.requestDate,
+                    startTime: request.startTime,
+                    endTime: request.endTime,
+                    location: request.location,
+                    additionalDetails: request.additionalDetails,
+                  });
+                }}
+              >
+                <SessionCard
+                  key={request.requestId}
+                  name={request.studentName}
+                  time={request.startTime.toDate().toLocaleTimeString()}
+                  course={request.subjects[0]}
+                  Topic={request.topics[0]}
+                  date={request.requestDate.toDate().toLocaleDateString()}
+                  location={request.location}
+                />
+              </TouchableOpacity>
+            ))
+          )}
+        </DashBoardCard>
+        <DashBoardCard showTitle title="Recent Sessions" showSeeAll>
+          <InfoText info="No recent sessions"></InfoText>
+        </DashBoardCard>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -180,7 +204,6 @@ const styles = StyleSheet.create({
   studentDb: {
     width: "100%",
     paddingHorizontal: Padding.p_6xl,
-    paddingTop: 20,
     flex: 1,
     backgroundColor: "#fff",
   },

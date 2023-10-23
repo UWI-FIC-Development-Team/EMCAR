@@ -26,6 +26,7 @@ const LoginForm = ({ navigation, onSubmit }) => {
         values,
         errors,
         touched,
+        isValid, // New value to check if the form is valid
         isSubmitting,
       }) => (
         <>
@@ -62,7 +63,7 @@ const LoginForm = ({ navigation, onSubmit }) => {
           <PrimaryButton
             title="Login"
             onPress={handleSubmit}
-            disabled={isSubmitting}
+            disabled={isSubmitting || !isValid} // Enable when valid and not submitting
           />
         </>
       )}

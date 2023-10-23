@@ -1,16 +1,17 @@
-import { View, StyleSheet, TouchableOpacity, SafeAreaView } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 
 import DashBoardCard from "../atoms/DashBoardCard";
 import SessionCard from "../atoms/SessionCard";
 import { ScrollView } from "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
+import { SafeAreaView } from "react-native-safe-area-context";
 const ListScreen = ({ route, navigation }) => {
   const { List } = route.params;
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView style={styles.container}>
-        <StatusBar />
+        <StatusBar style="auto" />
         {List.map((request) => (
           <TouchableOpacity
             onPress={() => {

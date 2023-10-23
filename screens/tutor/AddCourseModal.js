@@ -1,17 +1,17 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import PrimaryButton from "../../components/atoms/PrimaryButton";
-import DashBoardChip from "../../components/atoms/DashBoardChip";
-import { useState } from "react";
 import { ActivityIndicator } from "react-native-paper";
 import FormInput from "../../components/atoms/FormInput";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { TutorContext } from "../../context/TutorContextProvider";
 import { auth } from "../../services/firebaseConfig";
 import { produce } from "immer";
+import { SafeAreaView } from "react-native-safe-area-context";
 const AddCourseModal = () => {
-  const { addNewCoursesToTutor, setCurrentTutor, currentTutor} = useContext(TutorContext);
+  const { addNewCoursesToTutor, setCurrentTutor, currentTutor } =
+    useContext(TutorContext);
   const navigation = useNavigation();
   const tutorId = auth.currentUser.uid;
 
@@ -19,6 +19,7 @@ const AddCourseModal = () => {
   const [courseName, setCourseName] = useState("");
 
   const handleAddNewCourse = async (tutorId, courseName) => {
+    console.log("This is the course name: ", courseName);
     try {
       setLoading(true);
 
@@ -27,11 +28,9 @@ const AddCourseModal = () => {
       // Use Immer's produce function to update the state
       setCurrentTutor(
         produce(currentTutor, (draft) => {
-          draft.subjects.push(courseName);
+          draft.subjects?.push(courseName);
         })
       );
-       
-
 
       // Add the new course to the tutor object in Firestore
       await addNewCoursesToTutor(tutorId, courseName);
@@ -47,7 +46,7 @@ const AddCourseModal = () => {
   };
 
   return (
-    <View style={styles.modalContainer}>
+    <SafeAreaView style={styles.modalContainer}>
       <KeyboardAwareScrollView style={{ width: "100%" }}>
         <Text style={styles.title}>Add a new course</Text>
 
@@ -62,7 +61,7 @@ const AddCourseModal = () => {
         {loading ? (
           <ActivityIndicator
             style={{ marginVertical: 16 }}
-            animating={true}
+            animating
             color="#006A6A"
           />
         ) : (
@@ -72,7 +71,7 @@ const AddCourseModal = () => {
           />
         )}
       </KeyboardAwareScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 

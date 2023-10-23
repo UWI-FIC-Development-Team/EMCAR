@@ -187,11 +187,11 @@ class JSCRuntime : public jsi::Runtime {
   bool hasProperty(const jsi::Object &, const jsi::String &name) override;
   bool hasProperty(const jsi::Object &, const jsi::PropNameID &name) override;
   void setPropertyValue(
-      jsi::Object &,
+      const jsi::Object &,
       const jsi::String &name,
       const jsi::Value &value) override;
   void setPropertyValue(
-      jsi::Object &,
+      const jsi::Object &,
       const jsi::PropNameID &name,
       const jsi::Value &value) override;
   bool isArray(const jsi::Object &) const override;
@@ -203,7 +203,7 @@ class JSCRuntime : public jsi::Runtime {
 
   // TODO: revisit this implementation
   jsi::WeakObject createWeakObject(const jsi::Object &) override;
-  jsi::Value lockWeakObject(jsi::WeakObject &) override;
+  jsi::Value lockWeakObject(const jsi::WeakObject &) override;
 
   jsi::Array createArray(size_t length) override;
   jsi::ArrayBuffer createArrayBuffer(
@@ -212,8 +212,10 @@ class JSCRuntime : public jsi::Runtime {
   size_t size(const jsi::ArrayBuffer &) override;
   uint8_t *data(const jsi::ArrayBuffer &) override;
   jsi::Value getValueAtIndex(const jsi::Array &, size_t i) override;
-  void setValueAtIndexImpl(jsi::Array &, size_t i, const jsi::Value &value)
-      override;
+  void setValueAtIndexImpl(
+      const jsi::Array &,
+      size_t i,
+      const jsi::Value &value) override;
 
   jsi::Function createFunctionFromHostFunction(
       const jsi::PropNameID &name,
@@ -299,6 +301,9 @@ class JSCRuntime : public jsi::Runtime {
 #endif
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_10_0
 #define _JSC_NO_ARRAY_BUFFERS
+#endif
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 160400
+#define _JSC_HAS_INSPECTABLE
 #endif
 #endif
 #if defined(__MAC_OS_X_VERSION_MIN_REQUIRED)
@@ -396,6 +401,13 @@ JSCRuntime::JSCRuntime(JSGlobalContextRef ctx)
       stringCounter_(0)
 #endif
 {
+#ifndef NDEBUG
+#ifdef _JSC_HAS_INSPECTABLE
+  if (__builtin_available(macOS 13.3, iOS 16.4, tvOS 16.4, *)) {
+    JSGlobalContextSetInspectable(ctx_, true);
+  }
+#endif
+#endif
 }
 
 JSCRuntime::~JSCRuntime() {
@@ -949,7 +961,7 @@ bool JSCRuntime::hasProperty(
 }
 
 void JSCRuntime::setPropertyValue(
-    jsi::Object &object,
+    const jsi::Object &object,
     const jsi::PropNameID &name,
     const jsi::Value &value) {
   JSValueRef exc = nullptr;
@@ -964,7 +976,7 @@ void JSCRuntime::setPropertyValue(
 }
 
 void JSCRuntime::setPropertyValue(
-    jsi::Object &object,
+    const jsi::Object &object,
     const jsi::String &name,
     const jsi::Value &value) {
   JSValueRef exc = nullptr;
@@ -1064,7 +1076,7 @@ jsi::WeakObject JSCRuntime::createWeakObject(const jsi::Object &obj) {
 #endif
 }
 
-jsi::Value JSCRuntime::lockWeakObject(jsi::WeakObject &obj) {
+jsi::Value JSCRuntime::lockWeakObject(const jsi::WeakObject &obj) {
 #ifdef RN_FABRIC_ENABLED
   // TODO: revisit this implementation
   JSObjectRef objRef = objectRef(obj);
@@ -1107,7 +1119,7 @@ jsi::Value JSCRuntime::getValueAtIndex(const jsi::Array &arr, size_t i) {
 }
 
 void JSCRuntime::setValueAtIndexImpl(
-    jsi::Array &arr,
+    const jsi::Array &arr,
     size_t i,
     const jsi::Value &value) {
   JSValueRef exc = nullptr;

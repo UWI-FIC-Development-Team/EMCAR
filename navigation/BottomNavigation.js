@@ -1,29 +1,27 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Feather } from "@expo/vector-icons";
 import StudentDB from "../screens/student/StudentDB";
-import Header from "../components/atoms/Header";
 import { getHeaderTitle } from "@react-navigation/elements";
 import SessionScreen from "../screens/student/SessionScreen";
 import TutorDB from "../screens/tutor/TutorDB";
 import { AuthContext } from "../context/AuthContextProvider";
 import TutorProfileScreen from "../screens/tutor/TutorProfileScreen";
 import SettingsScreen from "../screens/main/SettingsScreen";
+import ChatScreen from "../screens/main/ChatScreen";
 import { FontFamily } from "../GlobalStyles";
+import AppHeader from "../components/atoms/Header";
+import { StatusBar } from "react-native";
+
 const BottomTabs = createBottomTabNavigator();
 
 function BottomNavigation() {
   const { isTutor } = useContext(AuthContext);
-
+  console.log("isTutor", isTutor);
   return (
     <BottomTabs.Navigator
       initialRouteName="Dashboard"
       screenOptions={({ route }) => ({
-        header: ({ navigation, route, options }) => {
-          const title = getHeaderTitle(options, route.name);
-
-          return <Header title={title} backButtomShown={false} />;
-        },
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
@@ -35,6 +33,8 @@ function BottomNavigation() {
             iconName = focused ? "settings" : "settings";
           } else if (route.name === "Profile") {
             iconName = focused ? "user" : "user";
+          } else if (route.name === "Chat") {
+            iconName = focused ? "message-circle" : "message-circle";
           }
 
           return <Feather name={iconName} size={size} color={color} />;
@@ -57,19 +57,151 @@ function BottomNavigation() {
       })}
     >
       {isTutor ? (
-        <BottomTabs.Screen name="Profile" component={TutorProfileScreen} />
+        <BottomTabs.Screen
+          options={{
+            headerShown: true,
+            header: () => {
+              return (
+                <>
+                  <StatusBar backgroundColor="white" />
+                  <AppHeader
+                    title="Profile"
+                    goBack={false}
+                    mode="center-aligned"
+                  />
+                </>
+              );
+            },
+          }}
+          name="Profile"
+          component={TutorProfileScreen}
+        />
       ) : (
-        <BottomTabs.Screen name="Session" component={SessionScreen} />
+        <BottomTabs.Screen
+          options={{
+            headerShown: true,
+            header: () => {
+              return (
+                <>
+                  <StatusBar backgroundColor="white" />
+                  <AppHeader
+                    title="Session"
+                    goBack={false}
+                    mode="center-aligned"
+                  />
+                </>
+              );
+            },
+          }}
+          name="Session"
+          component={SessionScreen}
+        />
       )}
       {isTutor ? (
-        <BottomTabs.Screen name="Dashboard" component={TutorDB} />
+        <BottomTabs.Screen
+          options={{
+            headerShown: true,
+            header: () => {
+              return (
+                <>
+                  <StatusBar backgroundColor="white" />
+                  <AppHeader
+                    title="Dashboard"
+                    goBack={false}
+                    mode="center-aligned"
+                    IconName="bell"
+                    showIcon
+                  />
+                </>
+              );
+            },
+          }}
+          name="Dashboard"
+          component={TutorDB}
+        />
       ) : (
-        <BottomTabs.Screen name="Dashboard" component={StudentDB} />
+        <BottomTabs.Screen
+          options={{
+            headerShown: true,
+            header: () => {
+              return (
+                <>
+                  <StatusBar backgroundColor="white" />
+                  <AppHeader
+                    title="Dashboard"
+                    goBack={false}
+                    mode="center-aligned"
+                    IconName="bell"
+                    showIcon
+                  />
+                </>
+              );
+            },
+          }}
+          name="Dashboard"
+          component={StudentDB}
+        />
       )}
+
+      <BottomTabs.Screen
+        options={{
+          headerShown: true,
+          header: () => {
+            return (
+              <>
+                <StatusBar backgroundColor="white" />
+                <AppHeader
+                  title="Messages"
+                  goBack={false}
+                  mode="center-aligned"
+                />
+              </>
+            );
+          },
+        }}
+        name="Chat"
+        component={ChatScreen}
+      />
       {isTutor ? (
-        <BottomTabs.Screen name="Settings" component={SettingsScreen} />
+        <BottomTabs.Screen
+          options={{
+            headerShown: true,
+            header: () => {
+              return (
+                <>
+                  <StatusBar backgroundColor="white" />
+                  <AppHeader
+                    title="Settings"
+                    goBack={false}
+                    mode="center-aligned"
+                  />
+                </>
+              );
+            },
+          }}
+          name="Settings"
+          component={SettingsScreen}
+        />
       ) : (
-        <BottomTabs.Screen name="Settings" component={SettingsScreen} />
+        <BottomTabs.Screen
+          options={{
+            headerShown: true,
+            header: () => {
+              return (
+                <>
+                  <StatusBar backgroundColor="white" />
+                  <AppHeader
+                    title="Settings"
+                    goBack={false}
+                    mode="center-aligned"
+                  />
+                </>
+              );
+            },
+          }}
+          name="Settings"
+          component={SettingsScreen}
+        />
       )}
     </BottomTabs.Navigator>
   );

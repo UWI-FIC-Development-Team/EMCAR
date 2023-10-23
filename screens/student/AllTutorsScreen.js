@@ -20,7 +20,7 @@ const AllTutors = () => {
             return (
               <DashBoardChip
                 key={tutor.tutorId}
-                tutorName={tutor.name}
+                Name={tutor.name}
                 iconIsVisible
               />
             );

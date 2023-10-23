@@ -15,11 +15,12 @@ const firebaseConfig = {
   storageBucket: "emcar-tutoring-app.appspot.com",
   messagingSenderId: "1096230466420",
   appId: "1:1096230466420:web:01f6c3477f4252dc2f3221",
-  measurementId: "G-W5VJHP48KD"
+  measurementId: "G-W5VJHP48KD",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 // Initialize Firebase Authentication and get a reference to the service
 export const auth = getAuth(app);
-export const db = getFirestore(app)
+
+export const db = getFirestore(app);

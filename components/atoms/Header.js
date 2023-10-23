@@ -1,61 +1,28 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import {
-  Border,
-  FontFamily,
-  Padding,
-  Color,
-  FontSize,
-} from "../../GlobalStyles";
-import { Feather } from "@expo/vector-icons";
+import { Appbar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/core";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { StatusBar } from "expo-status-bar";
+import { FontFamily } from "../../GlobalStyles";
+import { View } from "react-native";
 
-const Header = ({ title, style, backButtomShown, NotificationIconShown}) => {
+const AppHeader = ({ showIcon, IconName, title, mode, goBack }) => {
   const navigation = useNavigation();
-
-  const handleBackPress = () => {
-    navigation.goBack();
-  };
-
-  const BackButton = () => {
-    return (
-      <TouchableOpacity onPress={handleBackPress}>
-        <Feather name="chevron-left" size={32} color="black" />
-      </TouchableOpacity>
-    );
-  };
-
   return (
-    <View style={styles.headerContainer}>
-      {backButtomShown ? <BackButton /> : <Text></Text>}
-      <Text style={styles.headerText}>{title}</Text>
-      {NotificationIconShown ? (
-        <Feather name="bell" size={32} color="black" />
-      ) : <Text style={{height:32, width:32}}></Text>
-      }
+    <View style={{height: 60}}>
+      <Appbar.Header style={{ backgroundColor: "white" }} mode={mode}>
+        {goBack ? (
+          <Appbar.BackAction onPress={() => navigation.goBack()} />
+        ) : null}
+        <Appbar.Content
+          titleStyle={{
+            fontWeight: "600",
+            fontFamily: FontFamily.m3LabelMedium,
+          }}
+          title={title}
+        />
+        {showIcon ? <Appbar.Action icon={IconName} /> : null}
+      </Appbar.Header>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  headerContainer: {
-    marginTop: 20,
-    flexDirection: "row",
-    backgroundColor: '#fff',
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  headerText: {
-    marginTop: 0,
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#333",
-    textAlign: "center",
-    fontFamily: FontFamily.materialThemeTitleMedium,
-  },
-});
-
-export default Header;
+export default AppHeader;
